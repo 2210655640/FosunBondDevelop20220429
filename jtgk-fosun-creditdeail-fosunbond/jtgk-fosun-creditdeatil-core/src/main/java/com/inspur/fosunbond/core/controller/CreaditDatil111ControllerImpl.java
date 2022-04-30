@@ -333,8 +333,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         return result.ok();
     }
 
-    private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(Date versionDate, String com_name,String sec_name, String bondtype, Date carrydate, Date maturitydate,Date nowmaturitydate,Integer rebackcount)
-    {
+    private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(Date versionDate, String com_name,String sec_name, String bondtype, Date carrydate, Date maturitydate,Date nowmaturitydate,Integer rebackcount) throws ParseException {
 
         List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList =fosunDebtContractHistoryRepository.findAll((Specification<FosunDebtContractHistory1Entity>) (root, query, cb) -> {
             Predicate where = cb.and();
@@ -390,11 +389,12 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 Calendar c=Calendar.getInstance();
                 c.setTime(versionDate);
                 c.add(Calendar.DAY_OF_MONTH,-1);
-                getFosunDebtContractHisList(c.getTime(),com_name,sec_name,bondtype,carrydate,maturitydate,nowmaturitydate,rebackcount);
+               Date resetdate=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
+               return getFosunDebtContractHisList(resetdate,com_name,sec_name,bondtype,carrydate,maturitydate,nowmaturitydate,rebackcount);
             }
 
         }
-        return null;
+        return fosunDebtContractHistory1EntityList;
 
     }
 
