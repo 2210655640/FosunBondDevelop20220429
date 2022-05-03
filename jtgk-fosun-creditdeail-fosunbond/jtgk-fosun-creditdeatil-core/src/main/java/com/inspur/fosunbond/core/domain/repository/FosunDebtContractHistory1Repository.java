@@ -12,4 +12,5 @@ public interface FosunDebtContractHistory1Repository extends JpaRepository<Fosun
    List<FosunDebtContractHistory1Entity> findAllByHistoryversiondate(Date versiondate);
    boolean existsByIdAndHistoryversiondate(String id,Date hisdate);
    void deleteByIdAndHistoryversiondate(String id,Date hisdate);
+   List<FosunDebtContractHistory1Entity>  findAllBySourceidOrderByHistoryversiondateDesc(String sourceid);
 }

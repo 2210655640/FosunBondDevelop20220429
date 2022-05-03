@@ -1,5 +1,7 @@
 idp.event.bind("domReady",function(e,context){
-   
+    //改图标
+   var content = `<img src="/apps/sankey/img/页面icon.svg">`
+    $(".header-icon").append(content);
 
 
     
@@ -23,11 +25,30 @@ idp.event.bind("loadData",function(){
                idp.uiview.setCtrlValue("ISSUERSHORTENED","复星集团"); 
                
            }
+        //    if(issushortend=="复星高科")
+        //    {
+        //        idp.uiview.setCtrlValue("ISSUERSHORTENED","复星集团"); 
+               
+        //    }
+        //    if(issushortend=="南京南钢")
+        //    {
+        //        idp.uiview.setCtrlValue("ISSUERSHORTENED","南京钢联"); 
+               
+        //    }
+        //    if(issushortend=="豫园商城")
+        //    {
+        //        idp.uiview.setCtrlValue("ISSUERSHORTENED","豫园股份"); 
+               
+        //    }
            issushortend=condata.ISSUERSHORTENED;
            var issu=$("#COMP_NAME").val();
            $("#input_347322").val(agencygrnttype+issu);//增信情况
            var interest=condata.INTERESTFREQUENCY;//付息频率
-           $("#INTERESTFREQUENCY").val("每年付息"+interest+"次");
+           if(interest!=""&&interest!=null)
+           {
+            $("#INTERESTFREQUENCY").val("每年付息"+interest+"次");
+           }
+         
            //债券类型
            if(bondtype==""||bondtype==null)
            {
@@ -62,7 +83,15 @@ idp.event.bind("loadData",function(){
        }
          
     } 
-    
+    //设置基本条款空字段为-
+    var allcenterinput=$("#layout_center input[type='text'],#layout_763017 input[type='text']");
+    $.each(allcenterinput,function(index,info){
+        var valcur=$(info).val();
+        if(valcur==""||valcur==null||valcur==undefined)
+        {
+            $(info).val("-");
+        }
+    })
     
  
 

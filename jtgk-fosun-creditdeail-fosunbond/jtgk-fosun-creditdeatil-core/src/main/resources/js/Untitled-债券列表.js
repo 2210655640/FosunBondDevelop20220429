@@ -1,6 +1,10 @@
 idp.event.bind("domReady", function () {
-
-
+    idp.loading();
+    //改图标
+    var content = `<img src="/apps/sankey/img/页面icon.svg">`
+    $(".header-icon").append(content);
+    
+    //
     idp.event.register("grid_main", "beforeGridInit", function (e, p) {
 
         p.groupColumns = ["COMP_NAME", "BONDTYPE"];
@@ -15,6 +19,7 @@ idp.event.bind("domReady", function () {
 
     })
     idp.event.bind("afterEdit", function () {
+       
         $("#input_5057").leeTextBox({disabled:false});
         $("#COMP_NAME").leeTextBox({disabled:false});
         $("#BONDTYPE").leeTextBox({disabled:false});
@@ -24,6 +29,7 @@ idp.event.bind("domReady", function () {
     
     })
     idp.event.register("grid_main", "beforeGridFilter", function (e, filter) {
+      
         debugger;
         var com_name = idp.control.get("COMP_NAME").getValue();
         var bondtype = idp.control.get("BONDTYPE").getValue();
@@ -87,42 +93,57 @@ idp.event.bind("domReady", function () {
         // }
         // console.log($('.lee-grid-totalsummary-group'))
         const n = $('.lee-grid-grouprow-cell').length;
+        let replaceStr = "发行主体：";
         for (let i = 0; i < n; i++) {
             let totalstr = $('.lee-grid-grouprow-cell')[i].innerText;
             /*$('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.substr(3);*/
-
             //$('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + '发行主体' + totalstr.substr(3);
-            $('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.replace("分组:", "发放主体");
-
-
+            
+            if(i%2 === 1){
+                replaceStr = "债券种类：";
+            }else{
+                 replaceStr = "发行主体：";
+                  //改颜色
+                $('.lee-grid-grouprow-cell')[i].style = "color:rgb(42, 135, 255)";
+            }
+             $('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.replace("分组:", replaceStr);
+        }
+        let m = $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner').length;
+        for(let i =0;i<m;i++){
+            if(i % 16 == 1){
+                const totalsummaryIndex = parseInt(i/16);
+                const pre = $(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2].children[0].innerText;
+                $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner')[i].innerHTML = pre + '小计：';
+            }
         }
         console.log($(".lee-grid-totalsummary").previousSibling)
 
-        let m = $('.lee-grid-totalsummary-group').length;
-        for (let i = 0; i < m; i++) {
-            var basicele=$('.lee-grid-totalsummary-group')[i].children[9];
-            if(basicele)
-            {
-                var basiclechild=basicele.children[0].children[0];
-                if(basiclechild)
-                {
-                    var originalSum = basiclechild.innerText;
-                    basicele.children[0].children[0].innerText = originalSum.replace("合计:", "");
-                }
+        // let m = $('.lee-grid-totalsummary-group').length;
+        // for (let i = 0; i < m; i++) {
+        //     var basicele=$('.lee-grid-totalsummary-group')[i].children[9];
+        //     if(basicele)
+        //     {
+        //         var basiclechild=basicele.children[0].children[0];
+        //         if(basiclechild)
+        //         {
+        //             var originalSum = basiclechild.innerText;
+        //             basicele.children[0].children[0].innerText = originalSum.replace("合计:", "");
+        //         }
                
-                var bondtypeStr = $('.lee-grid-totalsummary-group')[i].previousSibling.children[1].children[0].innerText;
-                $('.lee-grid-totalsummary-group')[i].children[0].children[0].innerText = bondtypeStr + "小计:";
-            }
+        //         var bondtypeStr = $('.lee-grid-totalsummary-group')[i].previousSibling.children[1].children[0].innerText;
+        //         $('.lee-grid-totalsummary-group')[i].children[0].children[0].innerText = bondtypeStr + "小计:";
+                
+        //     }
       
 
-        }
+        // }
 
 
     })
 
 });
 idp.event.bind("viewReady", function (e, context) {
-
+    idp.loading();
     $("#grid_main").leeGrid({
         onDblClickRow: ondblclickrow
 
@@ -143,6 +164,8 @@ idp.event.bind("viewReady", function (e, context) {
     $("#CARRYDATE").leeTextBox({disabled:false});
     $("#MATURITYDATE").leeTextBox({disabled:false});
     $("#SEC_NAME").leeTextBox({disabled:false});
+    menu.cancel();
+    menu.query();
 
 });
 let menu = {
@@ -157,7 +180,7 @@ let menu = {
     },
     update:function()
     {
-        idp.uiview.edit();
+        idp.uiview.edit(true);
         $("a[toolbarid='baritem_modify']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon lee-toolbar-item-disable");//设置按钮不可用
         $("a[toolbarid='baritem_modify']").attr("disabled","disabled");//设置按钮不可用
         $("a[toolbarid='baritem_cancel']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon");//可用
@@ -168,7 +191,7 @@ let menu = {
     },
     query: function () {
         debugger;
-        idp.loading();
+        //idp.loading("加载中");
         var versionDate = idp.control.get("input_5057").getValue();
     
         // if (versionDate == "" || versionDate == null) 
@@ -236,7 +259,7 @@ let menu = {
     },
     saveandquery: function () {
         debugger;
-        idp.loading();
+        idp.loading("保存中");
        
         var versionDate = idp.control.get("input_5057").getValue();
         var com_name = idp.control.get("COMP_NAME").getValue();
@@ -258,6 +281,8 @@ let menu = {
         }
 
         let grid = idp.control.get("grid_main");
+        grid.endEdit();
+        idp.loading();
         let data = grid.getData();
         if (data.length > 0) {
             var isversiondate = data[0].versionDate;
@@ -297,13 +322,13 @@ let menu = {
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
                         idp.warn("保存成功");
 
-                        // $("a[toolbarid='baritem_modify']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon");//设置按钮不可用
-                        // $("a[toolbarid='baritem_modify']").removeAttr("disabled");//设置按钮不可用
-                        // $("a[toolbarid='baritem_cancel']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon lee-toolbar-item-disable");//可用
-                        // $("a[toolbarid='baritem_cancel']").attr("disabled","disabled");
-                        // $("a[toolbarid='baritem_save']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon lee-toolbar-item-disable");//可用
-                        // $("a[toolbarid='baritem_save']").attr("disabled","disabled");
-                        // $('#grid_main').leeGrid({enabledEdit:false});//结束编辑状态
+                        $("a[toolbarid='baritem_modify']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon");//设置按钮不可用
+                        $("a[toolbarid='baritem_modify']").removeAttr("disabled");//设置按钮不可用
+                        $("a[toolbarid='baritem_cancel']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon lee-toolbar-item-disable");//可用
+                        $("a[toolbarid='baritem_cancel']").attr("disabled","disabled");
+                        $("a[toolbarid='baritem_save']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon lee-toolbar-item-disable");//可用
+                        $("a[toolbarid='baritem_save']").attr("disabled","disabled");
+                        $('#grid_main').leeGrid({enabledEdit:false});//结束编辑状态
 
                         } else {
                             idp.error("请求失败");

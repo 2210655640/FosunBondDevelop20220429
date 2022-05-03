@@ -5,12 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inspur.fosunbond.core.domain.entity.FosunDebtContract1Entity;
-import com.inspur.fosunbond.core.domain.entity.FosunDebtContractHistory1Entity;
-import com.inspur.fosunbond.core.domain.entity.FosunRepaymentApp1Entity;
-import com.inspur.fosunbond.core.domain.entity.FosunRepaymentAppSon1Entity;
-import com.inspur.fosunbond.core.domain.repository.FosunDebtContract1Repository;
-import com.inspur.fosunbond.core.domain.repository.FosunDebtContractHistory1Repository;
+import com.inspur.fosunbond.core.domain.entity.*;
+import com.inspur.fosunbond.core.domain.repository.*;
 import com.inspur.fosunbond.core.domain.result.Result;
 import com.inspur.fosunbond.core.domain.service.Creditdeatil111Service;
 import com.inspur.fosunbond.core.domain.repository.BaseRepository;
@@ -38,6 +34,8 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
     private FosunDebtContract1Repository fosunDebtContractRepository;
     @Autowired
     private FosunDebtContractHistory1Repository fosunDebtContractHistoryRepository;
+    @Autowired
+    private FosunIdenticalissUer1Repository fosunIdenticalissUer1Repository;
     /**
      * 日志明细更新处理
      * @param disDataStr 异构系统报文
@@ -165,7 +163,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(com_name)&&com_name!=null)
                 {
-                    Predicate p=cb.equal(root.get("com_name"),com_name);
+                    Predicate p=cb.equal(root.get("issuershortened"),com_name);//改为简称
                     where =cb.and(where,p);
                 }
                 if (!"".equals(sec_name)&&sec_name!=null)
@@ -197,7 +195,39 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
 
                 return where;
             });
-            return  result.ok(fosunDebtContract1EntityList);
+            //重新组合issue_regnumber注册文号
+            List<FosunDebtContract1Entity> resetfosunDebtContract1EntityList=new ArrayList<>();
+            if (fosunDebtContract1EntityList!=null&&fosunDebtContract1EntityList.size()>0)
+            {
+                for (FosunDebtContract1Entity fosunDebtContract1Entity:fosunDebtContract1EntityList)
+                {
+                    String sourceid=fosunDebtContract1Entity.getSourceid();
+                    if (sourceid!=null&&sourceid!="")
+                    {
+
+                        List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList=fosunDebtContractHistoryRepository.findAllBySourceidOrderByHistoryversiondateDesc(sourceid);
+                        if (fosunDebtContractHistory1EntityList!=null&&fosunDebtContractHistory1EntityList.size()>0)
+                        {
+                            String issue_regnumber="";
+                            for (FosunDebtContractHistory1Entity history1Entity:fosunDebtContractHistory1EntityList)
+                            {
+                                String hisissue_regnumber=history1Entity.getIssue_regnumber();
+                                if (hisissue_regnumber!=null&&hisissue_regnumber!="")
+                                {
+                                    issue_regnumber=hisissue_regnumber;
+                                    break;
+                                }
+                            }
+
+                            fosunDebtContract1Entity.setIssue_regnumber(issue_regnumber);
+
+                            resetfosunDebtContract1EntityList.add(fosunDebtContract1Entity);
+                        }
+                    }
+                }
+            }
+            //return  result.ok(fosunDebtContract1EntityList);
+            return  result.ok(resetfosunDebtContract1EntityList);
         }
         else
         {
@@ -292,7 +322,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(com_name)&&com_name!=null)
                 {
-                    Predicate p=cb.equal(root.get("com_name"),com_name);
+                    Predicate p=cb.equal(root.get("issuershortened"),com_name);//改为简称
                     where =cb.and(where,p);
                 }
                 if (!"".equals(sec_name)&&sec_name!=null)
@@ -344,7 +374,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             }
             if (!"".equals(com_name)&&com_name!=null)
             {
-                Predicate p=cb.equal(root.get("com_name"),com_name);
+                Predicate p=cb.equal(root.get("issuershortened"),com_name);//改为简称
                 where =cb.and(where,p);
             }
             if (!"".equals(sec_name)&&sec_name!=null)
