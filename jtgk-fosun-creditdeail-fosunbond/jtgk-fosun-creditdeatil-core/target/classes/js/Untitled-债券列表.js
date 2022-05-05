@@ -1,4 +1,5 @@
 idp.event.bind("domReady", function () {
+    idp.loading();
     //改图标
     var content = `<img src="/apps/sankey/img/页面icon.svg">`
     $(".header-icon").append(content);
@@ -18,6 +19,7 @@ idp.event.bind("domReady", function () {
 
     })
     idp.event.bind("afterEdit", function () {
+       
         $("#input_5057").leeTextBox({disabled:false});
         $("#COMP_NAME").leeTextBox({disabled:false});
         $("#BONDTYPE").leeTextBox({disabled:false});
@@ -27,6 +29,7 @@ idp.event.bind("domReady", function () {
     
     })
     idp.event.register("grid_main", "beforeGridFilter", function (e, filter) {
+      
         debugger;
         var com_name = idp.control.get("COMP_NAME").getValue();
         var bondtype = idp.control.get("BONDTYPE").getValue();
@@ -140,7 +143,7 @@ idp.event.bind("domReady", function () {
 
 });
 idp.event.bind("viewReady", function (e, context) {
-
+    idp.loading();
     $("#grid_main").leeGrid({
         onDblClickRow: ondblclickrow
 
@@ -188,7 +191,7 @@ let menu = {
     },
     query: function () {
         debugger;
-        idp.loading();
+        //idp.loading("加载中");
         var versionDate = idp.control.get("input_5057").getValue();
     
         // if (versionDate == "" || versionDate == null) 
@@ -256,7 +259,7 @@ let menu = {
     },
     saveandquery: function () {
         debugger;
-        idp.loading();
+        idp.loading("保存中");
        
         var versionDate = idp.control.get("input_5057").getValue();
         var com_name = idp.control.get("COMP_NAME").getValue();
@@ -279,6 +282,7 @@ let menu = {
 
         let grid = idp.control.get("grid_main");
         grid.endEdit();
+        idp.loading();
         let data = grid.getData();
         if (data.length > 0) {
             var isversiondate = data[0].versionDate;

@@ -3,7 +3,7 @@ idp.event.bind("domReady", function () {
     //改图标
     var content = `<img src="/apps/sankey/img/页面icon.svg">`
     $(".header-icon").append(content);
-    
+    console.log('123')
     //
     idp.event.register("grid_main", "beforeGridInit", function (e, p) {
 
@@ -84,7 +84,7 @@ idp.event.bind("domReady", function () {
         return filter;
     });
     idp.event.register("grid_main", "afterLoadData", function (e, p) {
-
+        console.log(456)
         // p.columns[1].lazy = true;
         // p.columns[1].lazyRender = function(row,index,value,column){
 
@@ -92,30 +92,7 @@ idp.event.bind("domReady", function () {
 
         // }
         // console.log($('.lee-grid-totalsummary-group'))
-        const n = $('.lee-grid-grouprow-cell').length;
-        let replaceStr = "发行主体：";
-        for (let i = 0; i < n; i++) {
-            let totalstr = $('.lee-grid-grouprow-cell')[i].innerText;
-            /*$('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.substr(3);*/
-            //$('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + '发行主体' + totalstr.substr(3);
-            
-            if(i%2 === 1){
-                replaceStr = "债券种类：";
-            }else{
-                 replaceStr = "发行主体：";
-                  //改颜色
-                $('.lee-grid-grouprow-cell')[i].style = "color:rgb(42, 135, 255)";
-            }
-             $('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.replace("分组:", replaceStr);
-        }
-        let m = $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner').length;
-        for(let i =0;i<m;i++){
-            if(i % 16 == 1){
-                const totalsummaryIndex = parseInt(i/16);
-                const pre = $(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2].children[0].innerText;
-                $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner')[i].innerHTML = pre + '小计：';
-            }
-        }
+        
         console.log($(".lee-grid-totalsummary").previousSibling)
 
         // let m = $('.lee-grid-totalsummary-group').length;
@@ -142,12 +119,38 @@ idp.event.bind("domReady", function () {
     })
 
 });
+
+function setTableOption(){
+    const n = $('.lee-grid-grouprow-cell').length;
+        let replaceStr = "发行主体";
+        for (let i = 0; i < n; i++) {
+            let totalstr = $('.lee-grid-grouprow-cell')[i].innerText;
+            /*$('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.substr(3);*/
+            //$('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + '发行主体' + totalstr.substr(3);
+            
+            if($('.lee-grid-grouprow td')[i].style.paddingLeft === '20px'){
+                replaceStr = "债券种类";
+            }else{
+                replaceStr = "发行主体";
+                  //改颜色
+                $('.lee-grid-grouprow-cell')[i].style = "color:rgb(42, 135, 255)";
+            }
+            //console.log(replaceStr)
+             $('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.replace("分组", replaceStr);
+        }
+        let m = $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner').length;
+        for(let i =0;i<m;i++){
+            if(i % 16 == 1){
+                const totalsummaryIndex = parseInt(i/16);
+                const pre = $(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2].children[0].innerText;
+                $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner')[i].innerHTML = pre + '小计：';
+            }
+        }
+}
 idp.event.bind("viewReady", function (e, context) {
     idp.loading();
     $("#grid_main").leeGrid({
         onDblClickRow: ondblclickrow
-
-
     });
     function ondblclickrow(row) {
         debugger;
@@ -246,9 +249,21 @@ let menu = {
                         //     enabledSort: false,
                         //     excel: true
                         // });
+                        if(fosunDebtContractHistoryEntityList)
+                        {
+                            $.each(fosunDebtContractHistoryEntityList,function(index,item){
+                                if(item.ISSUEAMOUNT)
+                                {
+                                    item.ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
+                                }
+                            })
+                        }
                         idp.loaded();
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
-                       
+                        setTimeout(function() {
+                            setTableOption();
+                        }, 10);
+                        
 
                     } else {
                         idp.error("请求失败");
