@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -115,8 +112,10 @@ public class FosunDebtContract1Entity
     /*
      *PTMYEAR
      */
-    @JsonProperty(value = "PTMYEAR")
-    private  BigDecimal ptmyear;
+    //@JsonProperty(value = "PTMYEAR")
+    //private  BigDecimal ptmyear;
+    @JsonProperty(value = "TERMNOTE1")
+    private  String termnote1;
 
     /*
      *REMARKS
@@ -327,6 +326,7 @@ public class FosunDebtContract1Entity
      *ISSUE_REGNUMBER
      */
     @JsonProperty(value = "ISSUE_REGNUMBER")
+    @Column(name = "issue_regnumber", insertable = false, updatable = false)
     private  String issue_regnumber;
 
     /*

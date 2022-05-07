@@ -116,8 +116,10 @@ public class FosunDebtContractHistory1Entity
     /*
      *PTMYEAR
      */
-    @JsonProperty(value = "PTMYEAR")
-    private  BigDecimal ptmyear;
+    //@JsonProperty(value = "PTMYEAR")
+    //private  BigDecimal ptmyear;
+    @JsonProperty(value = "TERMNOTE1")
+    private  String termnote1;
 
     /*
      *REMARKS

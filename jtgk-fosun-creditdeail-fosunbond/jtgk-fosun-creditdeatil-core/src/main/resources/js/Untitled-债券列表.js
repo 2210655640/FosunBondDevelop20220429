@@ -249,15 +249,19 @@ let menu = {
                         //     enabledSort: false,
                         //     excel: true
                         // });
-                        if(fosunDebtContractHistoryEntityList)
+                        if(versionDate==""||versionDate==null)
                         {
-                            $.each(fosunDebtContractHistoryEntityList,function(index,item){
-                                if(item.ISSUEAMOUNT)
-                                {
-                                    item.ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
-                                }
-                            })
+                            if(fosunDebtContractHistoryEntityList)
+                            {
+                                $.each(fosunDebtContractHistoryEntityList,function(index,item){
+                                    if(item.ISSUEAMOUNT)
+                                    {
+                                        item.ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
+                                    }
+                                })
+                            }
                         }
+                      
                         idp.loaded();
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
                         setTimeout(function() {

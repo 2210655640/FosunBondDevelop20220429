@@ -256,8 +256,12 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                                     break;
                                 }
                             }
+                           String oriissue_regnumber=fosunDebtContract1Entity.getIssue_regnumber();
+                            if ("".equals(oriissue_regnumber)||oriissue_regnumber==null)
+                            {
+                                fosunDebtContract1Entity.setIssue_regnumber(issue_regnumber);
+                            }
 
-                            fosunDebtContract1Entity.setIssue_regnumber(issue_regnumber);
 
 
                         }
