@@ -42,9 +42,10 @@ idp.event.bind("loadData",function(){
         //    }
            issushortend=condata.ISSUERSHORTENED;
            var issu=$("#COMP_NAME").val();
+           var compname=condata.COMP_NAME;
            if(agencygrnttype)
            {
-            $("#input_347322").val(agencygrnttype+","+issu+";");//增信情况
+            $("#input_347322").val(agencygrnttype+","+compname+";");//增信情况
            }
            else
            {
@@ -96,7 +97,7 @@ idp.event.bind("loadData",function(){
         var valcur=$(info).val();
         if(valcur==""||valcur==null||valcur==undefined)
         {
-            $(info).val("-");
+            $(info).replaceWith("<div style='margin-top: 2%;'>-</div>");
         }
     })
     
