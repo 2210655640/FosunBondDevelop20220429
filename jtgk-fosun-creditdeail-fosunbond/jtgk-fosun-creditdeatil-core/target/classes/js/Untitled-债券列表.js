@@ -130,10 +130,11 @@ function setTableOption(){
             
             if($('.lee-grid-grouprow td')[i].style.paddingLeft === '20px'){
                 replaceStr = "债券种类";
+                 $('.lee-grid-grouprow-cell')[i].style = "padding-left:44px !important;font-family: PingFangSC-Medium;font-size: 13px;color: #424347;font-weight: 500;";
             }else{
                 replaceStr = "发行主体";
                   //改颜色
-                $('.lee-grid-grouprow-cell')[i].style = "color:rgb(42, 135, 255)";
+                $('.lee-grid-grouprow-cell')[i].style = "font-family: PingFangSC-Medium;font-size: 13px;color: #2A87FF;font-weight: 500;padding-left:24px !important;background: #F7F8FB;";
             }
             //console.log(replaceStr)
              $('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.replace("分组", replaceStr);
@@ -142,8 +143,13 @@ function setTableOption(){
         for(let i =0;i<m;i++){
             if(i % 16 == 1){
                 const totalsummaryIndex = parseInt(i/16);
-                const pre = $(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2].children[0].innerText;
-                $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner')[i].innerHTML = pre + '小计：';
+                var summay=$(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2];
+                if(summay)
+                {
+                    const pre = summay.children[0].innerText;
+                    $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner')[i].innerHTML = pre + '小计：';
+                }
+       
             }
         }
 }
@@ -195,8 +201,8 @@ let menu = {
     query: function () {
         debugger;
         //idp.loading("加载中");
-        var versionDate = idp.control.get("input_5057").getValue();
-    
+        //var versionDate = idp.control.get("input_5057").getValue();
+        var versionDate =$("#input_5057").val();
         // if (versionDate == "" || versionDate == null) 
         // {
         //     //idp.control.get("grid_main").reload();//重新加载数据
@@ -219,6 +225,10 @@ let menu = {
             var bondtype = idp.control.get("BONDTYPE").getValue();
             var carrydate = idp.control.get("CARRYDATE").getValue();
             var maturitydate = idp.control.get("MATURITYDATE").getValue();
+            if(com_name=="复星高科")
+            {
+                com_name="复星";
+            }
             if(versionDate==null)
             {
                 versionDate="";
@@ -249,15 +259,16 @@ let menu = {
                         //     enabledSort: false,
                         //     excel: true
                         // });
-                        if(fosunDebtContractHistoryEntityList)
-                        {
-                            $.each(fosunDebtContractHistoryEntityList,function(index,item){
-                                if(item.ISSUEAMOUNT)
-                                {
-                                    item.ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
-                                }
-                            })
-                        }
+                        $.each(fosunDebtContractHistoryEntityList,function(index,item){
+                            if(item.ISSUERSHORTENED=="复星")
+                            {
+                                fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
+                            }
+                            if(item.ISSUEAMOUNT)
+                            {
+                                fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
+                            }
+                        });
                         idp.loaded();
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
                         setTimeout(function() {
@@ -282,9 +293,12 @@ let menu = {
         var bondtype = idp.control.get("BONDTYPE").getValue();
         var carrydate = idp.control.get("CARRYDATE").getValue();
         var maturitydate = idp.control.get("MATURITYDATE").getValue();
-        if(versionDate==null)
+        if(versionDate==null||versionDate=="")
         {
-            versionDate="";
+            //versionDate="";
+            versionDate=menu.getDate().split(" ")[0];
+            $("#input_5057").val(versionDate);
+            //$("#input_5057").val("2022-05-08");
         }
         if(carrydate==null)
         {
@@ -300,7 +314,7 @@ let menu = {
         idp.loading();
         let data = grid.getData();
         if (data.length > 0) {
-            var isversiondate = data[0].versionDate;
+            var isversiondate = data[0].HISTORYVERSIONDATE;
             if(isversiondate==""||isversiondate==null)
             {
                 isversiondate=menu.getDate();
@@ -319,6 +333,16 @@ let menu = {
                         debugger;
                         if (data1.success) {
                             var fosunDebtContractHistoryEntityList = data1.result;
+                            $.each(fosunDebtContractHistoryEntityList,function(index,item){
+                                if(item.ISSUERSHORTENED=="复星")
+                                {
+                                    fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
+                                }
+                                if(item.ISSUEAMOUNT)
+                                {
+                                    fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
+                                }
+                            });
                             idp.loaded();
                             
                         let g = idp.control.get("grid_main");
@@ -334,9 +358,9 @@ let menu = {
                         //     excel: true,
                         //     enabledEdit:false
                         // });
+                     
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
                         idp.warn("保存成功");
-
                         $("a[toolbarid='baritem_modify']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon");//设置按钮不可用
                         $("a[toolbarid='baritem_modify']").removeAttr("disabled");//设置按钮不可用
                         $("a[toolbarid='baritem_cancel']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon lee-toolbar-item-disable");//可用
@@ -344,6 +368,8 @@ let menu = {
                         $("a[toolbarid='baritem_save']").attr("class","lee-btn  lee-toolbar-item lee-btn-default l-toolbar-item-hasicon lee-toolbar-item-disable");//可用
                         $("a[toolbarid='baritem_save']").attr("disabled","disabled");
                         $('#grid_main').leeGrid({enabledEdit:false});//结束编辑状态
+                        setTableOption();
+               
 
                         } else {
                             idp.error("请求失败");

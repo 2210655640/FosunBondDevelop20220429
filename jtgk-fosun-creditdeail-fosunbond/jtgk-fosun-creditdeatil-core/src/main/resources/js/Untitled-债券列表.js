@@ -225,6 +225,10 @@ let menu = {
             var bondtype = idp.control.get("BONDTYPE").getValue();
             var carrydate = idp.control.get("CARRYDATE").getValue();
             var maturitydate = idp.control.get("MATURITYDATE").getValue();
+            if(com_name=="复星高科")
+            {
+                com_name="复星";
+            }
             if(versionDate==null)
             {
                 versionDate="";

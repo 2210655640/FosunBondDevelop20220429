@@ -9,6 +9,8 @@ com\inspur\fosunbond\core\domain\repository\FosunDebtValuation1Repository.class
 com\inspur\fosunbond\core\domain\entity\PrimaryKey.class
 com\inspur\fosunbond\core\domain\repository\FosunDebtSecondaryMarket1Repository.class
 com\inspur\fosunbond\core\domain\entity\FosunRepaymentAppSon1Entity.class
+com\inspur\fosunbond\core\domain\entity\FosunbondrpaytplansEntity.class
+com\inspur\fosunbond\core\domain\entity\T_debt_cashflowEntity.class
 com\inspur\fosunbond\core\controller\CreaditDatil111ControllerImpl.class
 com\inspur\fosunbond\core\domain\entity\FosunIdenticalissUer1Entity.class
 com\inspur\fosunbond\core\domain\repository\NativeQueryRepo.class
@@ -18,8 +20,11 @@ com\inspur\fosunbond\core\domain\entity\FosunDebtSecondaryMarket1Entity.class
 com\inspur\fosunbond\core\domain\repository\FosunDebtContractHistory1Repository.class
 com\inspur\fosunbond\core\domain\result\Result.class
 com\inspur\fosunbond\core\domain\entity\FosunDebtValuation1Entity.class
+com\inspur\fosunbond\core\domain\service\FosunSynchroWDMiddleTable.class
 com\inspur\fosunbond\core\controller\CreaditDatil111ControllerImpl$1.class
 com\inspur\fosunbond\core\domain\entity\FosunDebtContract1Entity.class
+com\inspur\fosunbond\core\domain\repository\T_debt_cashflowRepository.class
 com\inspur\fosunbond\core\dto\RequestBodyDto.class
 com\inspur\fosunbond\core\domain\entity\FosunRepaymentApp1Entity.class
+com\inspur\fosunbond\core\domain\repository\FosunbondrpaytplansRepository.class
 com\inspur\fosunbond\core\domain\utils\JSONHelper.class

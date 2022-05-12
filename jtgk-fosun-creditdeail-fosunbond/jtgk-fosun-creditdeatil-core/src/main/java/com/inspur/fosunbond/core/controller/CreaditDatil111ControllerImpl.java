@@ -189,7 +189,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(sec_name)&&sec_name!=null)
                 {
-                    Predicate p=cb.like(root.get("sec_name"),"%"+sec_name+"%");
+                    Predicate p=cb.like(root.get("sec_name"),"%"+sec_name.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
                     where =cb.and(where,p);
                 }
                 if (!"".equals(bondtype)&&bondtype!=null)

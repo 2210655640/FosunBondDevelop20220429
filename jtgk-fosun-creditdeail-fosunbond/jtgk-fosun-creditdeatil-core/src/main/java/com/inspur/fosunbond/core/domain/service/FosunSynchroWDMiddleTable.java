@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -24,15 +25,20 @@ public class FosunSynchroWDMiddleTable {
     @Autowired
     private FosunbondrpaytplansRepository fosunbondrpaytplansRepository;
 
-   @Transactional
+   @Transactional(rollbackFor ={Exception.class})
     public String syncWDcashflow()
     {
         try
         {
-            List<T_debt_cashflowEntity> t_debt_cashflowEntityList=t_debt_cashflowRepository.findAll();
+
+            SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+            String nowdate=dateFormat.format(new Date());
+            log.error(nowdate);
+            List<T_debt_cashflowEntity> t_debt_cashflowEntityList=t_debt_cashflowRepository.getdatabycreatetime(nowdate);
+            log.error(String.valueOf(t_debt_cashflowEntityList.size()));
             List<FosunbondrpaytplansEntity> fosunbondrpaytplansEntityList=new ArrayList<>();
             for (T_debt_cashflowEntity flowEntity:t_debt_cashflowEntityList)
-            {
+            {   log.error("3");
                 String flowid=flowEntity.getId();
                 Optional<FosunbondrpaytplansEntity> fosunbondrpaytplansEntity=fosunbondrpaytplansRepository.findById(flowid);
                 if (!fosunbondrpaytplansEntity.isPresent())
