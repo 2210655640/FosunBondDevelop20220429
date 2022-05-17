@@ -129,6 +129,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         String bondtype=jsonNode.get("bondtype").asText();
         String carrydate=jsonNode.get("carrydate").asText();
         String maturitydate=jsonNode.get("maturitydate").asText();
+        String isexpired=jsonNode.get("isexpired").asText();
         Date nowdate=new Date();
         String nowDateStr=new SimpleDateFormat("yyyy-MM-dd").format(nowdate);
         Date nowmaturityda=new SimpleDateFormat("yyyy-MM-dd").parse(nowDateStr);
@@ -213,9 +214,17 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 else
                 {
+                    if ("1".equals(isexpired))
+                    {
+                        Predicate p=cb.lessThan(root.get("maturitydate"), finalnowmaturityda);
+                        where =cb.and(where,p);
+                    }
+                    else
+                    {
+                        Predicate p=cb.greaterThanOrEqualTo(root.get("maturitydate"), finalnowmaturityda);
+                        where =cb.and(where,p);
+                    }
 
-                    Predicate p=cb.greaterThanOrEqualTo(root.get("maturitydate"), finalnowmaturityda);
-                    where =cb.and(where,p);
                 }
 
                 return where;
@@ -305,7 +314,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 endmaturityda=new SimpleDateFormat("yyyy-MM-dd").parse(endmaturitydate);
             }
             Integer rebackcount=0;
-            List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList =getFosunDebtContractHisList(versionda,com_name,sec_name,bondtype,begincarryda,endcarryda,beginmaturityda,endmaturityda,nowmaturityda,rebackcount);
+            List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList =getFosunDebtContractHisList(versionda,com_name,sec_name,bondtype,begincarryda,endcarryda,beginmaturityda,endmaturityda,nowmaturityda,rebackcount,isexpired);
             return result.ok(fosunDebtContractHistory1EntityList);
         }
 
@@ -322,6 +331,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         String bondtype=jsonNode.get("bondtype").asText();
         String carrydate=jsonNode.get("carrydate").asText();
         String maturitydate=jsonNode.get("maturitydate").asText();
+        String isexpired=jsonNode.get("isexpired").asText();
         Date nowdate=new Date();
         String nowDateStr=new SimpleDateFormat("yyyy-MM-dd").format(nowdate);
         Date nowmaturityda=new SimpleDateFormat("yyyy-MM-dd").parse(nowDateStr);
@@ -424,9 +434,17 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 else
                 {
+                    if ("1".equals(isexpired))
+                    {
+                        Predicate p=cb.lessThan(root.get("maturitydate"), finalnowmaturityda);
+                        where =cb.and(where,p);
+                    }
+                    else
+                    {
+                        Predicate p=cb.greaterThanOrEqualTo(root.get("maturitydate"), finalnowmaturityda);
+                        where =cb.and(where,p);
+                    }
 
-                    Predicate p=cb.greaterThanOrEqualTo(root.get("maturitydate"),finalnowmaturityda);
-                    where =cb.and(where,p);
                 }
 
                 return where;
@@ -440,7 +458,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         return result.ok();
     }
 
-    private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(Date versionDate, String com_name,String sec_name, String bondtype, Date begincarrydate,Date endcarrydate, Date beginmaturitydate,Date endmaturitydate,Date nowmaturitydate,Integer rebackcount) throws ParseException {
+    private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(Date versionDate, String com_name,String sec_name, String bondtype, Date begincarrydate,Date endcarrydate, Date beginmaturitydate,Date endmaturitydate,Date nowmaturitydate,Integer rebackcount,String isexpired) throws ParseException {
 
         List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList =fosunDebtContractHistoryRepository.findAll((Specification<FosunDebtContractHistory1Entity>) (root, query, cb) -> {
             Predicate where = cb.and();
@@ -477,9 +495,17 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             }
             else
             {
+                if ("1".equals(isexpired))
+                {
+                    Predicate p=cb.lessThan(root.get("maturitydate"), nowmaturitydate);
+                    where =cb.and(where,p);
+                }
+                else
+                {
+                    Predicate p=cb.greaterThanOrEqualTo(root.get("maturitydate"), nowmaturitydate);
+                    where =cb.and(where,p);
+                }
 
-                Predicate p=cb.greaterThanOrEqualTo(root.get("maturitydate"),nowmaturitydate);
-                where =cb.and(where,p);
             }
 
             return where;
@@ -498,7 +524,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 c.setTime(versionDate);
                 c.add(Calendar.DAY_OF_MONTH,-1);
                Date resetdate=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
-               return getFosunDebtContractHisList(resetdate,com_name,sec_name,bondtype,begincarrydate,endcarrydate,beginmaturitydate,endmaturitydate,nowmaturitydate,rebackcount);
+               return getFosunDebtContractHisList(resetdate,com_name,sec_name,bondtype,begincarrydate,endcarrydate,beginmaturitydate,endmaturitydate,nowmaturitydate,rebackcount,isexpired);
             }
 
         }

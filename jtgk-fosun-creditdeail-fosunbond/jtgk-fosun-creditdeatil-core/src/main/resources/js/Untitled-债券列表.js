@@ -225,6 +225,7 @@ let menu = {
             var bondtype = idp.control.get("BONDTYPE").getValue();
             var carrydate = idp.control.get("CARRYDATE").getValue();
             var maturitydate = idp.control.get("MATURITYDATE").getValue();
+            var isexpired=$("#checkbox_457018").leeUI().getValue();
             if(com_name=="复星高科")
             {
                 com_name="复星";
@@ -243,7 +244,7 @@ let menu = {
             }
            
             idp.service.fetch("/api/jtgk/fosunbond/v1.0/getfsun/getfosundebtcon",
-                { versiondate: versionDate, com_name: com_name,sec_name:sec_name, bondtype: bondtype, carrydate: carrydate, maturitydate: maturitydate }, false).done(function (data) {
+                { versiondate: versionDate, com_name: com_name,sec_name:sec_name, bondtype: bondtype, carrydate: carrydate, maturitydate: maturitydate,isexpired:isexpired }, false).done(function (data) {
                     debugger;
                     if (data.success) {
                         var fosunDebtContractHistoryEntityList = data.result;
@@ -268,6 +269,13 @@ let menu = {
                             {
                                 fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
                             }
+                                 //处理债券类型 
+                            var fullname=item.FULLNAME;
+                            var bondtype=item.BONDTYPE;
+                            if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
+                            &&fullname.indexOf("自由贸易")>-1) {
+                                item.BONDTYPE="自贸债";
+                            } 
                         });
                         idp.loaded();
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
@@ -293,6 +301,7 @@ let menu = {
         var bondtype = idp.control.get("BONDTYPE").getValue();
         var carrydate = idp.control.get("CARRYDATE").getValue();
         var maturitydate = idp.control.get("MATURITYDATE").getValue();
+        var isexpired=$("#checkbox_457018").leeUI().getValue();
         if(versionDate==null||versionDate=="")
         {
             //versionDate="";
@@ -329,7 +338,7 @@ let menu = {
                     }
                 }
                 idp.service.fetch("/api/jtgk/fosunbond/v1.0/getfsun/savefosundebtcontracthistorybyversiondate",
-                    { historyentity: JSON.stringify(data),versiondate: versionDate, com_name: com_name,sec_name:sec_name, bondtype: bondtype, carrydate: carrydate, maturitydate: maturitydate }, false).done(function (data1) {
+                    { historyentity: JSON.stringify(data),versiondate: versionDate, com_name: com_name,sec_name:sec_name, bondtype: bondtype, carrydate: carrydate, maturitydate: maturitydate,isexpired:isexpired }, false).done(function (data1) {
                         debugger;
                         if (data1.success) {
                             var fosunDebtContractHistoryEntityList = data1.result;
@@ -342,6 +351,13 @@ let menu = {
                                 {
                                     fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
                                 }
+                                     //处理债券类型 
+                            var fullname=item.FULLNAME;
+                            var bondtype=item.BONDTYPE;
+                            if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
+                            &&fullname.indexOf("自由贸易")>-1) {
+                                item.BONDTYPE="自贸债";
+                            } 
                             });
                             idp.loaded();
                             
