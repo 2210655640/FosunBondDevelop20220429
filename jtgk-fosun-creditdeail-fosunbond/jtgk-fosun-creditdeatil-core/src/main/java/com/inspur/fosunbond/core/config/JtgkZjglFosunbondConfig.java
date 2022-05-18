@@ -1,6 +1,6 @@
 package com.inspur.fosunbond.core.config;
 
-import com.inspur.fosunbond.core.controller.CreaditDatil111Controller;
+import com.inspur.fosunbond.core.controller.*;
 import com.inspur.fosunbond.core.domain.service.FosunSynchroWDMiddleTable;
 import io.iec.edp.caf.rest.RESTEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,8 @@ public class JtgkZjglFosunbondConfig {
 
     @Autowired
     private CreaditDatil111Controller creaditDatil111Controller;
+    @Autowired
+    private JtgkFosunBondRpayPlansController jtgkFosunBondRpayPlansController;
 
     @Bean
     public FosunSynchroWDMiddleTable fosunSynchroWDMiddleTable() {
@@ -27,6 +29,6 @@ public class JtgkZjglFosunbondConfig {
     @Bean
     public RESTEndpoint jtgkCreditDetailfosunbondRESTEndpoint(){
         //return  new RESTEndpoint("/jtgk/fosun/v1.0/creditdetail",creaditDatilController);
-        return  new RESTEndpoint("/jtgk/fosunbond/v1.0/getfsun", creaditDatil111Controller);
+        return  new RESTEndpoint("/jtgk/fosunbond/v1.0/getfsun", creaditDatil111Controller,jtgkFosunBondRpayPlansController);
     }
 }

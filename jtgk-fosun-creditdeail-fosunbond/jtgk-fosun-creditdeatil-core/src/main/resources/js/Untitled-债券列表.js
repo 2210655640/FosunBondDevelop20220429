@@ -1,3 +1,108 @@
+function showrepaymentplan (ob){
+    var windcode=$(ob).attr("windcode");
+    var url = "/apps/fastdweb/views/runtime/page/card/cardpreview.html?styleid=183cd2d1-6b13-b625-61fa-dfa045dd6ca3&status=add&windcode=" + windcode;
+
+    var options = {
+      name: 'sonWindow',
+      title: '还款计划',
+      url: url,
+      width: 880,
+      height: 400,
+      buttons: [
+        { id: "LV_ok", text: '确定', cls: 'lee-btn-primary lee-dialog-btn-ok', onclick: onConfirm },
+        { text: '取消', cls: 'lee-dialog-btn-cancel ', onclick: onCancel }
+      ]
+    };
+    
+    // 打开界面
+    idp.dialogUrl(options, loadCallback, okCallBack, closeCallBack);
+    
+   }
+
+
+
+// 弹窗加载后回调函数
+function loadCallback(item, dialog) {
+  debugger;
+  for (var i = 0; i < selectedids.length; i++) {
+
+  }
+}
+
+// 确定回调函数
+function okCallBack(item, dialog) {
+  debugger;
+  for (var i = 0; i < selectedids.length; i++) {
+
+  }
+}
+
+// 关闭回调函数
+function closeCallBack() {
+
+}
+
+// 确定回调函数
+function onConfirm(item, dialog) {
+
+  debugger;
+  //var selectData=dialog.frame.idp.control.get("grid_main").allSelected;
+  var selectData = dialog.frame.idp.control.get("grid_main").selected;
+  let gridDataRows = idp.control.get("grid_FOSUNREPAYMENTAPPSON").getData();
+  let mainData = idp.uiview.modelController.getMainRowObj();
+  $.each(selectData, function (index, item) {
+    //selectedids.push(item.uuid);
+    //判断planID是否已经存在，存在则不需要添加
+    let filterData = gridDataRows.filter(item1 => item1.PLANBID == item.UUID);
+    if (filterData.length <= 0) {
+      var datagridrow = {};
+      datagridrow["MAINID"] = mainData.ID;
+      datagridrow["PLANBID"] = item.UUID;
+      datagridrow["SUMMARY"] = '';
+      //datagridrow["LASTMODIFIER"]='';
+      //datagridrow["CREATEDTIME"]='';
+      //datagridrow["CREATOR"]='';
+      datagridrow["ID"] = Guid.NewGuid().ToString();;
+      //datagridrow["LASTMODIFIEDTIME"]='';
+      datagridrow["STATUS"] = '';
+      datagridrow["BORROWER"] = item.BORROWER;
+      datagridrow["FINANCIALINSTITUTION"] = item.FINANCIALINSTITUTION;
+      datagridrow["WITHDRAWALNUM"] = item.WITHDRAWALNUM;
+      datagridrow["DUEDATE"] = item.DUEDATE;
+      datagridrow["REPAYPRINCIPAL"] = item.REPAYPRINCIPAL;
+      datagridrow["REPAYINTEREST"] = item.REPAYINTEREST;
+      datagridrow["CONTRACTNUM"] = item.CONTRACTNUM;
+      datagridrow["UUID"] = item.UUID;
+      gridDataRows.push(datagridrow);
+    }
+
+  });
+
+  //$("#grid_FOSUNREPAYMENTAPPSON").loadData({Rows:gridDataRows});
+  idp.control.get("grid_FOSUNREPAYMENTAPPSON").loadData({ Rows: gridDataRows });
+  //自动设置还息金额 还本金额 还款金额合计
+  $.each(gridDataRows, function (index2, gridrow) {
+    suminterestamount += gridrow.REPAYINTEREST;
+    sumprincipalamount += gridrow.REPAYPRINCIPAL;
+  })
+  idp.uiview.setCtrlValue("PRINCIPALAMOUNT", sumprincipalamount);
+  idp.uiview.setCtrlValue("INTERESTAMOUNT", suminterestamount);
+  idp.uiview.setCtrlValue("SUMAMOUNT", sumprincipalamount + suminterestamount);
+
+
+
+
+
+  dialog.close();
+
+
+
+
+}
+
+// 取消回调函数
+function onCancel(item, dialog) { dialog.close(); }
+
 idp.event.bind("domReady", function () {
     idp.loading();
     //改图标
@@ -260,23 +365,31 @@ let menu = {
                         //     enabledSort: false,
                         //     excel: true
                         // });
-                        $.each(fosunDebtContractHistoryEntityList,function(index,item){
-                            if(item.ISSUERSHORTENED=="复星")
-                            {
-                                fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
-                            }
-                            if(item.ISSUEAMOUNT)
-                            {
-                                fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
-                            }
-                                 //处理债券类型 
-                            var fullname=item.FULLNAME;
-                            var bondtype=item.BONDTYPE;
-                            if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
-                            &&fullname.indexOf("自由贸易")>-1) {
-                                item.BONDTYPE="自贸债";
-                            } 
-                        });
+                        if(fosunDebtContractHistoryEntityList)
+                        {
+                            $.each(fosunDebtContractHistoryEntityList,function(index,item){
+                                if(item.ISSUERSHORTENED=="复星")
+                                {
+                                    fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
+                                }
+                                if(item.ISSUEAMOUNT)
+                                {
+                                    fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
+                                }
+                                     //处理债券类型 
+                                var fullname=item.FULLNAME;
+                                var bondtype=item.BONDTYPE;
+                                if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
+                                &&fullname.indexOf("自由贸易")>-1) {
+                                    item.BONDTYPE="自贸债";
+                                } 
+                            });
+                        }
+                        else
+                        {
+                            fosunDebtContractHistoryEntityList=[];
+                        }
+                
                         idp.loaded();
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
                         setTimeout(function() {
@@ -342,23 +455,31 @@ let menu = {
                         debugger;
                         if (data1.success) {
                             var fosunDebtContractHistoryEntityList = data1.result;
-                            $.each(fosunDebtContractHistoryEntityList,function(index,item){
-                                if(item.ISSUERSHORTENED=="复星")
-                                {
-                                    fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
-                                }
-                                if(item.ISSUEAMOUNT)
-                                {
-                                    fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
-                                }
-                                     //处理债券类型 
-                            var fullname=item.FULLNAME;
-                            var bondtype=item.BONDTYPE;
-                            if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
-                            &&fullname.indexOf("自由贸易")>-1) {
-                                item.BONDTYPE="自贸债";
-                            } 
-                            });
+                            if(fosunDebtContractHistoryEntityList)
+                            {
+                                $.each(fosunDebtContractHistoryEntityList,function(index,item){
+                                    if(item.ISSUERSHORTENED=="复星")
+                                    {
+                                        fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
+                                    }
+                                    if(item.ISSUEAMOUNT)
+                                    {
+                                        fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
+                                    }
+                                         //处理债券类型 
+                                var fullname=item.FULLNAME;
+                                var bondtype=item.BONDTYPE;
+                                if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
+                                &&fullname.indexOf("自由贸易")>-1) {
+                                    item.BONDTYPE="自贸债";
+                                } 
+                                });
+                            }
+                            else
+                            {
+                                fosunDebtContractHistoryEntityList=[];
+                            }
+                  
                             idp.loaded();
                             
                         let g = idp.control.get("grid_main");
