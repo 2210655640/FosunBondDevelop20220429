@@ -6,16 +6,17 @@ function showrepaymentplan (ob){
       name: 'sonWindow',
       title: '还款计划',
       url: url,
-      width: 880,
-      height: 400,
+      width: 980,
+      height: 500,
       buttons: [
-        { id: "LV_ok", text: '确定', cls: 'lee-btn-primary lee-dialog-btn-ok', onclick: onConfirm },
-        { text: '取消', cls: 'lee-dialog-btn-cancel ', onclick: onCancel }
+       // { id: "LV_ok", text: '确定', cls: 'lee-btn-primary lee-dialog-btn-ok', onclick: onConfirm },
+      //{ text: '取消', cls: 'lee-dialog-btn-cancel ', onclick: onCancel }
       ]
     };
     
     // 打开界面
     idp.dialogUrl(options, loadCallback, okCallBack, closeCallBack);
+    //idp.utils.openurl('', '周转计划', url);
     
    }
 
@@ -23,18 +24,12 @@ function showrepaymentplan (ob){
 
 // 弹窗加载后回调函数
 function loadCallback(item, dialog) {
-  debugger;
-  for (var i = 0; i < selectedids.length; i++) {
 
-  }
 }
 
 // 确定回调函数
 function okCallBack(item, dialog) {
-  debugger;
-  for (var i = 0; i < selectedids.length; i++) {
-
-  }
+ 
 }
 
 // 关闭回调函数

@@ -6,5 +6,5 @@ import io.iec.edp.caf.data.orm.DataRepository;
 import java.util.List;
 
 public interface FosunbondrpaytplansRepository extends DataRepository<FosunbondrpaytplansEntity,String> {
-    List<FosunbondrpaytplansEntity> findAllByWindcode(String windcode);
+    List<FosunbondrpaytplansEntity> findAllByWindcodeAndDelflagNot(String windcode,String delflag);
 }

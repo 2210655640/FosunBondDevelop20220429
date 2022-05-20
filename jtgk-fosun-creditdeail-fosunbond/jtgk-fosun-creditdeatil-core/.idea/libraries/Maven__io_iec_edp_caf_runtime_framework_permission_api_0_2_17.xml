@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.iec.edp:caf-runtime-framework-permission-api:0.2.17">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/iec/edp/caf-runtime-framework-permission-api/0.2.17/caf-runtime-framework-permission-api-0.2.17.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/io/iec/edp/caf-runtime-framework-permission-api/0.2.17/caf-runtime-framework-permission-api-0.2.17-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/iec/edp/caf-runtime-framework-permission-api/0.2.17/caf-runtime-framework-permission-api-0.2.17-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
