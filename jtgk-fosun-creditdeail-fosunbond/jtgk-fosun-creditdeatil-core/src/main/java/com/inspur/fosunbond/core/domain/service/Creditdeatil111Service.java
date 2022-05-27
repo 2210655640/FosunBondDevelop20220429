@@ -28,7 +28,14 @@ public class Creditdeatil111Service {
                     String upsql = "update TMBANKLOANIOUS set TXT01='" + hxfs + "' ,TXT02= '" + bz + "' where id = '" + id + "'";
                     log.info("提款sql:" +upsql );
                     NativeQueryRepo.execute(upsql);
-                } else {
+                }
+                else if (ywlx.equals("5")||ywlx.equals("6"))//还款计划还本或付息
+                {
+                    String upsql="update fosunbondrpaytplans set remarks='"+bz+"' where id='"+id+"'";
+                    log.info("还款计划sql:"+upsql);
+                    NativeQueryRepo.execute(upsql);
+                }
+                else {
                     //还本付息
                     String upsql = "update TMBANKLOANIOURPAYTPLANS set TXT01='" + hxfs + "' ,TXT02= '" + bz + "' where id = '" + id + "'";
                     log.error("还本付息sql:" +upsql );

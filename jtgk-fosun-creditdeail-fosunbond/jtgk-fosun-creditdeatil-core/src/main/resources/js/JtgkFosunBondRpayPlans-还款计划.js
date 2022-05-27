@@ -34,12 +34,30 @@ idp.event.bind("domReady",function(){
 
     }, 100);
 
+    idp.event.register("grid_ROBXFK","afterEndEdit",function(e,opts){
+        debugger;
+        var row=opts.record;//行数据
+        var column=opts.column;//列数据
+        var val=opts.value; //单元格值
+        var index=opts.rowindex; //行索引
+     });
+
 })
 idp.event.bind("viewReady",function(e,context){
     menu.query();
-    // $("#grid_194263").leeGrid({
-    //     onSelectRow: onunSelectRow
-    // });
+    $("#grid_194263").leeGrid({
+        onBeforeEdit: onbeforeedit
+    });
+    function onbeforeedit(row)
+    {
+       debugger;
+       var status=row.record.STATSUS;
+       if(status=="0")
+       {
+           idp.warn("此条为初始数据，不允许编辑。");
+           return false;
+       }
+    }
     // function onunSelectRow(row) {
     //     debugger;
     //   row["CASH_FLOWS_PER_CNY100PAR"]=row["ACCRUED_PRINCIPAL_PER_CNY100PAR"]+row["ACCRUED_INTEREST_PER_CNY100PAR"];
@@ -47,7 +65,12 @@ idp.event.bind("viewReady",function(e,context){
 
 
     // }
+
 })
+
+idp.event.bind("beforeEdit", function (e, data) {
+    debugger;
+});
 
 let menu={
     saveandupdate:function(){
