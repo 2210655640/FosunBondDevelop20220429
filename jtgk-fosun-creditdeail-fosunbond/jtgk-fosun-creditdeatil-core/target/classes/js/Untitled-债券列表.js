@@ -20,6 +20,14 @@ function showrepaymentplan (ob){
     
    }
 
+function showholder(ob)
+{
+    debugger;
+    var sec_name=$(ob).attr("sec_name");
+    var url="/apps/fastdweb/views/runtime/page/card/cardpreview.html?styleid=69ba65e2-9176-499d-b732-d68b147570aa&dataid=&status=add&j=true&secname="+escape(sec_name);
+    idp.utils.openurl('','持有人',url);
+}
+
 
 
 // 弹窗加载后回调函数
@@ -241,8 +249,8 @@ function setTableOption(){
         }
         let m = $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner').length;
         for(let i =0;i<m;i++){
-            if(i % 16 == 1){
-                const totalsummaryIndex = parseInt(i/16);
+            if(i % 18 == 1){
+                const totalsummaryIndex = parseInt(i/18);
                 var summay=$(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2];
                 if(summay)
                 {
