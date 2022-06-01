@@ -150,4 +150,10 @@ public class FosunbondrpaytplansEntity
     @JsonProperty(value = "ACCRUED_INTEREST_PER_CNY100PAR")
     private  BigDecimal accrued_interest_per_cny100par;
 
+    /*
+     *源数据ID
+     */
+    @JsonProperty(value = "SOURCEID")
+    private  String sourceid;
+
 }
