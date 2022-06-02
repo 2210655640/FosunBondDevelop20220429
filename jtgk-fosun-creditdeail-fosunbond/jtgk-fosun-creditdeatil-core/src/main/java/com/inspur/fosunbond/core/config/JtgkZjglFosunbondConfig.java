@@ -2,6 +2,7 @@ package com.inspur.fosunbond.core.config;
 
 import com.inspur.fosunbond.core.controller.*;
 import com.inspur.fosunbond.core.domain.service.FosunSynchroWDMiddleTable;
+import com.inspur.fosunbond.core.domain.service.JtgkFosunbondFosunSynchroMiddleTableForBond;
 import io.iec.edp.caf.rest.RESTEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -26,6 +27,10 @@ public class JtgkZjglFosunbondConfig {
     @Bean
     public FosunSynchroWDMiddleTable fosunSynchroWDMiddleTable() {
         return new FosunSynchroWDMiddleTable();
+    }
+    @Bean
+    public JtgkFosunbondFosunSynchroMiddleTableForBond jtgkFosunbondFosunSynchroMiddleTableForBond() {
+        return new JtgkFosunbondFosunSynchroMiddleTableForBond();
     }
     @Bean
     public RESTEndpoint jtgkCreditDetailfosunbondRESTEndpoint(){

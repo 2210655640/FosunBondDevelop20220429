@@ -114,8 +114,9 @@ idp.event.bind("domReady", function () {
     console.log('123')
     //
     idp.event.register("grid_main", "beforeGridInit", function (e, p) {
-
-        p.groupColumns = ["COMP_NAME", "BONDTYPE"];
+        
+        //p.groupColumns = ["COMP_NAME", "BONDTYPE"];
+        p.groupColumns = ["ISSUERSHORTENED", "BONDTYPE"];
         // p.columns[1].lazy = true;
         // p.columns[1].lazyRender = function(row,index,value,column){
 

@@ -52,9 +52,9 @@ idp.event.bind("viewReady",function(e,context){
     {
        debugger;
        var status=row.record.STATSUS;
-       if(status=="0")
+       if(status=="1")
        {
-           idp.warn("此条为初始数据，不允许编辑。");
+           idp.warn("此条为已执行数据，不允许编辑。");
            return false;
        }
     }
