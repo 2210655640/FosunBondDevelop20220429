@@ -2,17 +2,22 @@ package com.inspur.fosunbond.core.domain.service;
 
 
 import com.inspur.edp.cdf.component.api.annotation.GspComponent;
+import com.inspur.fosunbond.core.domain.entity.FosunDebtContractHistory1Entity;
 import com.inspur.fosunbond.core.domain.entity.FosunbondrpaytplansEntity;
+import com.inspur.fosunbond.core.domain.entity.JtgkFosunbondFosunIdenticalissUerEntity;
 import com.inspur.fosunbond.core.domain.entity.T_debt_cashflowEntity;
 import com.inspur.fosunbond.core.domain.repository.FosunbondrpaytplansRepository;
+import com.inspur.fosunbond.core.domain.repository.JtgkFosunbondFosunIdenticalissUerRepository;
 import com.inspur.fosunbond.core.domain.repository.T_debt_cashflowRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @GspComponent(id="AD2021-AF-KS-ZD-0WDBOND")//定义通用构件由调度任务执行
@@ -24,7 +29,8 @@ public class FosunSynchroWDMiddleTable {
     private T_debt_cashflowRepository t_debt_cashflowRepository;
     @Autowired
     private FosunbondrpaytplansRepository fosunbondrpaytplansRepository;
-
+    @Autowired
+    private JtgkFosunbondFosunIdenticalissUerRepository jtgkFosunbondFosunIdenticalissUerRepository;
    @Transactional(rollbackFor ={Exception.class})
     public String syncWDcashflow()
     {
@@ -67,10 +73,29 @@ public class FosunSynchroWDMiddleTable {
                     {
                         FosunbondrpaytplansEntity fosunbondrpaytplansEntity1=new FosunbondrpaytplansEntity();
                         fosunbondrpaytplansEntity1.setId(UUID.randomUUID().toString());
-                        fosunbondrpaytplansEntity1.setAccrued_interest_per_cny100par(flowEntity.getAccrued_interest_per_cny100par());
-                        fosunbondrpaytplansEntity1.setAccrued_principal_per_cny100par(flowEntity.getAccrued_principal_per_cny100par());
+                        //fosunbondrpaytplansEntity1.setAccrued_interest_per_cny100par(flowEntity.getAccrued_interest_per_cny100par());
+                        //处理利息
+                        List<JtgkFosunbondFosunIdenticalissUerEntity> jtgkFosunbondFosunIdenticalissUerEntityList=jtgkFosunbondFosunIdenticalissUerRepository.findAllByWindcodeAndIssuedateBeforeOrderByIssuedateDesc(flowEntity.getWindcode(),flowEntity.getCash_flows_date());
+                        BigDecimal  Accrued_interest_per_cny100par=new BigDecimal(0);
+                        BigDecimal  Accrued_principal_per_cny100par=new BigDecimal(0);
+                        BigDecimal Outstandingbalance=new BigDecimal(0);
+                        if (jtgkFosunbondFosunIdenticalissUerEntityList!=null&&jtgkFosunbondFosunIdenticalissUerEntityList.size()>0)
+                        {
+                            Outstandingbalance=jtgkFosunbondFosunIdenticalissUerEntityList.get(0).getOutstandingbalance();
+                            Outstandingbalance=(Outstandingbalance==null?new BigDecimal(0):Outstandingbalance);
+                        }
+
+                        Accrued_interest_per_cny100par=Outstandingbalance.multiply(new BigDecimal(100000000)).multiply((flowEntity.getAccrued_interest_per_cny100par()==null?new BigDecimal(0):flowEntity.getAccrued_interest_per_cny100par())).divide(new BigDecimal(100));
+                        fosunbondrpaytplansEntity1.setAccrued_interest_per_cny100par(Accrued_interest_per_cny100par);
+
+                        Accrued_principal_per_cny100par=Outstandingbalance.multiply(new BigDecimal(100000000)).multiply((flowEntity.getAccrued_interest_per_cny100par()==null?new BigDecimal(0):flowEntity.getAccrued_principal_per_cny100par())).divide(new BigDecimal(100));
+                        //fosunbondrpaytplansEntity1.setAccrued_principal_per_cny100par(flowEntity.getAccrued_principal_per_cny100par());
+                        fosunbondrpaytplansEntity1.setAccrued_principal_per_cny100par(Accrued_principal_per_cny100par);
+
                         fosunbondrpaytplansEntity1.setCash_flows_date(flowEntity.getCash_flows_date());
-                        fosunbondrpaytplansEntity1.setCash_flows_per_cny100par(flowEntity.getCash_flows_per_cny100par());
+                        //fosunbondrpaytplansEntity1.setCash_flows_per_cny100par(flowEntity.getCash_flows_per_cny100par());
+                        fosunbondrpaytplansEntity1.setCash_flows_per_cny100par(Accrued_interest_per_cny100par.add(Accrued_principal_per_cny100par));
+
                         fosunbondrpaytplansEntity1.setCf_type(i==0?"付息":i==1?"还本":"");
                         fosunbondrpaytplansEntity1.setCoupon_rate(flowEntity.getCoupon_rate());
                         fosunbondrpaytplansEntity1.setCreatedtime(flowEntity.getCreatetime());

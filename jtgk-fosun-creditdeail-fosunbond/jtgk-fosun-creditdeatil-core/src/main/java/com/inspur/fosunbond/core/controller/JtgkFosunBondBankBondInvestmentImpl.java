@@ -45,10 +45,10 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
                 "LEFT JOIN FOSUNINVESTSHORTDIC  shortdic  ON invest.INVESTSHORTID = shortdic.ID\n" +
                 "LEFT JOIN BFBANKTYPE BFBANKTYPE ON invest.BANKTYPEID = BFBANKTYPE.ID\n" +
                 "LEFT JOIN FOSUNINVESTCLASICDIC clasicdic ON invest.INVESTCLASICID = clasicdic.ID\n" +
-                "left join FOSUNCREDITCONTRACT sxht on sxht.id=holder.CREDITCODE\n" +
+                "inner join FOSUNCREDITCONTRACT sxht on sxht.id=holder.CREDITCODE\n" +
                 "left join FOSUNDEBTCONTRACT CONTRACT on CONTRACT.sec_name=holder.secname \n" +
-                "and CONTRACT.sdate<=? \n" +
-                "left join fosunbondcredit on fosunbondcredit.contractid=sxht.id\n" +
+                "and CONTRACT.sdate=? \n" +
+                "inner join fosunbondcredit on fosunbondcredit.contractid=sxht.id\n" +
                 "where CONTRACT.comp_name=? and holder.versiondate=? ";
         log.error("sql:"+sql+",sdate:"+maxversiondate+",comp_name:"+comp_name+",versiondate"+maxversiondate);
         List<BankBondInvestDetailDto> bankBondInvestDetailDtoList=baseRepository.queryList(sql,BankBondInvestDetailDto.class,maxversiondate,comp_name,maxversiondate);
