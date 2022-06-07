@@ -41,4 +41,7 @@ public interface CreaditDatil111Controller {
     @POST
     @Path("/savefosundebtcontracthistorybyversiondate")
     Result saveFosunDebtContractHistoryByVersionDate(JsonNode jsonNode) throws JsonProcessingException, ParseException;
+    @POST
+    @Path("syncbomdmsgfrommiddletable")
+    String syncBondMsgFromMiddleTable(JsonNode jsonNode);
 }

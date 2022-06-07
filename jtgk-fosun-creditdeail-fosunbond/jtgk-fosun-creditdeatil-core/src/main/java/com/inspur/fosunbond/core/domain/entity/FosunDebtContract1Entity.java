@@ -376,4 +376,10 @@ public class FosunDebtContract1Entity
     @JsonProperty(value = "ISSUERSHORTENED")
     private  String issuershortened;
 
+    /*
+     *币种
+     */
+    @JsonProperty(value = "CURR")
+    private  String curr;
+
 }

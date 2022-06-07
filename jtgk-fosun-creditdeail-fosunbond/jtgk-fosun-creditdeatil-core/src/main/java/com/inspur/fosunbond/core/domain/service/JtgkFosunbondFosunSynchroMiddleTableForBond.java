@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@GspComponent(id="AD2022-AF-KS-ZD-041BOND")//定义通用构件由调度任务执行
+@GspComponent(id="AD2021-AF-KS-ZD-0FOBOND")//定义通用构件由调度任务执行
 @Slf4j
 @Service
 public class JtgkFosunbondFosunSynchroMiddleTableForBond
@@ -34,7 +34,7 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
     private JtgkFosunbondT_Debt_ValuationRepository t_debt_valuationRepository;
     @Autowired
     private JtgkFosunbondT_IdenticalissUerRepository t_identicalissUerRepository;
-    @Transactional(rollbackFor ={Exception.class})
+    //@Transactional(rollbackFor ={Exception.class})
     public String  SyncBondMsgFromMiddleTable()
     {
         log.error("从中间表同步债券信息0");

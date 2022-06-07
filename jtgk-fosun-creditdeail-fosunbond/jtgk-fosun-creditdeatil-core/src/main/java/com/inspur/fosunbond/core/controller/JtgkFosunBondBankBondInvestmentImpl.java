@@ -25,6 +25,7 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
         String sql="select max(versiondate) as  maxversiondate \n" +
              "  from (select row_number() over(partition by tor.versiondate  order by tor.versiondate desc) rn, tor.* from FOSUNBONDHOLDER tor\n" +
              "where tor. versiondate <=?) t  ";
+        log.error("sql:"+sql+",querydate:"+querydate+",comp_name:"+comp_name);
         BaseRepository baseRepository=new BaseRepository();
         String maxversiondate=baseRepository.queryString(sql,"maxversiondate",querydate);
 
@@ -49,6 +50,7 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
                 "and CONTRACT.sdate<=? \n" +
                 "left join fosunbondcredit on fosunbondcredit.contractid=sxht.id\n" +
                 "where CONTRACT.comp_name=? and holder.versiondate=? ";
+        log.error("sql:"+sql+",sdate:"+maxversiondate+",comp_name:"+comp_name+",versiondate"+maxversiondate);
         List<BankBondInvestDetailDto> bankBondInvestDetailDtoList=baseRepository.queryList(sql,BankBondInvestDetailDto.class,maxversiondate,comp_name,maxversiondate);
         return result.ok(bankBondInvestDetailDtoList);
     }

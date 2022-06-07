@@ -6,6 +6,6 @@ import io.iec.edp.caf.data.orm.DataRepository;
 import java.util.List;
 
 public interface FosunbondrpaytplansRepository extends DataRepository<FosunbondrpaytplansEntity,String> {
-    List<FosunbondrpaytplansEntity> findAllByWindcodeAndDelflagNot(String windcode,String delflag);
+    List<FosunbondrpaytplansEntity> findAllByWindcodeAndDelflagNotOrderByCreatedtimeAsc(String windcode,String delflag);
     List<FosunbondrpaytplansEntity> findAllBySourceid(String sourceid);
 }

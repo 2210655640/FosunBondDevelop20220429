@@ -84,7 +84,7 @@ let menu={
         if(rows.length>0)
         {
             $.each(rows,function(index,item){
-                if(item.__status=="update")
+                if(item.__status=="update"||item.__status=="add")
                 {  
                     var hadrpayinterest=item.HADRPAYINTEREST;//实际已还利息
                     var hadrpayprincipal=item.HADRPAYPRINCIPAL;//实际已还本金

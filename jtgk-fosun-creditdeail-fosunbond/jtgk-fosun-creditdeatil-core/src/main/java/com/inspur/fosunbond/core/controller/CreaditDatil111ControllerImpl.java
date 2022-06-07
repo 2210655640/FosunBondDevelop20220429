@@ -10,6 +10,7 @@ import com.inspur.fosunbond.core.domain.repository.*;
 import com.inspur.fosunbond.core.domain.result.Result;
 import com.inspur.fosunbond.core.domain.service.Creditdeatil111Service;
 import com.inspur.fosunbond.core.domain.repository.BaseRepository;
+import com.inspur.fosunbond.core.domain.service.JtgkFosunbondFosunSynchroMiddleTableForBond;
 import io.iec.edp.caf.commons.utils.SpringBeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -456,6 +457,13 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
 
         }
         return result.ok();
+    }
+
+    @Override
+    public String syncBondMsgFromMiddleTable(JsonNode jsonNode) {
+        //JtgkFosunbondFosunSynchroMiddleTableForBond jtgkFosunbondFosunSynchroMiddleTableForBond=new JtgkFosunbondFosunSynchroMiddleTableForBond();
+        //return jtgkFosunbondFosunSynchroMiddleTableForBond.SyncBondMsgFromMiddleTable();
+        return  null;
     }
 
     private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(Date versionDate, String com_name,String sec_name, String bondtype, Date begincarrydate,Date endcarrydate, Date beginmaturitydate,Date endmaturitydate,Date nowmaturitydate,Integer rebackcount,String isexpired) throws ParseException {

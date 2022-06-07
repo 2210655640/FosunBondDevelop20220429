@@ -131,7 +131,7 @@ public class JtgkFosunBondRpayPlansControllerImpl implements JtgkFosunBondRpayPl
     private List<FosunbondrpaytplansEntity> getFosunbondrpaytplans(JsonNode jsonNode)
     {
         String windcode=jsonNode.get("windcode").asText();
-        List<FosunbondrpaytplansEntity>  fosunbondrpaytplansEntityList=fosunbondrpaytplansRepository.findAllByWindcodeAndDelflagNot(windcode,"1");
+        List<FosunbondrpaytplansEntity>  fosunbondrpaytplansEntityList=fosunbondrpaytplansRepository.findAllByWindcodeAndDelflagNotOrderByCreatedtimeAsc(windcode,"1");
         return fosunbondrpaytplansEntityList;
     }
 }
