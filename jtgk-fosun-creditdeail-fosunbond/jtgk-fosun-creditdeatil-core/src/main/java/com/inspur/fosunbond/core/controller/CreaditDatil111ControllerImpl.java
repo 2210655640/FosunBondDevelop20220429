@@ -136,11 +136,11 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         Date nowmaturityda=new SimpleDateFormat("yyyy-MM-dd").parse(nowDateStr);
         if (versionDate=="")
         {
-            Date versionda=null;
-            if (!versionDate.isEmpty())
-            {
-                versionda=new SimpleDateFormat("yyyy-MM-dd").parse(versionDate);
-            }
+//            Date versionda=null;
+//            if (!versionDate.isEmpty())
+//            {
+//                versionda=new SimpleDateFormat("yyyy-MM-dd").parse(versionDate);
+//            }
             //Date carryda=null;
             Date begincarryda=null;
             Date endcarryda=null;
@@ -168,7 +168,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             }
 
 
-            Date finalVersionda = versionda;
+            //Date finalVersionda = versionda;
             //Date finalCarryda = carryda;
             Date finalbeginCarryda=begincarryda;
             Date finalendCarryda=endcarryda;
@@ -178,9 +178,22 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             Date finalnowmaturityda=nowmaturityda;
             List<FosunDebtContract1Entity> fosunDebtContract1EntityList =fosunDebtContractRepository.findAll((Specification<FosunDebtContract1Entity>) (root, query, cb) -> {
                 Predicate where = cb.and();
-                if (!"".equals(finalVersionda)&& finalVersionda !=null)
+                //if (!"".equals(finalVersionda)&& finalVersionda !=null)
+                if (!"".equals(versionDate)&& versionDate !=null)
                 {
-                    Predicate p=cb.equal(root.get("historyversiondate"), finalVersionda);
+                    //Predicate p=cb.equal(root.get("historyversiondate"), finalVersionda);
+                    List<Date> versiondatelist=new ArrayList<>();
+                    String[] versiondatestr=versionDate.split(";");
+                    for (String versiond:versiondatestr)
+                    {
+                        try {
+                            versiondatelist.add(new SimpleDateFormat("yyyy-MM-dd").parse(versiond));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    Predicate p=root.get("historyversiondate").in(versiondatelist);
                     where =cb.and(where,p);
                 }
                 if (!"".equals(com_name)&&com_name!=null)
@@ -191,8 +204,21 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(sec_name)&&sec_name!=null)
                 {
-                    Predicate p=cb.like(root.get("sec_name"),"%"+sec_name.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
-                    where =cb.and(where,p);
+                    //Predicate p=cb.like(root.get("sec_name"),"%"+sec_name.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                    Predicate p1=cb.and();
+                    List<Predicate> predicateList=new ArrayList<>();
+                    String[] sec_namelist=sec_name.split(";");
+                    for (String secname:sec_namelist)
+                    {
+                        Predicate p=cb.like(root.get("sec_name"),"%"+secname.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                        predicateList.add(p);
+                    }
+                    Predicate[] p2=new Predicate[sec_namelist.length];
+                    predicateList.toArray(p2);
+                    p1.getExpressions().add(cb.or(p2));
+
+                    where =cb.and(where,p1);
+
                 }
                 if (!"".equals(bondtype)&&bondtype!=null)
                 {
@@ -219,6 +245,10 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                     {
                         Predicate p=cb.lessThan(root.get("maturitydate"), finalnowmaturityda);
                         where =cb.and(where,p);
+                    }
+                    else if("0;1".equals(isexpired))
+                    {
+
                     }
                     else
                     {
@@ -284,11 +314,12 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         }
         else
         {
-            Date versionda=null;
-            if (!versionDate.isEmpty())
-            {
-                versionda=new SimpleDateFormat("yyyy-MM-dd").parse(versionDate);
-            }
+//            Date versionda=null;
+//            if (!versionDate.isEmpty())
+//            {
+//                versionda=new SimpleDateFormat("yyyy-MM-dd").parse(versionDate);
+//            }
+
             //Date carryda=null;
             Date begincarryda=null;
             Date endcarryda=null;
@@ -315,7 +346,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 endmaturityda=new SimpleDateFormat("yyyy-MM-dd").parse(endmaturitydate);
             }
             Integer rebackcount=0;
-            List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList =getFosunDebtContractHisList(versionda,com_name,sec_name,bondtype,begincarryda,endcarryda,beginmaturityda,endmaturityda,nowmaturityda,rebackcount,isexpired);
+            List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList =getFosunDebtContractHisList(versionDate,com_name,sec_name,bondtype,begincarryda,endcarryda,beginmaturityda,endmaturityda,nowmaturityda,rebackcount,isexpired);
             return result.ok(fosunDebtContractHistory1EntityList);
         }
 
@@ -337,10 +368,10 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         String nowDateStr=new SimpleDateFormat("yyyy-MM-dd").format(nowdate);
         Date nowmaturityda=new SimpleDateFormat("yyyy-MM-dd").parse(nowDateStr);
         Date versionda=null;
-        if (!versionDate.isEmpty())
-        {
-            versionda=new SimpleDateFormat("yyyy-MM-dd").parse(versionDate);
-        }
+//        if (!versionDate.isEmpty())
+//        {
+//            versionda=new SimpleDateFormat("yyyy-MM-dd").parse(versionDate);
+//        }
         //Date carryda=null;
         Date begincarryda=null;
         Date endcarryda=null;
@@ -403,9 +434,22 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             }
             List<FosunDebtContractHistory1Entity> fosunDebtContractHistory11EntityList =fosunDebtContractHistoryRepository.findAll((Specification<FosunDebtContractHistory1Entity>) (root, query, cb) -> {
                 Predicate where = cb.and();
-                if (!"".equals(finalVersionda)&&finalVersionda!=null)
+                if (!"".equals(versionDate)&&versionDate!=null)
                 {
-                    Predicate p=cb.equal(root.get("historyversiondate"),finalVersionda);
+                    //Predicate p=cb.equal(root.get("historyversiondate"),finalVersionda);
+                    //where =cb.and(where,p);
+                    List<Date> versiondatelist=new ArrayList<>();
+                    String[] versiondatestr=versionDate.split(";");
+                    for (String versiond:versiondatestr)
+                    {
+                        try {
+                            versiondatelist.add(new SimpleDateFormat("yyyy-MM-dd").parse(versiond));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    Predicate p=root.get("historyversiondate").in(versiondatelist);
                     where =cb.and(where,p);
                 }
                 if (!"".equals(com_name)&&com_name!=null)
@@ -415,8 +459,21 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(sec_name)&&sec_name!=null)
                 {
-                    Predicate p=cb.like(root.get("sec_name"),"%"+sec_name+"%");
-                    where =cb.and(where,p);
+                    //Predicate p=cb.like(root.get("sec_name"),"%"+sec_name+"%");
+                    //where =cb.and(where,p);
+                    Predicate p1=cb.and();
+                    List<Predicate> predicateList=new ArrayList<>();
+                    String[] sec_namelist=sec_name.split(";");
+                    for (String secname:sec_namelist)
+                    {
+                        Predicate p=cb.like(root.get("sec_name"),"%"+secname.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                        predicateList.add(p);
+                    }
+                    Predicate[] p2=new Predicate[sec_namelist.length];
+                    predicateList.toArray(p2);
+                    p1.getExpressions().add(cb.or(p2));
+
+                    where =cb.and(where,p1);
                 }
                 if (!"".equals(bondtype)&&bondtype!=null)
                 {
@@ -439,6 +496,10 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                     {
                         Predicate p=cb.lessThan(root.get("maturitydate"), finalnowmaturityda);
                         where =cb.and(where,p);
+                    }
+                    else if("0;1".equals(isexpired))
+                    {
+
                     }
                     else
                     {
@@ -466,14 +527,27 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         return  null;
     }
 
-    private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(Date versionDate, String com_name,String sec_name, String bondtype, Date begincarrydate,Date endcarrydate, Date beginmaturitydate,Date endmaturitydate,Date nowmaturitydate,Integer rebackcount,String isexpired) throws ParseException {
+    private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(String versionDate, String com_name,String sec_name, String bondtype, Date begincarrydate,Date endcarrydate, Date beginmaturitydate,Date endmaturitydate,Date nowmaturitydate,Integer rebackcount,String isexpired) throws ParseException {
 
         List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList =fosunDebtContractHistoryRepository.findAll((Specification<FosunDebtContractHistory1Entity>) (root, query, cb) -> {
             Predicate where = cb.and();
             if (!"".equals(versionDate)&&versionDate!=null)
             {
-                Predicate p=cb.equal(root.get("historyversiondate"),versionDate);
+                List<Date> versiondatelist=new ArrayList<>();
+                String[] versiondatestr=versionDate.split(";");
+                for (String versiond:versiondatestr)
+                {
+                    try {
+                        versiondatelist.add(new SimpleDateFormat("yyyy-MM-dd").parse(versiond));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                Predicate p=root.get("historyversiondate").in(versiondatelist);
                 where =cb.and(where,p);
+                //Predicate p=cb.equal(root.get("historyversiondate"),versionDate);
+                //where =cb.and(where,p);
             }
             if (!"".equals(com_name)&&com_name!=null)
             {
@@ -483,8 +557,21 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             }
             if (!"".equals(sec_name)&&sec_name!=null)
             {
-                Predicate p=cb.like(root.get("sec_name"),"%"+sec_name+"%");
-                where =cb.and(where,p);
+                //Predicate p=cb.like(root.get("sec_name"),"%"+sec_name+"%");
+                //where =cb.and(where,p);
+                Predicate p1=cb.and();
+                List<Predicate> predicateList=new ArrayList<>();
+                String[] sec_namelist=sec_name.split(";");
+                for (String secname:sec_namelist)
+                {
+                    Predicate p=cb.like(root.get("sec_name"),"%"+secname.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                    predicateList.add(p);
+                }
+                Predicate[] p2=new Predicate[sec_namelist.length];
+                predicateList.toArray(p2);
+                p1.getExpressions().add(cb.or(p2));
+
+                where =cb.and(where,p1);
             }
             if (!"".equals(bondtype)&&bondtype!=null)
             {
@@ -508,6 +595,10 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                     Predicate p=cb.lessThan(root.get("maturitydate"), nowmaturitydate);
                     where =cb.and(where,p);
                 }
+                else if("0;1".equals(isexpired))
+                {
+
+                }
                 else
                 {
                     Predicate p=cb.greaterThanOrEqualTo(root.get("maturitydate"), nowmaturitydate);
@@ -529,10 +620,12 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             if (rebackcount<=91)//小于91天就查询历史数据
             {
                 Calendar c=Calendar.getInstance();
-                c.setTime(versionDate);
+                Date  versionda1=new SimpleDateFormat("yyyy-MM-dd").parse(versionDate.split(";")[versionDate.split(";").length-1]);
+                c.setTime(versionda1);
                 c.add(Calendar.DAY_OF_MONTH,-1);
-               Date resetdate=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
-               return getFosunDebtContractHisList(resetdate,com_name,sec_name,bondtype,begincarrydate,endcarrydate,beginmaturitydate,endmaturitydate,nowmaturitydate,rebackcount,isexpired);
+               //Date resetdate=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
+                String resetdate=new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+                return getFosunDebtContractHisList(resetdate,com_name,sec_name,bondtype,begincarrydate,endcarrydate,beginmaturitydate,endmaturitydate,nowmaturitydate,rebackcount,isexpired);
             }
 
         }

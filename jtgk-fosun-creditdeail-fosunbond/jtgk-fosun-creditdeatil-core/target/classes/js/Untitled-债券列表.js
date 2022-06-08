@@ -138,7 +138,7 @@ idp.event.bind("domReady", function () {
     
     })
     idp.event.register("grid_main", "beforeGridFilter", function (e, filter) {
-      
+        // idp.utils.jsd("qUHZ92wAMVVYYBuSFZhPXA==")解密filter value值
         debugger;
         var com_name = idp.control.get("COMP_NAME").getValue();
         var bondtype = idp.control.get("BONDTYPE").getValue();
