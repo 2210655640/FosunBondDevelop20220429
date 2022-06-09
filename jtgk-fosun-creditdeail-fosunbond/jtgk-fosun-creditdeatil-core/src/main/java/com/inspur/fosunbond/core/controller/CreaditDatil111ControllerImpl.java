@@ -38,6 +38,8 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
     private FosunDebtContractHistory1Repository fosunDebtContractHistoryRepository;
     @Autowired
     private FosunIdenticalissUer1Repository fosunIdenticalissUer1Repository;
+    @Autowired
+    private JtgkFosunbondFosunSynchroMiddleTableForBond jtgkFosunbondFosunSynchroMiddleTableForBond;
     /**
      * 日志明细更新处理
      * @param disDataStr 异构系统报文
@@ -523,8 +525,8 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
     @Override
     public String syncBondMsgFromMiddleTable(JsonNode jsonNode) {
         //JtgkFosunbondFosunSynchroMiddleTableForBond jtgkFosunbondFosunSynchroMiddleTableForBond=new JtgkFosunbondFosunSynchroMiddleTableForBond();
-        //return jtgkFosunbondFosunSynchroMiddleTableForBond.SyncBondMsgFromMiddleTable();
-        return  null;
+        return jtgkFosunbondFosunSynchroMiddleTableForBond.SyncBondMsgFromMiddleTable1(jsonNode);
+        //return  null;
     }
 
     private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(String versionDate, String com_name,String sec_name, String bondtype, Date begincarrydate,Date endcarrydate, Date beginmaturitydate,Date endmaturitydate,Date nowmaturitydate,Integer rebackcount,String isexpired) throws ParseException {

@@ -14,6 +14,8 @@ public interface JtgkFosunbondT_Debt_ContractRepository extends DataRepository<J
     List<JtgkFosunbondT_Debt_ContractEntity> findAllByUpdatetime(Date updatetime);
     @Query(value="select * from v_debt_contract  where DATE(updatetime)=?1 ",nativeQuery=true)
     List<JtgkFosunbondT_Debt_ContractEntity> getdatabyupdatetime(String updatetime);
+    @Query(value="select * from v_debt_contract  where DATE(updatetime)>=?1 and  DATE(updatetime)>=?2",nativeQuery=true)
+    List<JtgkFosunbondT_Debt_ContractEntity> getdatabetwwenupdatetime(String begindate,String enddate);
 
 
 }

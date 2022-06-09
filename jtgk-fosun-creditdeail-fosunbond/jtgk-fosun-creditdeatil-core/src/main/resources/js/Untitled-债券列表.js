@@ -137,60 +137,12 @@ idp.event.bind("domReady", function () {
         $("#SEC_NAME").leeTextBox({disabled:false});
     
     })
-    idp.event.register("grid_main", "beforeGridFilter", function (e, filter) {
-        // idp.utils.jsd("qUHZ92wAMVVYYBuSFZhPXA==")解密filter value值
-        debugger;
-        var com_name = idp.control.get("COMP_NAME").getValue();
-        var bondtype = idp.control.get("BONDTYPE").getValue();
-        var carrydate = idp.control.get("CARRYDATE").getValue();
-        var maturitydate = idp.control.get("MATURITYDATE").getValue();
-        //采购方案编号
-        //let rfqid = idp.utils.getQuery("rfqid"); //获取采购方案code
-        if (com_name != "" && com_name != null) {
-            filter.push({
-                "Left": "",
-                "Field": "FOSUNDEBTCONTRACT.COMP_NAME",
-                "Operate": "=",
-                "IsExpress": false,
-                "Value": com_name,
-                "Right": "",
-                "Logic": " and "
-            });
-        }
-        if (bondtype != "" && bondtype != null) {
-            filter.push({
-                "Left": "",
-                "Field": "FOSUNDEBTCONTRACT.BONDTYPE",
-                "Operate": "=",
-                "IsExpress": false,
-                "Value": bondtype,
-                "Right": "",
-                "Logic": " and "
-            });
-        }
-        if (carrydate != "" && carrydate != null) {
-            filter.push({
-                "Left": "",
-                "Field": "FOSUNDEBTCONTRACT.CARRYDATE",
-                "Operate": "=",
-                "IsExpress": false,
-                "Value": carrydate,
-                "Right": "",
-                "Logic": " and "
-            });
-        }
-        if (maturitydate != "" && maturitydate != null) {
-            filter.push({
-                "Left": "",
-                "Field": "FOSUNDEBTCONTRACT.MATURITYDATE",
-                "Operate": "=",
-                "IsExpress": false,
-                "Value": maturitydate,
-                "Right": "",
-                "Logic": "  "
-            });
-        }
-        return filter;
+    idp.event.register("grid_main", "beforeGridRefresh", function (e, filter) {
+         // idp.utils.jsd("qUHZ92wAMVVYYBuSFZhPXA==")解密filter value值
+      debugger;
+      menu.query();
+      return false;
+ 
     });
     idp.event.register("grid_main", "afterLoadData", function (e, p) {
         console.log(456)
@@ -311,7 +263,7 @@ let menu = {
         debugger;
         //idp.loading("加载中");
         //var versionDate = idp.control.get("input_5057").getValue();
-        var versionDate =$("#input_5057").val();
+        //var versionDate =$("#input_5057").val();
         // if (versionDate == "" || versionDate == null) 
         // {
         //     //idp.control.get("grid_main").reload();//重新加载数据
@@ -328,13 +280,28 @@ let menu = {
         //     idp.uiview.refreshGrid("grid_main");
         // }
         // else 
-        {
-            var com_name = idp.control.get("COMP_NAME").getValue();
-            var sec_name = idp.control.get("SEC_NAME").getValue();
-            var bondtype = idp.control.get("BONDTYPE").getValue();
-            var carrydate = idp.control.get("CARRYDATE").getValue();
-            var maturitydate = idp.control.get("MATURITYDATE").getValue();
-            var isexpired=$("#checkbox_457018").leeUI().getValue();
+        {    
+            // var com_name = idp.control.get("COMP_NAME").getValue();
+            // var sec_name = idp.control.get("SEC_NAME").getValue();
+            // var bondtype = idp.control.get("BONDTYPE").getValue();
+            // var carrydate = idp.control.get("CARRYDATE").getValue();
+            // var maturitydate = idp.control.get("MATURITYDATE").getValue();
+            //var isexpired=$("#checkbox_457018").leeUI().getValue();
+            var versionDate='';
+            if(idp.control.get("lee-lightsolution--light_historyversiondate").helpVueIns)
+            {
+                versionDate= idp.control.get("lee-lightsolution--light_historyversiondate").helpVueIns.getValue();
+            } 
+            var com_name = idp.control.get("lee-lightsolution--light_COMP_NAME").getValue();
+            var sec_name ='';
+            if(idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns)
+            {
+                sec_name=idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns.getValue(); 
+            }
+            var bondtype = idp.control.get("lee-lightsolution--light_BONDTYPE").getValue();
+            var carrydate =  $("#lee-lightsolution--light_CARRYDATE").leeUI().getValue();
+            var maturitydate =  $("#lee-lightsolution--light_MATURITYDATE ").leeUI().getValue();
+            var isexpired=$("#lee-lightsolution--light_dropdown_isexpired").leeUI().getValue();
             if(com_name=="复星高科")
             {
                 com_name="复星";
@@ -412,13 +379,26 @@ let menu = {
         debugger;
         idp.loading("保存中");
        
-        var versionDate = idp.control.get("input_5057").getValue();
-        var com_name = idp.control.get("COMP_NAME").getValue();
-        var sec_name = idp.control.get("SEC_NAME").getValue();
-        var bondtype = idp.control.get("BONDTYPE").getValue();
-        var carrydate = idp.control.get("CARRYDATE").getValue();
-        var maturitydate = idp.control.get("MATURITYDATE").getValue();
-        var isexpired=$("#checkbox_457018").leeUI().getValue();
+        // var versionDate = idp.control.get("input_5057").getValue();
+        // var com_name = idp.control.get("COMP_NAME").getValue();
+        // var sec_name = idp.control.get("SEC_NAME").getValue();
+        // var bondtype = idp.control.get("BONDTYPE").getValue();
+        // var carrydate = idp.control.get("CARRYDATE").getValue();
+        // var maturitydate = idp.control.get("MATURITYDATE").getValue();
+        // var isexpired=$("#checkbox_457018").leeUI().getValue();
+        var versionDate='';
+        if(idp.control.get("lee-lightsolution--light_historyversiondate").helpVueIns)
+        {
+            versionDate= idp.control.get("lee-lightsolution--light_historyversiondate").helpVueIns.getValue();
+        } 
+        var com_name = idp.control.get("lee-lightsolution--light_COMP_NAME").getValue();
+        var sec_name ='';
+        if(idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns)
+        {sec_name== idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns.getValue(); }
+        var bondtype = idp.control.get("lee-lightsolution--light_BONDTYPE").getValue();
+        var carrydate =  $("#lee-lightsolution--light_CARRYDATE").leeUI().getValue();
+        var maturitydate =  $("#lee-lightsolution--light_MATURITYDATE ").leeUI().getValue();
+        var isexpired=$("#lee-lightsolution--light_dropdown_isexpired").leeUI().getValue();
         if(versionDate==null||versionDate=="")
         {
             //versionDate="";
