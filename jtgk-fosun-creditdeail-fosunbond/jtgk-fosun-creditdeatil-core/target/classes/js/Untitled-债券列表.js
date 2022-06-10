@@ -291,14 +291,22 @@ let menu = {
             if(idp.control.get("lee-lightsolution--light_historyversiondate").helpVueIns)
             {
                 versionDate= idp.control.get("lee-lightsolution--light_historyversiondate").helpVueIns.getValue();
-            } 
-            var com_name = idp.control.get("lee-lightsolution--light_COMP_NAME").getValue();
+            }
+            var com_name='' 
+            if(idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns)
+            {
+                com_name = idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns.getValue().replaceAll('复星高科','复星');
+            }
             var sec_name ='';
             if(idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns)
             {
                 sec_name=idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns.getValue(); 
             }
-            var bondtype = idp.control.get("lee-lightsolution--light_BONDTYPE").getValue();
+            var bondtype ='';
+            if(idp.control.get("lee-lightsolution--light_BONDTYPE").helpVueIns)
+            {
+             bondtype = idp.control.get("lee-lightsolution--light_BONDTYPE").helpVueIns.getValue();
+            }
             var carrydate =  $("#lee-lightsolution--light_CARRYDATE").leeUI().getValue();
             var maturitydate =  $("#lee-lightsolution--light_MATURITYDATE ").leeUI().getValue();
             var isexpired=$("#lee-lightsolution--light_dropdown_isexpired").leeUI().getValue();
@@ -391,11 +399,21 @@ let menu = {
         {
             versionDate= idp.control.get("lee-lightsolution--light_historyversiondate").helpVueIns.getValue();
         } 
-        var com_name = idp.control.get("lee-lightsolution--light_COMP_NAME").getValue();
+        var com_name='' 
+        if(idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns)
+        {
+            com_name = idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns.getValue().replaceAll('复星高科','复星');
+        }
         var sec_name ='';
         if(idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns)
-        {sec_name== idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns.getValue(); }
-        var bondtype = idp.control.get("lee-lightsolution--light_BONDTYPE").getValue();
+        {
+            sec_name=idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns.getValue(); 
+        }
+        var bondtype ='';
+        if(idp.control.get("lee-lightsolution--light_BONDTYPE").helpVueIns)
+        {
+         bondtype = idp.control.get("lee-lightsolution--light_BONDTYPE").helpVueIns.getValue();
+        }
         var carrydate =  $("#lee-lightsolution--light_CARRYDATE").leeUI().getValue();
         var maturitydate =  $("#lee-lightsolution--light_MATURITYDATE ").leeUI().getValue();
         var isexpired=$("#lee-lightsolution--light_dropdown_isexpired").leeUI().getValue();

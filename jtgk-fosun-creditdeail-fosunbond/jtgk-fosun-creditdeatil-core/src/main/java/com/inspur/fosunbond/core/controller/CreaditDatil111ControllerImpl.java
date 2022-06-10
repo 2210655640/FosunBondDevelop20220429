@@ -200,9 +200,24 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(com_name)&&com_name!=null)
                 {
-                    //Predicate p=cb.equal(root.get("issuershortened"),com_name);//改为简称
-                    Predicate p=cb.like(root.get("issuershortened"),"%"+com_name+"%");//改为简称
-                    where =cb.and(where,p);
+//                    //Predicate p=cb.equal(root.get("issuershortened"),com_name);//改为简称
+//                    Predicate p=cb.like(root.get("issuershortened"),"%"+com_name+"%");//改为简称
+//                    where =cb.and(where,p);
+
+
+                    Predicate p1=cb.and();
+                    List<Predicate> predicateList=new ArrayList<>();
+                    String[] com_namelist=com_name.split(";");
+                    for (String comname:com_namelist)
+                    {
+                        Predicate p=cb.like(root.get("issuershortened"),"%"+comname.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                        predicateList.add(p);
+                    }
+                    Predicate[] p2=new Predicate[com_namelist.length];
+                    predicateList.toArray(p2);
+                    p1.getExpressions().add(cb.or(p2));
+
+                    where =cb.and(where,p1);
                 }
                 if (!"".equals(sec_name)&&sec_name!=null)
                 {
@@ -224,8 +239,22 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(bondtype)&&bondtype!=null)
                 {
-                    Predicate p=cb.like(root.get("bondtype"),"%"+bondtype+"%");
-                    where =cb.and(where,p);
+//                    Predicate p=cb.like(root.get("bondtype"),"%"+bondtype+"%");
+//                    where =cb.and(where,p);
+
+                    Predicate p1=cb.and();
+                    List<Predicate> predicateList=new ArrayList<>();
+                    String[] bondtypelist=bondtype.split(";");
+                    for (String bdtype:bondtypelist)
+                    {
+                        Predicate p=cb.like(root.get("bondtype"),"%"+bdtype.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                        predicateList.add(p);
+                    }
+                    Predicate[] p2=new Predicate[bondtypelist.length];
+                    predicateList.toArray(p2);
+                    p1.getExpressions().add(cb.or(p2));
+
+                    where =cb.and(where,p1);
                 }
                 //if (!"".equals(finalCarryda)&& finalCarryda !=null)
                 if (!"".equals(finalbeginCarryda)&& finalbeginCarryda !=null)
@@ -456,8 +485,22 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(com_name)&&com_name!=null)
                 {
-                    Predicate p=cb.like(root.get("issuershortened"),"%"+com_name+"%");//改为简称
-                    where =cb.and(where,p);
+//                    Predicate p=cb.like(root.get("issuershortened"),"%"+com_name+"%");//改为简称
+//                    where =cb.and(where,p);
+
+                    Predicate p1=cb.and();
+                    List<Predicate> predicateList=new ArrayList<>();
+                    String[] com_namelist=com_name.split(";");
+                    for (String comname:com_namelist)
+                    {
+                        Predicate p=cb.like(root.get("issuershortened"),"%"+comname.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                        predicateList.add(p);
+                    }
+                    Predicate[] p2=new Predicate[com_namelist.length];
+                    predicateList.toArray(p2);
+                    p1.getExpressions().add(cb.or(p2));
+
+                    where =cb.and(where,p1);
                 }
                 if (!"".equals(sec_name)&&sec_name!=null)
                 {
@@ -479,8 +522,22 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
                 if (!"".equals(bondtype)&&bondtype!=null)
                 {
-                    Predicate p=cb.like(root.get("bondtype"),"%"+bondtype+"%");
-                    where =cb.and(where,p);
+//                    Predicate p=cb.like(root.get("bondtype"),"%"+bondtype+"%");
+//                    where =cb.and(where,p);
+
+                    Predicate p1=cb.and();
+                    List<Predicate> predicateList=new ArrayList<>();
+                    String[] bondtypelist=bondtype.split(";");
+                    for (String bdtype:bondtypelist)
+                    {
+                        Predicate p=cb.like(root.get("bondtype"),"%"+bdtype.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                        predicateList.add(p);
+                    }
+                    Predicate[] p2=new Predicate[bondtypelist.length];
+                    predicateList.toArray(p2);
+                    p1.getExpressions().add(cb.or(p2));
+
+                    where =cb.and(where,p1);
                 }
                 if (!"".equals(finalbeginCarryda)&&finalbeginCarryda!=null)
                 {
@@ -554,8 +611,21 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             if (!"".equals(com_name)&&com_name!=null)
             {
                 //Predicate p=cb.equal(root.get("issuershortened"),com_name);//改为简称
-                Predicate p=cb.like(root.get("issuershortened"),"%"+com_name+"%");//改为简称
-                where =cb.and(where,p);
+//                Predicate p=cb.like(root.get("issuershortened"),"%"+com_name+"%");//改为简称
+//                where =cb.and(where,p);
+                Predicate p1=cb.and();
+                List<Predicate> predicateList=new ArrayList<>();
+                String[] com_namelist=com_name.split(";");
+                for (String comname:com_namelist)
+                {
+                    Predicate p=cb.like(root.get("issuershortened"),"%"+comname.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                    predicateList.add(p);
+                }
+                Predicate[] p2=new Predicate[com_namelist.length];
+                predicateList.toArray(p2);
+                p1.getExpressions().add(cb.or(p2));
+
+                where =cb.and(where,p1);
             }
             if (!"".equals(sec_name)&&sec_name!=null)
             {
@@ -577,8 +647,22 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             }
             if (!"".equals(bondtype)&&bondtype!=null)
             {
-                Predicate p=cb.like(root.get("bondtype"),"%"+bondtype+"%");
-                where =cb.and(where,p);
+//                Predicate p=cb.like(root.get("bondtype"),"%"+bondtype+"%");
+//                where =cb.and(where,p);
+
+                Predicate p1=cb.and();
+                List<Predicate> predicateList=new ArrayList<>();
+                String[] bondtypelist=bondtype.split(";");
+                for (String bdtype:bondtypelist)
+                {
+                    Predicate p=cb.like(root.get("bondtype"),"%"+bdtype.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                    predicateList.add(p);
+                }
+                Predicate[] p2=new Predicate[bondtypelist.length];
+                predicateList.toArray(p2);
+                p1.getExpressions().add(cb.or(p2));
+
+                where =cb.and(where,p1);
             }
             if (!"".equals(begincarrydate)&&begincarrydate!=null)
             {
