@@ -202,8 +202,8 @@ function setTableOption(){
         }
         let m = $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner').length;
         for(let i =0;i<m;i++){
-            if(i % 18 == 1){
-                const totalsummaryIndex = parseInt(i/18);
+            if(i % 19 == 1){
+                const totalsummaryIndex = parseInt(i/19);
                 var summay=$(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2];
                 if(summay)
                 {
@@ -295,7 +295,8 @@ let menu = {
             var com_name='' 
             if(idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns)
             {
-                com_name = idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns.getValue().replaceAll('复星高科','复星');
+                //com_name = idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns.getValue().replaceAll('复星高科','复星');
+                com_name = idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns.getValue();
             }
             var sec_name ='';
             if(idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns)
@@ -310,10 +311,10 @@ let menu = {
             var carrydate =  $("#lee-lightsolution--light_CARRYDATE").leeUI().getValue();
             var maturitydate =  $("#lee-lightsolution--light_MATURITYDATE ").leeUI().getValue();
             var isexpired=$("#lee-lightsolution--light_dropdown_isexpired").leeUI().getValue();
-            if(com_name=="复星高科")
-            {
-                com_name="复星";
-            }
+            // if(com_name=="复星高科")
+            // {
+            //     com_name="复星";
+            // }
             if(versionDate==null)
             {
                 versionDate="";
@@ -347,10 +348,10 @@ let menu = {
                         if(fosunDebtContractHistoryEntityList)
                         {
                             $.each(fosunDebtContractHistoryEntityList,function(index,item){
-                                if(item.ISSUERSHORTENED=="复星")
-                                {
-                                    fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
-                                }
+                                // if(item.ISSUERSHORTENED=="复星")
+                                // {
+                                //     fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
+                                // }
                                 if(item.ISSUEAMOUNT)
                                 {
                                     fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
@@ -402,7 +403,8 @@ let menu = {
         var com_name='' 
         if(idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns)
         {
-            com_name = idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns.getValue().replaceAll('复星高科','复星');
+            //com_name = idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns.getValue().replaceAll('复星高科','复星');
+            com_name = idp.control.get("lee-lightsolution--light_ISSUERSHORTENED").helpVueIns.getValue();
         }
         var sec_name ='';
         if(idp.control.get("lee-lightsolution--light_SEC_NAME").helpVueIns)
@@ -460,10 +462,10 @@ let menu = {
                             if(fosunDebtContractHistoryEntityList)
                             {
                                 $.each(fosunDebtContractHistoryEntityList,function(index,item){
-                                    if(item.ISSUERSHORTENED=="复星")
-                                    {
-                                        fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
-                                    }
+                                    // if(item.ISSUERSHORTENED=="复星")
+                                    // {
+                                    //     fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
+                                    // }
                                     if(item.ISSUEAMOUNT)
                                     {
                                         fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;

@@ -280,5 +280,9 @@ public class JtgkFosunbondFosunDebtContractEntity
      *币种
      */
     private  String curr;
+    /*
+    *统一社会信用代码
+     */
+    private  String registernumber;
 
 }
