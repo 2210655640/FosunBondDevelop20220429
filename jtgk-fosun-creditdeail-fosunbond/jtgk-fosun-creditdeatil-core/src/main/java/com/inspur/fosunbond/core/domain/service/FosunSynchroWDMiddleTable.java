@@ -2,11 +2,9 @@ package com.inspur.fosunbond.core.domain.service;
 
 
 import com.inspur.edp.cdf.component.api.annotation.GspComponent;
-import com.inspur.fosunbond.core.domain.entity.FosunDebtContractHistory1Entity;
-import com.inspur.fosunbond.core.domain.entity.FosunbondrpaytplansEntity;
-import com.inspur.fosunbond.core.domain.entity.JtgkFosunbondFosunIdenticalissUerEntity;
-import com.inspur.fosunbond.core.domain.entity.T_debt_cashflowEntity;
+import com.inspur.fosunbond.core.domain.entity.*;
 import com.inspur.fosunbond.core.domain.repository.FosunbondrpaytplansRepository;
+import com.inspur.fosunbond.core.domain.repository.JtgkFosunbondFosunDebtContractRepository;
 import com.inspur.fosunbond.core.domain.repository.JtgkFosunbondFosunIdenticalissUerRepository;
 import com.inspur.fosunbond.core.domain.repository.T_debt_cashflowRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +29,8 @@ public class FosunSynchroWDMiddleTable {
     private FosunbondrpaytplansRepository fosunbondrpaytplansRepository;
     @Autowired
     private JtgkFosunbondFosunIdenticalissUerRepository jtgkFosunbondFosunIdenticalissUerRepository;
+    @Autowired
+    private JtgkFosunbondFosunDebtContractRepository jtgkFosunbondFosunDebtContractRepository;
    @Transactional(rollbackFor ={Exception.class})
     public String syncWDcashflow()
     {
@@ -75,13 +75,14 @@ public class FosunSynchroWDMiddleTable {
                         fosunbondrpaytplansEntity1.setId(UUID.randomUUID().toString());
                         //fosunbondrpaytplansEntity1.setAccrued_interest_per_cny100par(flowEntity.getAccrued_interest_per_cny100par());
                         //处理利息
-                        List<JtgkFosunbondFosunIdenticalissUerEntity> jtgkFosunbondFosunIdenticalissUerEntityList=jtgkFosunbondFosunIdenticalissUerRepository.findAllByWindcodeAndIssuedateBeforeOrderByIssuedateDesc(flowEntity.getWindcode(),flowEntity.getCash_flows_date());
+                        //List<JtgkFosunbondFosunIdenticalissUerEntity> jtgkFosunbondFosunIdenticalissUerEntityList=jtgkFosunbondFosunIdenticalissUerRepository.findAllByWindcodeAndIssuedateBeforeOrderByIssuedateDesc(flowEntity.getWindcode(),flowEntity.getCash_flows_date());
+                        List<JtgkFosunbondFosunDebtContractEntity> fosunDebtContractEntityList=jtgkFosunbondFosunDebtContractRepository.findAllByWindcodeAndSdateBeforeOrderBySdateDesc(flowEntity.getWindcode(),flowEntity.getCash_flows_date());
                         BigDecimal  Accrued_interest_per_cny100par=new BigDecimal(0);
                         BigDecimal  Accrued_principal_per_cny100par=new BigDecimal(0);
                         BigDecimal Outstandingbalance=new BigDecimal(0);
-                        if (jtgkFosunbondFosunIdenticalissUerEntityList!=null&&jtgkFosunbondFosunIdenticalissUerEntityList.size()>0)
+                        if (fosunDebtContractEntityList!=null&&fosunDebtContractEntityList.size()>0)
                         {
-                            Outstandingbalance=jtgkFosunbondFosunIdenticalissUerEntityList.get(0).getOutstandingbalance();
+                            Outstandingbalance=fosunDebtContractEntityList.get(0).getOutstandingbalance();
                             Outstandingbalance=(Outstandingbalance==null?new BigDecimal(0):Outstandingbalance);
                         }
 
@@ -102,7 +103,7 @@ public class FosunSynchroWDMiddleTable {
                         fosunbondrpaytplansEntity1.setCreator("");
                         //fosunbondrpaytplansEntity1.setHadrpayinterest();
                         fosunbondrpaytplansEntity1.setWindcode(flowEntity.getWindcode());
-                        fosunbondrpaytplansEntity1.setLastmodifier("");;
+                        fosunbondrpaytplansEntity1.setLastmodifier("");
                         fosunbondrpaytplansEntity1.setLastmodifiedtime(flowEntity.getUpdatetime());
                         fosunbondrpaytplansEntity1.setStatsus("0");
                         fosunbondrpaytplansEntity1.setSourceid(flowEntity.getId());

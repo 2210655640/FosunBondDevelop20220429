@@ -202,8 +202,8 @@ function setTableOption(){
         }
         let m = $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner').length;
         for(let i =0;i<m;i++){
-            if(i % 19 == 1){
-                const totalsummaryIndex = parseInt(i/19);
+            if(i %20 == 1){
+                const totalsummaryIndex = parseInt(i/20);
                 var summay=$(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2];
                 if(summay)
                 {

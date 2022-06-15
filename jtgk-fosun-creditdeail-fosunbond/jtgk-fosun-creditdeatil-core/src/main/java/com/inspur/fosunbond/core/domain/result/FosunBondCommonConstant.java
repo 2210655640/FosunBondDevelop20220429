@@ -5,7 +5,7 @@ package com.inspur.fosunbond.core.domain.result;
  * @Author：wangshunan
  * @Date：2020.04.21
  */
-public interface CommonConstant {
+public interface FosunBondCommonConstant {
 
     /**
      * {@code 500 Server Error} (HTTP/1.0 - RFC 1945)

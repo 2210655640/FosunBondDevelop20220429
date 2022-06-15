@@ -63,7 +63,7 @@ public class Result<T> implements Serializable {
             i18nMsg=message;
         }
         this.message = i18nMsg;
-        this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;
+        this.code = FosunBondCommonConstant.SC_INTERNAL_SERVER_ERROR_500;
         this.success = false;
         return this;
     }
@@ -74,7 +74,7 @@ public class Result<T> implements Serializable {
     public Result<T> error500(String message, Boolean isLang) {
         //this.message = isLang?Optional.ofNullable(langService.getLanguageString(langFlag, message)).orElse(message):message;
         this.message = message;
-        this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;
+        this.code = FosunBondCommonConstant.SC_INTERNAL_SERVER_ERROR_500;
         this.success = false;
         return this;
     }
@@ -85,7 +85,7 @@ public class Result<T> implements Serializable {
     public Result<T> error500() {
         //this.message = Optional.ofNullable(langService.getLanguageString(langFlag, "Operate_Fail")).orElse("操作失败！");
         this.message ="操作失败！";
-        this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;
+        this.code = FosunBondCommonConstant.SC_INTERNAL_SERVER_ERROR_500;
         this.success = false;
         return this;
     }
@@ -96,7 +96,7 @@ public class Result<T> implements Serializable {
     public Result<T> error() {
         //this.message = Optional.ofNullable(langService.getLanguageString(langFlag, "Operate_Fail")).orElse("操作失败！");
         this.message ="操作失败！";
-        this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;
+        this.code = FosunBondCommonConstant.SC_INTERNAL_SERVER_ERROR_500;
         this.success = false;
         return this;
     }
@@ -107,7 +107,7 @@ public class Result<T> implements Serializable {
     public Result<T> error401() {
         //this.message = Optional.ofNullable(langService.getLanguageString(langFlag, "Operate_NoAuth")).orElse("您当前没有操作该资源的权限！");
         this.message ="您当前没有操作该资源的权限！";
-        this.code = CommonConstant.SC_IGO_NO_AUTHZ;
+        this.code = FosunBondCommonConstant.SC_IGO_NO_AUTHZ;
         this.success = false;
         return this;
     }
@@ -118,7 +118,7 @@ public class Result<T> implements Serializable {
     public Result<T> error403(String message) {
         //this.message = Optional.ofNullable(langService.getLanguageString(langFlag, "PutParamFail")).orElse("输入参数校验失败！\n") + Optional.ofNullable(langService.getLanguageString(langFlag, message)).orElse(message);
         this.message ="输入参数校验失败！\n"+message;
-        this.code = CommonConstant.SC_IGO_VALIDFAILED;
+        this.code = FosunBondCommonConstant.SC_IGO_VALIDFAILED;
         this.success = false;
         return this;
     }
@@ -128,7 +128,7 @@ public class Result<T> implements Serializable {
      */
     public Result<T> success() {
         this.result = null;
-        this.code = CommonConstant.SC_OK_200;
+        this.code = FosunBondCommonConstant.SC_OK_200;
         this.success = true;
         return this;
     }
@@ -140,7 +140,7 @@ public class Result<T> implements Serializable {
         this.result = null;
         //this.message = Optional.ofNullable(langService.getLanguageString(langFlag, message)).orElse(message);
         this.message =message;
-        this.code = CommonConstant.SC_OK_200;
+        this.code = FosunBondCommonConstant.SC_OK_200;
         this.success = true;
         return this;
     }
@@ -152,7 +152,7 @@ public class Result<T> implements Serializable {
         //this.message = Optional.ofNullable(langService.getLanguageString(langFlag, message)).orElse(message);
         this.message =message;
         this.result = data;
-        this.code = CommonConstant.SC_OK_200;
+        this.code = FosunBondCommonConstant.SC_OK_200;
         this.success = true;
         return this;
     }
@@ -162,7 +162,7 @@ public class Result<T> implements Serializable {
      */
     public Result<T> success(T data) {
         this.result = data;
-        this.code = CommonConstant.SC_OK_200;
+        this.code = FosunBondCommonConstant.SC_OK_200;
         this.success = true;
         return this;
     }
@@ -205,7 +205,7 @@ public class Result<T> implements Serializable {
      * 无权限访问返回结果
      */
     public static Result<Object> noauth(String message) {
-        return error(CommonConstant.SC_IGO_NO_AUTHZ, message);
+        return error(FosunBondCommonConstant.SC_IGO_NO_AUTHZ, message);
     }
     public static <T> Result<T> of(Supplier<T> dataSupplier) {
         try {

@@ -134,7 +134,7 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         fosunDebtContractEntity.setWindcode(contractEntity.getWindcode());
                         fosunDebtContractEntity.setSourceid(contractEntity.getId());
                         fosunDebtContractEntity.setAgency_leadunderwritersn(contractEntity.getAgency_leadunderwritersn());
-                        fosunDebtContractEntity.setIssuershortened(contractEntity.getIssuershortened()=="复星"?"复星高科":contractEntity.getIssuershortened());
+                        fosunDebtContractEntity.setIssuershortened("复星".equals(contractEntity.getIssuershortened())?"复星高科":contractEntity.getIssuershortened());
                         fosunDebtContractEntity.setCurr(contractEntity.getCurr());//币种
                         fosunDebtContractEntity.setRegisternumber(contractEntity.getRegisternumber());//统一社会信用代码
                         fosunDebtContractEntityList.add(fosunDebtContractEntity);
