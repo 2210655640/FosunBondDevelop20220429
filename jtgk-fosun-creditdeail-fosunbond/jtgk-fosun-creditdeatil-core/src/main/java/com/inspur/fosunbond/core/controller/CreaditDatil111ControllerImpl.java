@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -455,6 +456,14 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             Date verisondate= fosunDebtContractHistory1EntityList.get(0).getHistoryversiondate();
             for (FosunDebtContractHistory1Entity item: fosunDebtContractHistory1EntityList)
             {
+                //初始数据保存原始利率
+                {
+                  //更新源表原始利率
+                  fosunDebtContractRepository.updateDataByID(item.getOriginalrate(),item.getId());
+                  //更新所有历史版本表原始利率
+                  fosunDebtContractHistoryRepository.updateDataByID(item.getOriginalrate(),item.getId());
+                }
+
                 boolean isexist=fosunDebtContractHistoryRepository.existsByIdAndHistoryversiondate(item.getId(),item.getHistoryversiondate());
                 if (isexist)
                 {

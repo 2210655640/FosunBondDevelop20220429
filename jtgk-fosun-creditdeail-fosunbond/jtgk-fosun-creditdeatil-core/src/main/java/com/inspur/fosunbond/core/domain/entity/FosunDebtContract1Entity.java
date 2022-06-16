@@ -381,5 +381,10 @@ public class FosunDebtContract1Entity
      */
     @JsonProperty(value = "CURR")
     private  String curr;
+    /*
+     *基准利率
+     */
+    @JsonProperty(value = "ORIGINALRATE")
+    private  BigDecimal originalrate;
 
 }

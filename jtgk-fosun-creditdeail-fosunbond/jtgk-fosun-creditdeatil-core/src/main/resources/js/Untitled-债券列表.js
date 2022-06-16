@@ -202,8 +202,8 @@ function setTableOption(){
         }
         let m = $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner').length;
         for(let i =0;i<m;i++){
-            if(i %20 == 1){
-                const totalsummaryIndex = parseInt(i/20);
+            if(i %23 == 1){
+                const totalsummaryIndex = parseInt(i/23);
                 var summay=$(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2];
                 if(summay)
                 {
@@ -352,11 +352,18 @@ let menu = {
                                 // {
                                 //     fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
                                 // }
-                                if(item.ISSUEAMOUNT)
+                    
+                                if(item.ISSUEAMOUNT&&!versionDate)
                                 {
                                     fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
                                 }
-                                     //处理债券类型 
+                                //处理发行规模（等值）及债券余额（等值）
+                                var ISSUEAMOUNT=item.ISSUEAMOUNT;//发行规模
+                                var ORIGINALRATE=item.ORIGINALRATE;//基准汇率
+                                var OUTSTANDINGBALANCE=item.OUTSTANDINGBALANCE;//债券余额
+                                item.ISSUEAMOUNTEQUAL=ISSUEAMOUNT*ORIGINALRATE;//发行规模等值
+                                item.OUTSTANDINGBALANCEEQUAL=OUTSTANDINGBALANCE*ORIGINALRATE;//债券余额等值
+                                //处理债券类型 
                                 var fullname=item.FULLNAME;
                                 var bondtype=item.BONDTYPE;
                                 if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
@@ -423,7 +430,9 @@ let menu = {
         {
             //versionDate="";
             versionDate=menu.getDate().split(" ")[0];
-            $("#input_5057").val(versionDate);
+            idp.control.get("lee-lightsolution--light_historyversiondate").filter.setValue(versionDate);
+            //idp.control.get("lee-lightsolution--light_historyversiondate").filter2.setValue(versionDate);
+            //$("#input_5057").val(versionDate);
             //$("#input_5057").val("2022-05-08");
         }
         if(carrydate==null)
@@ -453,6 +462,9 @@ let menu = {
                     {
                         data[i].HISTORYVERSIONDATE=isversiondate;
                     }
+                    delete  data[i].ISSUEAMOUNTEQUAL;//删除数据库不存在的属性
+                    delete  data[i].OUTSTANDINGBALANCEEQUAL;
+
                 }
                 idp.service.fetch("/api/jtgk/fosunbond/v1.0/getfsun/savefosundebtcontracthistorybyversiondate",
                     { historyentity: JSON.stringify(data),versiondate: versionDate, com_name: com_name,sec_name:sec_name, bondtype: bondtype, carrydate: carrydate, maturitydate: maturitydate,isexpired:isexpired }, false).done(function (data1) {
@@ -466,16 +478,24 @@ let menu = {
                                     // {
                                     //     fosunDebtContractHistoryEntityList[index].ISSUERSHORTENED="复星高科";
                                     // }
-                                    if(item.ISSUEAMOUNT)
+                          
+
+                                    if(item.ISSUEAMOUNT&&!versionDate)
                                     {
                                         fosunDebtContractHistoryEntityList[index].ISSUEAMOUNT=item.ISSUEAMOUNT/100000000;
                                     }
-                                         //处理债券类型 
-                                var fullname=item.FULLNAME;
-                                var bondtype=item.BONDTYPE;
-                                if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
-                                &&fullname.indexOf("自由贸易")>-1) {
-                                    item.BONDTYPE="自贸债";
+                                    //处理发行规模（等值）及债券余额（等值）
+                                    var ISSUEAMOUNT=item.ISSUEAMOUNT;//发行规模
+                                    var ORIGINALRATE=item.ORIGINALRATE;//基准汇率
+                                    var OUTSTANDINGBALANCE=item.OUTSTANDINGBALANCE;//债券余额
+                                    item.ISSUEAMOUNTEQUAL=ISSUEAMOUNT*ORIGINALRATE;//发行规模等值
+                                    item.OUTSTANDINGBALANCEEQUAL=OUTSTANDINGBALANCE*ORIGINALRATE;//债券余额等值
+                                    //处理债券类型 
+                                    var fullname=item.FULLNAME;
+                                    var bondtype=item.BONDTYPE;
+                                    if ((bondtype==""||bondtype==null)&&fullname!=undefined&&fullname!=null
+                                    &&fullname.indexOf("自由贸易")>-1) {
+                                        item.BONDTYPE="自贸债";
                                 } 
                                 });
                             }
