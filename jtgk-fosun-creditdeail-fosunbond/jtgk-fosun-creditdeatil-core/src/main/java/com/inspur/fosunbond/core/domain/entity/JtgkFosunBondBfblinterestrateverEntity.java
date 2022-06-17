@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
+@Data
 @Entity
 @Table(name="BFBLINTERESTRATEVER")
 public class JtgkFosunBondBfblinterestrateverEntity
