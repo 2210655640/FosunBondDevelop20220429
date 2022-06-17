@@ -144,6 +144,8 @@ idp.event.bind("domReady", function () {
       return false;
  
     });
+
+
     idp.event.register("grid_main", "afterLoadData", function (e, p) {
         console.log(456)
         // p.columns[1].lazy = true;
@@ -456,7 +458,9 @@ let menu = {
             }
             //if(isversiondate!=""&&isversiondate!=null)//保存历史版本记录表
             {
+               
                 for (var i = 0; i < data.length; i++) {
+                    debugger;
                     data[i].SOURCECONTRACTID = data[i].ID;
                     if(data[i].HISTORYVERSIONDATE==""||data[i].HISTORYVERSIONDATE==null)
                     {
@@ -465,7 +469,9 @@ let menu = {
                     delete  data[i].ISSUEAMOUNTEQUAL;//删除数据库不存在的属性
                     delete  data[i].OUTSTANDINGBALANCEEQUAL;
 
+
                 }
+     
                 idp.service.fetch("/api/jtgk/fosunbond/v1.0/getfsun/savefosundebtcontracthistorybyversiondate",
                     { historyentity: JSON.stringify(data),versiondate: versionDate, com_name: com_name,sec_name:sec_name, bondtype: bondtype, carrydate: carrydate, maturitydate: maturitydate,isexpired:isexpired }, false).done(function (data1) {
                         debugger;

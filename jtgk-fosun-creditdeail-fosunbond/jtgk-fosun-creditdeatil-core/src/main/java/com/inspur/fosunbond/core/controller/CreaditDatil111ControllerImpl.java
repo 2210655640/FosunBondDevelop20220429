@@ -15,6 +15,7 @@ import io.iec.edp.caf.commons.utils.SpringBeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 
@@ -291,7 +292,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
 
                 return where;
-            });
+            }, Sort.by(Sort.Direction.DESC,"issuershortened"));
 
             //重新组合issue_regnumber注册文号
             List<FosunDebtContract1Entity> resetfosunDebtContract1EntityList=new ArrayList<>();
@@ -578,7 +579,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
 
                 return where;
-            });
+            }, Sort.by(Sort.Direction.DESC,"issuershortened"));
             if (fosunDebtContractHistory11EntityList !=null&& fosunDebtContractHistory11EntityList.size()>0)
             {
                 return  result.ok(fosunDebtContractHistory11EntityList);
@@ -703,7 +704,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             }
 
             return where;
-        });
+        }, Sort.by(Sort.Direction.DESC,"issuershortened"));
         if (fosunDebtContractHistory1EntityList !=null&& fosunDebtContractHistory1EntityList.size()>0)
         {
             return fosunDebtContractHistory1EntityList;
