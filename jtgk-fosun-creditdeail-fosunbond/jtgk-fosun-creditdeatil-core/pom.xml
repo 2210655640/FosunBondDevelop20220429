@@ -65,6 +65,11 @@
             <artifactId>caf-boot-commons-transaction</artifactId>
             <version>0.3.8</version>
         </dependency>
+        <dependency>
+            <groupId>com.inspur.fastdweb</groupId>
+            <artifactId>fastdweb</artifactId>
+            <version>1.6.0</version>
+        </dependency>
 
     </dependencies>
 </project>

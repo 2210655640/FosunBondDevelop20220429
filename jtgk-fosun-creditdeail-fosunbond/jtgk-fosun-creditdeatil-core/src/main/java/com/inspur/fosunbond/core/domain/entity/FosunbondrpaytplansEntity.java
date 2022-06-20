@@ -24,7 +24,8 @@ public class FosunbondrpaytplansEntity
      */
     @JsonProperty(value = "CASH_FLOWS_DATE")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date cash_flows_date;
+    @Column(name="CASH_FLOWS_DATE")
+    private Date cashflowsdate;
 
     /*
      *计划应付本金
@@ -136,7 +137,8 @@ public class FosunbondrpaytplansEntity
      */
     @JsonProperty(value = "ZJCASH_FLOWS_DATE")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private  Date zjcash_flows_date;
+    @Column(name="ZJCASH_FLOWS_DATE")
+    private  Date zjcashflowsdate;
 
     /*
      *实际已还利息

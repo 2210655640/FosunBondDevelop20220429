@@ -8,4 +8,6 @@ import java.util.List;
 public interface FosunbondrpaytplansRepository extends DataRepository<FosunbondrpaytplansEntity,String> {
     List<FosunbondrpaytplansEntity> findAllByWindcodeAndDelflagNotOrderByCreatedtimeAsc(String windcode,String delflag);
     List<FosunbondrpaytplansEntity> findAllBySourceid(String sourceid);
+    List<FosunbondrpaytplansEntity> findAllByWindcodeAndDelflagNotOrderByCashflowsdateAsc(String windcode,String delflag);
+    List<FosunbondrpaytplansEntity> findAllByWindcodeAndDelflagNotOrderByZjcashflowsdateAsc(String windcode,String delflag);
 }

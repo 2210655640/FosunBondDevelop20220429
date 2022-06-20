@@ -25,13 +25,25 @@ public class Creditdeatil111Service {
                 String ywlx = job.get("ywlx") == null ? "" : job.get("ywlx").toString();
                 if (ywlx.equals(("4"))) {
                     //提款
-                    String upsql = "update TMBANKLOANIOUS set TXT01='" + hxfs + "' ,TXT02= '" + bz + "' where id = '" + id + "'";
+                    String upsql = "update TMBANKLOANIOUS set  TXT02= '" + bz + "' where id = '" + id + "'";
                     log.info("提款sql:" +upsql );
                     NativeQueryRepo.execute(upsql);
                 }
-                else if (ywlx.equals("5")||ywlx.equals("6"))//还款计划还本或付息
+                else if (ywlx.equals("5"))//兑付
                 {
-                    String upsql="update fosunbondrpaytplans set remarks='"+bz+"' where id='"+id+"'";
+                    String upsql="update fosunbondrpaytplans set INTEREST_HXFS='"+hxfs+"', PRINCIPAL_REMARKS='"+bz+"' where id='"+id+"'";
+                    log.info("还款计划sql:"+upsql);
+                    NativeQueryRepo.execute(upsql);
+                }
+                else if (ywlx.equals("7"))//债券付息
+                {
+                    String upsql="update fosunbondrpaytplans set INTEREST_HXFS='"+hxfs+"', INTEREST_REMARKS='"+bz+"' where id='"+id+"'";
+                    log.info("债券付息sql:"+upsql);
+                    NativeQueryRepo.execute(upsql);
+                }
+                else if (ywlx.equals("6"))//发行
+                {
+                    String upsql="update FOSUNDEBTCONTRACT  set  remarks='"+bz+"' where id='"+id+"'";
                     log.info("还款计划sql:"+upsql);
                     NativeQueryRepo.execute(upsql);
                 }

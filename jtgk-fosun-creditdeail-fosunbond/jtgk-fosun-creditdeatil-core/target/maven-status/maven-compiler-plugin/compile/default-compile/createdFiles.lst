@@ -19,6 +19,7 @@ com\inspur\fosunbond\core\controller\CreaditDatil111ControllerImpl.class
 com\inspur\fosunbond\core\domain\entity\FosunIdenticalissUer1Entity.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondT_Debt_ValuationRepository.class
 com\inspur\fosunbond\core\config\JtgkZjglFosunbondConfig.class
+com\inspur\fosunbond\core\domain\service\JtgkFosunbondTurnOverPlanPurposeExcelImport.class
 com\inspur\fosunbond\core\domain\entity\FosunDebtSecondaryMarket1Entity.class
 com\inspur\fosunbond\core\domain\service\JtgkFosunbondFosunSynchroBaseRateFromWD.class
 com\inspur\fosunbond\core\domain\result\Result.class
@@ -38,6 +39,7 @@ com\inspur\fosunbond\core\domain\repository\BaseRepository.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunBondBfblinterestrateverRepository.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondFosunDebtSecondaryMarketEntity.class
 com\inspur\fosunbond\core\domain\entity\FosunDebtContractHistory1Entity.class
+com\inspur\fosunbond\core\domain\service\JtgkFosunbondTurnOverPlanSourceExcelImport.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondFosunIdenticalissUerRepository.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_Debt_ValuationEntity.class
 com\inspur\fosunbond\core\domain\repository\FosunIdenticalissUer1Repository.class
