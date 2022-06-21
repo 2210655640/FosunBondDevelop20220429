@@ -4,12 +4,14 @@ import com.inspur.fastdweb.model.excel.*;
 import com.inspur.fastdweb.service.excel.IExcelImportEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
 //@Component
+//@Service
 public class JtgkFosunbondTurnOverPlanPurposeExcelImport implements IExcelImportEvent {
     private static final int CATEGORY_COL_IDX = 1;//来源索引
     /**

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -62,6 +63,7 @@ public class JtgkFosunbondFosunSynchroBaseRateFromWD {
         //获取前一天的数据
         //获取一年期数据
         List<JtgkFosunbondT_baserateEntity> jtgkFosunbondT_baserateEntityListone=jtgkFosunbondT_baserateRepository.getdatabyupdatetime(predate,baseRateTypeNo);
+        List<JtgkFosunbondT_baserateEntity> jtgkFosunbondT_baserateEntityListhis=jtgkFosunbondT_baserateRepository.gethistorydatabyupdatetime(baseRateTypeNo);
         if(jtgkFosunbondT_baserateEntityListone!=null&&jtgkFosunbondT_baserateEntityListone.size()>0)
         {
             List<JtgkFosunBondBfblinterestrateEntity> jtgkFosunBondBfblinterestrateEntityList=jtgkFosunBondBfblinterestrateRepository.findAllByIrterm(bfblInterestRateNo);
@@ -107,13 +109,14 @@ public class JtgkFosunbondFosunSynchroBaseRateFromWD {
             if (rateverList!=null&&rateverList.size()>0)
             {
                 int maxVersionNo=rateverList.get(0).getVersionno();
+                List<JtgkFosunBondBfblinterestrateverEntity> jtgkFosunBondBfblinterestrateverEntityList=new ArrayList<>();
                 //一年期历史记录
-                for(int i=jtgkFosunbondT_baserateEntityListone.size();i<0;i--)
+                for(int i=jtgkFosunbondT_baserateEntityListhis.size()-1;i>=0;i--)
                 {
 
-                    JtgkFosunbondT_baserateEntity rateentity=jtgkFosunbondT_baserateEntityListone.get(i);
+                    JtgkFosunbondT_baserateEntity rateentity=jtgkFosunbondT_baserateEntityListhis.get(i);
                     //第一次循环时将开始时间存入原一年期历史记录结束时间
-                    if(i==jtgkFosunbondT_baserateEntityListone.size())
+                    if(i==jtgkFosunbondT_baserateEntityListone.size()-1)
                     {
                         rateverList.get(0).setEnddate(rateentity.getSdate());
                     }
@@ -121,9 +124,9 @@ public class JtgkFosunbondFosunSynchroBaseRateFromWD {
                     JtgkFosunBondBfblinterestrateverEntity jtgkFosunBondBfblinterestrateverEntity=new JtgkFosunBondBfblinterestrateverEntity();
                     jtgkFosunBondBfblinterestrateverEntity.setId(UUID.randomUUID().toString());
                     jtgkFosunBondBfblinterestrateverEntity.setAnnualir(rateentity.getValue());
-                    if (i!=0)//如果不是最后一条数据则介绍日期等于下一条的sdate即开始日期
+                    if (i!=0)//如果不是最后一条数据则结束日期等于下一条的sdate即开始日期
                     {
-                        jtgkFosunBondBfblinterestrateverEntity.setEnddate(jtgkFosunbondT_baserateEntityListone.get(i-1).getSdate());
+                        jtgkFosunBondBfblinterestrateverEntity.setEnddate(jtgkFosunbondT_baserateEntityListhis.get(i-1).getSdate());
                     }
                     jtgkFosunBondBfblinterestrateverEntity.setOperatedate(dateNow);
                     jtgkFosunBondBfblinterestrateverEntity.setOperator("66ea3b0d-8117-3aa7-1e93-057ed3c627ce");
@@ -137,24 +140,30 @@ public class JtgkFosunbondFosunSynchroBaseRateFromWD {
                     jtgkFosunBondBfblinterestrateverEntity.setTimestamp_lastchangedby("刁敬厚");
                     jtgkFosunBondBfblinterestrateverEntity.setTimestamp_lastchangedon(dateFormat2.parse(dateFormat2.format(new
                             Date())));
-                    jtgkFosunBondBfblinterestrateverEntity.setVersionno(jtgkFosunbondT_baserateEntityListone.size()-i+1+maxVersionNo);
+                    jtgkFosunBondBfblinterestrateverEntity.setVersionno(jtgkFosunbondT_baserateEntityListhis.size()-i+maxVersionNo);
+                    jtgkFosunBondBfblinterestrateverEntityList.add(jtgkFosunBondBfblinterestrateverEntity);
+                }
+                if (jtgkFosunBondBfblinterestrateverEntityList.size()>0)
+                {
+                    jtgkFosunBondBfblinterestrateverRepository.saveAll(jtgkFosunBondBfblinterestrateverEntityList);
                 }
 
             }
             //不存在历史记录
             else
             {
+                List<JtgkFosunBondBfblinterestrateverEntity> jtgkFosunBondBfblinterestrateverEntityList=new ArrayList<>();
                 //一年期历史记录
-                for(int i=jtgkFosunbondT_baserateEntityListone.size();i<0;i--)
+                for(int i=jtgkFosunbondT_baserateEntityListhis.size()-1;i>=0;i--)
                 {
-                    JtgkFosunbondT_baserateEntity rateentity=jtgkFosunbondT_baserateEntityListone.get(i);
+                    JtgkFosunbondT_baserateEntity rateentity=jtgkFosunbondT_baserateEntityListhis.get(i);
 
                     JtgkFosunBondBfblinterestrateverEntity jtgkFosunBondBfblinterestrateverEntity=new JtgkFosunBondBfblinterestrateverEntity();
                     jtgkFosunBondBfblinterestrateverEntity.setId(UUID.randomUUID().toString());
                     jtgkFosunBondBfblinterestrateverEntity.setAnnualir(rateentity.getValue());
                     if (i!=0)//如果不是最后一条数据则介绍日期等于下一条的sdate即开始日期
                     {
-                        jtgkFosunBondBfblinterestrateverEntity.setEnddate(jtgkFosunbondT_baserateEntityListone.get(i-1).getSdate());
+                        jtgkFosunBondBfblinterestrateverEntity.setEnddate(jtgkFosunbondT_baserateEntityListhis.get(i-1).getSdate());
                     }
                     jtgkFosunBondBfblinterestrateverEntity.setOperatedate(dateNow);
                     jtgkFosunBondBfblinterestrateverEntity.setOperator("66ea3b0d-8117-3aa7-1e93-057ed3c627ce");
@@ -168,8 +177,14 @@ public class JtgkFosunbondFosunSynchroBaseRateFromWD {
                     jtgkFosunBondBfblinterestrateverEntity.setTimestamp_lastchangedby("刁敬厚");
                     jtgkFosunBondBfblinterestrateverEntity.setTimestamp_lastchangedon(dateFormat2.parse(dateFormat2.format(new
                             Date())));
-                    jtgkFosunBondBfblinterestrateverEntity.setVersionno(jtgkFosunbondT_baserateEntityListone.size()-i+1);
+                    jtgkFosunBondBfblinterestrateverEntity.setVersionno(jtgkFosunbondT_baserateEntityListhis.size()-i);
+                    jtgkFosunBondBfblinterestrateverEntityList.add(jtgkFosunBondBfblinterestrateverEntity);
                 }
+                if (jtgkFosunBondBfblinterestrateverEntityList.size()>0)
+                {
+                    jtgkFosunBondBfblinterestrateverRepository.saveAll(jtgkFosunBondBfblinterestrateverEntityList);
+                }
+
             }
 
 
