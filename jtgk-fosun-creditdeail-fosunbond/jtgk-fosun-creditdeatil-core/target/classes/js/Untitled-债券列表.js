@@ -184,6 +184,7 @@ idp.event.bind("domReady", function () {
 });
 
 function setTableOption(){
+    debugger;
     const n = $('.lee-grid-grouprow-cell').length;
         let replaceStr = "发行主体";
         for (let i = 0; i < n; i++) {
@@ -200,12 +201,21 @@ function setTableOption(){
                 $('.lee-grid-grouprow-cell')[i].style = "font-family: PingFangSC-Medium;font-size: 13px;color: #2A87FF;font-weight: 500;padding-left:24px !important;background: #F7F8FB;";
             }
             //console.log(replaceStr)
+            if(replaceStr=="发行主体"&&$('.lee-grid-grouprow-cell')[i].parentNode.nextSibling.nextSibling.childNodes[23])
+            {
+                var ISSUER_RATING=$('.lee-grid-grouprow-cell')[i].parentNode.nextSibling.nextSibling.childNodes[23].innerText;//获取发行时主体评级
+                if(ISSUER_RATING)
+                {
+                    totalstr=totalstr+"("+ISSUER_RATING+")";
+                }
+              
+            }
              $('.lee-grid-grouprow-cell')[i].innerHTML = '<span class="lee-icon lee-grid-group-togglebtn"></span>' + totalstr.replace("分组", replaceStr);
         }
         let m = $('.lee-grid-totalsummary-group .lee-grid-totalsummary-cell-inner').length;
         for(let i =0;i<m;i++){
-            if(i %23 == 1){
-                const totalsummaryIndex = parseInt(i/23);
+            if(i %24 == 1){
+                const totalsummaryIndex = parseInt(i/24);
                 var summay=$(".lee-grid-totalsummary")[totalsummaryIndex].previousSibling.children[2];
                 if(summay)
                 {

@@ -9,6 +9,7 @@ com\inspur\fosunbond\core\domain\repository\JtgkFosunbondT_Debt_ContractReposito
 com\inspur\fosunbond\core\domain\repository\FosunDebtContract1Repository.class
 com\inspur\fosunbond\core\domain\service\JtgkFosunbondFosunSynchroMiddleTableForBond.class
 com\inspur\fosunbond\core\controller\JtgkFosunBondRpayPlansController.class
+com\inspur\fosunbond\core\domain\repository\JtgkFosunbondFosunCompanySortRepository.class
 com\inspur\fosunbond\core\controller\JtgkFosunBondBankBondInvestmentImpl.class
 com\inspur\fosunbond\core\domain\repository\FosunDebtSecondaryMarket1Repository.class
 com\inspur\fosunbond\core\domain\entity\FosunRepaymentAppSon1Entity.class
@@ -25,6 +26,7 @@ com\inspur\fosunbond\core\domain\service\JtgkFosunbondFosunSynchroBaseRateFromWD
 com\inspur\fosunbond\core\domain\result\Result.class
 com\inspur\fosunbond\core\domain\entity\FosunDebtValuation1Entity.class
 com\inspur\fosunbond\core\domain\service\FosunSynchroWDMiddleTable.class
+com\inspur\fosunbond\core\domain\entity\JtgkFosunbondFosunCompanySortEntity$JtgkFosunbondFosunCompanySortEntityBuilder.class
 com\inspur\fosunbond\core\domain\entity\FosunDebtContract1Entity.class
 com\inspur\fosunbond\core\domain\repository\T_debt_cashflowRepository.class
 com\inspur\fosunbond\core\dto\RequestBodyDto.class
@@ -43,6 +45,7 @@ com\inspur\fosunbond\core\domain\service\JtgkFosunbondTurnOverPlanSourceExcelImp
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondFosunIdenticalissUerRepository.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_Debt_ValuationEntity.class
 com\inspur\fosunbond\core\domain\repository\FosunIdenticalissUer1Repository.class
+com\inspur\fosunbond\core\domain\entity\JtgkFosunbondFosunCompanySortEntity.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_Debt_SecondaryMarketEntity.class
 com\inspur\fosunbond\core\domain\repository\FosunDebtValuation1Repository.class
 com\inspur\fosunbond\core\domain\entity\PrimaryKey.class

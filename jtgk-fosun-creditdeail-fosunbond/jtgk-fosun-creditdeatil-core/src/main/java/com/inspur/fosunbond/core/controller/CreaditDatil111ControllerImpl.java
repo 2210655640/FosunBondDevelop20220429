@@ -42,6 +42,8 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
     private FosunIdenticalissUer1Repository fosunIdenticalissUer1Repository;
     @Autowired
     private JtgkFosunbondFosunSynchroMiddleTableForBond jtgkFosunbondFosunSynchroMiddleTableForBond;
+    @Autowired
+    private JtgkFosunbondFosunCompanySortRepository jtgkFosunbondFosunCompanySortRepository;
     /**
      * 日志明细更新处理
      * @param disDataStr 异构系统报文
@@ -181,118 +183,102 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             Date finalendMaturityda=endmaturityda;
             Date finalnowmaturityda=nowmaturityda;
             List<FosunDebtContract1Entity> fosunDebtContract1EntityList =fosunDebtContractRepository.findAll((Specification<FosunDebtContract1Entity>) (root, query, cb) -> {
-                Predicate where = cb.and();
-                //if (!"".equals(finalVersionda)&& finalVersionda !=null)
-                if (!"".equals(versionDate)&& versionDate !=null)
-                {
-                    //Predicate p=cb.equal(root.get("historyversiondate"), finalVersionda);
-                    List<Date> versiondatelist=new ArrayList<>();
-                    String[] versiondatestr=versionDate.split(";");
-                    for (String versiond:versiondatestr)
-                    {
-                        try {
-                            versiondatelist.add(new SimpleDateFormat("yyyy-MM-dd").parse(versiond));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        Predicate where = cb.and();
+                        //if (!"".equals(finalVersionda)&& finalVersionda !=null)
+                        if (!"".equals(versionDate) && versionDate != null) {
+                            //Predicate p=cb.equal(root.get("historyversiondate"), finalVersionda);
+                            List<Date> versiondatelist = new ArrayList<>();
+                            String[] versiondatestr = versionDate.split(";");
+                            for (String versiond : versiondatestr) {
+                                try {
+                                    versiondatelist.add(new SimpleDateFormat("yyyy-MM-dd").parse(versiond));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
 
-                    }
-                    Predicate p=root.get("historyversiondate").in(versiondatelist);
-                    where =cb.and(where,p);
-                }
-                if (!"".equals(com_name)&&com_name!=null)
-                {
+                            }
+                            Predicate p = root.get("historyversiondate").in(versiondatelist);
+                            where = cb.and(where, p);
+                        }
+                        if (!"".equals(com_name) && com_name != null) {
 //                    //Predicate p=cb.equal(root.get("issuershortened"),com_name);//改为简称
 //                    Predicate p=cb.like(root.get("issuershortened"),"%"+com_name+"%");//改为简称
 //                    where =cb.and(where,p);
 
 
-                    Predicate p1=cb.and();
-                    List<Predicate> predicateList=new ArrayList<>();
-                    String[] com_namelist=com_name.split(";");
-                    for (String comname:com_namelist)
-                    {
-                        Predicate p=cb.like(root.get("issuershortened"),"%"+comname.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
-                        predicateList.add(p);
-                    }
-                    Predicate[] p2=new Predicate[com_namelist.length];
-                    predicateList.toArray(p2);
-                    p1.getExpressions().add(cb.or(p2));
+                            Predicate p1 = cb.and();
+                            List<Predicate> predicateList = new ArrayList<>();
+                            String[] com_namelist = com_name.split(";");
+                            for (String comname : com_namelist) {
+                                Predicate p = cb.like(root.get("issuershortened"), "%" + comname.replaceAll("/", "//").replaceAll("_", "\\_").replaceAll("%", "\\%") + "%");
+                                predicateList.add(p);
+                            }
+                            Predicate[] p2 = new Predicate[com_namelist.length];
+                            predicateList.toArray(p2);
+                            p1.getExpressions().add(cb.or(p2));
 
-                    where =cb.and(where,p1);
-                }
-                if (!"".equals(sec_name)&&sec_name!=null)
-                {
-                    //Predicate p=cb.like(root.get("sec_name"),"%"+sec_name.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
-                    Predicate p1=cb.and();
-                    List<Predicate> predicateList=new ArrayList<>();
-                    String[] sec_namelist=sec_name.split(";");
-                    for (String secname:sec_namelist)
-                    {
-                        Predicate p=cb.like(root.get("sec_name"),"%"+secname.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
-                        predicateList.add(p);
-                    }
-                    Predicate[] p2=new Predicate[sec_namelist.length];
-                    predicateList.toArray(p2);
-                    p1.getExpressions().add(cb.or(p2));
+                            where = cb.and(where, p1);
+                        }
+                        if (!"".equals(sec_name) && sec_name != null) {
+                            //Predicate p=cb.like(root.get("sec_name"),"%"+sec_name.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
+                            Predicate p1 = cb.and();
+                            List<Predicate> predicateList = new ArrayList<>();
+                            String[] sec_namelist = sec_name.split(";");
+                            for (String secname : sec_namelist) {
+                                Predicate p = cb.like(root.get("sec_name"), "%" + secname.replaceAll("/", "//").replaceAll("_", "\\_").replaceAll("%", "\\%") + "%");
+                                predicateList.add(p);
+                            }
+                            Predicate[] p2 = new Predicate[sec_namelist.length];
+                            predicateList.toArray(p2);
+                            p1.getExpressions().add(cb.or(p2));
 
-                    where =cb.and(where,p1);
+                            where = cb.and(where, p1);
 
-                }
-                if (!"".equals(bondtype)&&bondtype!=null)
-                {
+                        }
+                        if (!"".equals(bondtype) && bondtype != null) {
 //                    Predicate p=cb.like(root.get("bondtype"),"%"+bondtype+"%");
 //                    where =cb.and(where,p);
 
-                    Predicate p1=cb.and();
-                    List<Predicate> predicateList=new ArrayList<>();
-                    String[] bondtypelist=bondtype.split(";");
-                    for (String bdtype:bondtypelist)
-                    {
-                        Predicate p=cb.like(root.get("bondtype"),"%"+bdtype.replaceAll("/","//").replaceAll("_","\\_").replaceAll("%","\\%")+"%");
-                        predicateList.add(p);
-                    }
-                    Predicate[] p2=new Predicate[bondtypelist.length];
-                    predicateList.toArray(p2);
-                    p1.getExpressions().add(cb.or(p2));
+                            Predicate p1 = cb.and();
+                            List<Predicate> predicateList = new ArrayList<>();
+                            String[] bondtypelist = bondtype.split(";");
+                            for (String bdtype : bondtypelist) {
+                                Predicate p = cb.like(root.get("bondtype"), "%" + bdtype.replaceAll("/", "//").replaceAll("_", "\\_").replaceAll("%", "\\%") + "%");
+                                predicateList.add(p);
+                            }
+                            Predicate[] p2 = new Predicate[bondtypelist.length];
+                            predicateList.toArray(p2);
+                            p1.getExpressions().add(cb.or(p2));
 
-                    where =cb.and(where,p1);
-                }
-                //if (!"".equals(finalCarryda)&& finalCarryda !=null)
-                if (!"".equals(finalbeginCarryda)&& finalbeginCarryda !=null)
-                {
-                    //Predicate p=cb.equal(root.get("carrydate"), finalCarryda);
-                    Predicate p=cb.between(root.get("carrydate"), finalbeginCarryda,finalendCarryda);
-                    where =cb.and(where,p);
-                }
-                //if (!"".equals(finalMaturityda)&& finalMaturityda !=null)
-                if (!"".equals(finalbeginMaturityda)&& finalbeginMaturityda !=null)
-                {
-                    //Predicate p=cb.equal(root.get("maturitydate"), finalMaturityda);
-                    Predicate p=cb.between(root.get("maturitydate"), finalbeginMaturityda,finalendMaturityda);
-                    where =cb.and(where,p);
-                }
-                else
-                {
-                    if ("1".equals(isexpired))
-                    {
-                        Predicate p=cb.lessThan(root.get("maturitydate"), finalnowmaturityda);
-                        where =cb.and(where,p);
-                    }
-                    else if("0;1".equals(isexpired))
-                    {
+                            where = cb.and(where, p1);
+                        }
+                        //if (!"".equals(finalCarryda)&& finalCarryda !=null)
+                        if (!"".equals(finalbeginCarryda) && finalbeginCarryda != null) {
+                            //Predicate p=cb.equal(root.get("carrydate"), finalCarryda);
+                            Predicate p = cb.between(root.get("carrydate"), finalbeginCarryda, finalendCarryda);
+                            where = cb.and(where, p);
+                        }
+                        //if (!"".equals(finalMaturityda)&& finalMaturityda !=null)
+                        if (!"".equals(finalbeginMaturityda) && finalbeginMaturityda != null) {
+                            //Predicate p=cb.equal(root.get("maturitydate"), finalMaturityda);
+                            Predicate p = cb.between(root.get("maturitydate"), finalbeginMaturityda, finalendMaturityda);
+                            where = cb.and(where, p);
+                        } else {
+                            if ("1".equals(isexpired)) {
+                                Predicate p = cb.lessThan(root.get("maturitydate"), finalnowmaturityda);
+                                where = cb.and(where, p);
+                            } else if ("0;1".equals(isexpired)) {
 
-                    }
-                    else
-                    {
-                        Predicate p=cb.greaterThanOrEqualTo(root.get("maturitydate"), finalnowmaturityda);
-                        where =cb.and(where,p);
-                    }
+                            } else {
+                                Predicate p = cb.greaterThanOrEqualTo(root.get("maturitydate"), finalnowmaturityda);
+                                where = cb.and(where, p);
+                            }
 
-                }
+                        }
 
-                return where;
-            }, Sort.by(Sort.Direction.DESC,"issuershortened"));
+                        return where;
+                    });
+            //}, Sort.by(Sort.Direction.ASC,"fosunCompanySortEntity.sortnum"));
 
             //重新组合issue_regnumber注册文号
             List<FosunDebtContract1Entity> resetfosunDebtContract1EntityList=new ArrayList<>();
@@ -339,11 +325,32 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
 
                         }
                     }
+                    //设置排序实体信息
+                    JtgkFosunbondFosunCompanySortEntity jtgkFosunbondFosunCompanySortEntity=new JtgkFosunbondFosunCompanySortEntity();
+                    String issuershortened=fosunDebtContract1Entity.getIssuershortened();//获取简称
+                    List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortRepository.findAllByShortname(issuershortened);
+                    if (jtgkFosunbondFosunCompanySortEntityList!=null&&jtgkFosunbondFosunCompanySortEntityList.size()>0)
+                    {
+                        fosunDebtContract1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntityList.get(0).getSortnum());
+                    }
+                    else
+                    {
+                        jtgkFosunbondFosunCompanySortEntity.setId("9999");
+                        jtgkFosunbondFosunCompanySortEntity.setSortnum("9999");
+                        jtgkFosunbondFosunCompanySortEntity.setShortname("9999");
+                        fosunDebtContract1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntity.getSortnum());
+                    }
                     resetfosunDebtContract1EntityList.add(fosunDebtContract1Entity);
                 }
             }
+            //将结果按照排序实体的排序字段排序重新组合
+            List<FosunDebtContract1Entity>   resetresetfosunDebtContract1EntityList =resetfosunDebtContract1EntityList.stream().
+
+                    sorted(Comparator.comparing(FosunDebtContract1Entity::getSortnum)).
+                    collect(Collectors.toList());
             //return  result.ok(fosunDebtContract1EntityList);
-            return  result.ok(resetfosunDebtContract1EntityList);
+            //return  result.ok(resetfosunDebtContract1EntityList);
+             return  result.ok(resetresetfosunDebtContract1EntityList);
         }
         else
         {
@@ -579,7 +586,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 }
 
                 return where;
-            }, Sort.by(Sort.Direction.DESC,"issuershortened"));
+            });
             if (fosunDebtContractHistory11EntityList !=null&& fosunDebtContractHistory11EntityList.size()>0)
             {
                 return  result.ok(fosunDebtContractHistory11EntityList);
@@ -704,7 +711,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             }
 
             return where;
-        }, Sort.by(Sort.Direction.DESC,"issuershortened"));
+        });
         if (fosunDebtContractHistory1EntityList !=null&& fosunDebtContractHistory1EntityList.size()>0)
         {
             return fosunDebtContractHistory1EntityList;

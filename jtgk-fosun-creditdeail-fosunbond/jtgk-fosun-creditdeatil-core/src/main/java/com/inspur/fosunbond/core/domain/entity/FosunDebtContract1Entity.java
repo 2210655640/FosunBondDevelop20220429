@@ -1,8 +1,11 @@
 package com.inspur.fosunbond.core.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -386,5 +389,26 @@ public class FosunDebtContract1Entity
      */
     @JsonProperty(value = "ORIGINALRATE")
     private  BigDecimal originalrate;
+    /*
+    排序信息
+     */
+    @Transient
+    private String  sortnum;
+//    //@JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumnsOrFormulas(value={@JoinColumnOrFormula(column=@JoinColumn(name = "ISSUERSHORTENED", referencedColumnName = "SHORTNAME", nullable = true, insertable = false, updatable = false))})
+//    private JtgkFosunbondFosunCompanySortEntity fosunCompanySortEntity;
+//
+//    public  JtgkFosunbondFosunCompanySortEntity getFosunCompanySortEntity()
+//    {
+//        if (this.fosunCompanySortEntity==null)
+//        {
+//            this.fosunCompanySortEntity.setId("9999");
+//            this.fosunCompanySortEntity.setShortname("9999");
+//            this.fosunCompanySortEntity.setSortnum("9999");
+//        }
+//        return this.fosunCompanySortEntity;
+//    }
+
 
 }
