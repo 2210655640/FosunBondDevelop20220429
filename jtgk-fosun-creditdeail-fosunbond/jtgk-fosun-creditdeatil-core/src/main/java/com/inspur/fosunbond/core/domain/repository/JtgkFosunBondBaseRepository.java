@@ -22,7 +22,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2021/9/15
  */
-public class BaseRepository {
+public class JtgkFosunBondBaseRepository {
     @PersistenceContext
     //private EntityManager manager;
     EntityManager manager = (EntityManager) SpringBeanUtils.getBean(EntityManager.class);

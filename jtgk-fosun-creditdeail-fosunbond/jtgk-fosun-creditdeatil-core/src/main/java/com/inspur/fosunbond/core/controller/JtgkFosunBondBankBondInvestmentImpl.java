@@ -2,7 +2,7 @@ package com.inspur.fosunbond.core.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.inspur.fosunbond.core.domain.dto.BankBondInvestDetailDto;
-import com.inspur.fosunbond.core.domain.repository.BaseRepository;
+import com.inspur.fosunbond.core.domain.repository.JtgkFosunBondBaseRepository;
 import com.inspur.fosunbond.core.domain.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
 //             "  from (select row_number() over(partition by tor.versiondate  order by tor.versiondate desc) rn, tor.* from FOSUNBONDHOLDER tor\n" +
 //             "where tor. versiondate <=?) t  ";
         //log.error("sql:"+sql+",querydate:"+querydate+",varietiesid:"+varietiesid);
-        BaseRepository baseRepository=new BaseRepository();
+        JtgkFosunBondBaseRepository jtgkFosunBondBaseRepository =new JtgkFosunBondBaseRepository();
         //String maxversiondate=baseRepository.queryString(sql,"maxversiondate",querydate);
 
 //        sql="select holder.secname,holder.accountno,holder.accountname,\n" +
@@ -85,7 +85,7 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
                 "and holder.ACCOUNTNO=zyjl.ACCOOUNTNUMBER\n" +
                 "WHERE sxpz.id=? ";
         //List<BankBondInvestDetailDto> bankBondInvestDetailDtoList=baseRepository.queryList(sql,BankBondInvestDetailDto.class,maxversiondate,comp_name,maxversiondate);
-        List<BankBondInvestDetailDto> bankBondInvestDetailDtoList=baseRepository.queryList(sql,BankBondInvestDetailDto.class,querydate,querydate,varietiesid);
+        List<BankBondInvestDetailDto> bankBondInvestDetailDtoList= jtgkFosunBondBaseRepository.queryList(sql,BankBondInvestDetailDto.class,querydate,querydate,varietiesid);
         return result.ok(bankBondInvestDetailDtoList);
     }
 }

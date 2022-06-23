@@ -2,7 +2,7 @@ package com.inspur.fosunbond.core.domain.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.inspur.fosunbond.core.domain.repository.NativeQueryRepo;
+import com.inspur.fosunbond.core.domain.repository.JtgkFosunBondNativeQueryRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,31 +27,31 @@ public class Creditdeatil111Service {
                     //提款
                     String upsql = "update TMBANKLOANIOUS set  TXT02= '" + bz + "' where id = '" + id + "'";
                     log.info("提款sql:" +upsql );
-                    NativeQueryRepo.execute(upsql);
+                    JtgkFosunBondNativeQueryRepo.execute(upsql);
                 }
                 else if (ywlx.equals("5"))//兑付
                 {
                     String upsql="update fosunbondrpaytplans set INTEREST_HXFS='"+hxfs+"', PRINCIPAL_REMARKS='"+bz+"' where id='"+id+"'";
                     log.info("还款计划sql:"+upsql);
-                    NativeQueryRepo.execute(upsql);
+                    JtgkFosunBondNativeQueryRepo.execute(upsql);
                 }
                 else if (ywlx.equals("7"))//债券付息
                 {
                     String upsql="update fosunbondrpaytplans set INTEREST_HXFS='"+hxfs+"', INTEREST_REMARKS='"+bz+"' where id='"+id+"'";
                     log.info("债券付息sql:"+upsql);
-                    NativeQueryRepo.execute(upsql);
+                    JtgkFosunBondNativeQueryRepo.execute(upsql);
                 }
                 else if (ywlx.equals("6"))//发行
                 {
                     String upsql="update FOSUNDEBTCONTRACT  set  remarks='"+bz+"' where id='"+id+"'";
                     log.info("还款计划sql:"+upsql);
-                    NativeQueryRepo.execute(upsql);
+                    JtgkFosunBondNativeQueryRepo.execute(upsql);
                 }
                 else {
                     //还本付息
                     String upsql = "update TMBANKLOANIOURPAYTPLANS set TXT01='" + hxfs + "' ,TXT02= '" + bz + "' where id = '" + id + "'";
                     log.error("还本付息sql:" +upsql );
-                    NativeQueryRepo.execute(upsql);
+                    JtgkFosunBondNativeQueryRepo.execute(upsql);
                 }
             }
             JSONObject jo = new JSONObject();

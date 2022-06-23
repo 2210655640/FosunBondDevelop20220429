@@ -14,7 +14,7 @@ import javax.persistence.Query;
 import java.util.*;
 
 @Slf4j
-public class NativeQueryRepo {
+public class JtgkFosunBondNativeQueryRepo {
 
     public static String createFatherSubQuery(String father, String sub) {
         father = father.trim();

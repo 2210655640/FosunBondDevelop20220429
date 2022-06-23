@@ -9,19 +9,17 @@ import com.inspur.fosunbond.core.domain.entity.*;
 import com.inspur.fosunbond.core.domain.repository.*;
 import com.inspur.fosunbond.core.domain.result.Result;
 import com.inspur.fosunbond.core.domain.service.Creditdeatil111Service;
-import com.inspur.fosunbond.core.domain.repository.BaseRepository;
+import com.inspur.fosunbond.core.domain.repository.JtgkFosunBondBaseRepository;
 import com.inspur.fosunbond.core.domain.service.JtgkFosunbondFosunSynchroMiddleTableForBond;
 import io.iec.edp.caf.commons.utils.SpringBeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -71,8 +69,8 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             String enUserCode=jsonNode.get("enUserCode").asText();
             String sql=" select * from FOSUNREPAYMENTAPP where ID="+id+" ";
             log.error("复兴还款申请返回结果2");
-            BaseRepository baseRepository=new BaseRepository();
-            List<FosunRepaymentApp1Entity> fosunRepaymentApp1EntityList =baseRepository.queryList(sql, FosunRepaymentApp1Entity.class);
+            JtgkFosunBondBaseRepository jtgkFosunBondBaseRepository =new JtgkFosunBondBaseRepository();
+            List<FosunRepaymentApp1Entity> fosunRepaymentApp1EntityList = jtgkFosunBondBaseRepository.queryList(sql, FosunRepaymentApp1Entity.class);
             log.error("复兴还款申请返回结果3");
 
 
@@ -83,7 +81,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             {
                 log.error("复兴还款申请返回结果4");
                 sql="select * from FOSUNREPAYMENTAPPSON where MAINID="+id +" ";
-                List<FosunRepaymentAppSon1Entity> fosunRepaymentAppSon1EntityList =baseRepository.queryList(sql, FosunRepaymentAppSon1Entity.class);
+                List<FosunRepaymentAppSon1Entity> fosunRepaymentAppSon1EntityList = jtgkFosunBondBaseRepository.queryList(sql, FosunRepaymentAppSon1Entity.class);
                 FosunRepaymentApp1Entity fosunRepaymentApp1Entity = fosunRepaymentApp1EntityList.get(0);
                 map.put("resultCode","S");
                 map.put("resultMsg","");
