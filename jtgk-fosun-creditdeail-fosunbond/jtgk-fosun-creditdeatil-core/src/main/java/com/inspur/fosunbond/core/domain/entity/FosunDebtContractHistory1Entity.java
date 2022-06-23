@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -388,5 +385,10 @@ public class FosunDebtContractHistory1Entity
      */
     @JsonProperty(value = "ORIGINALRATE")
     private  BigDecimal originalrate;
+    /*
+    排序信息
+    */
+    @Transient
+    private String  sortnum;
 
 }

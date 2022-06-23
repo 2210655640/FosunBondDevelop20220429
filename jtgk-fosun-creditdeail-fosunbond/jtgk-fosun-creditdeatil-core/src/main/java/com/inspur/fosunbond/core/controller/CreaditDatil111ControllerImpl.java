@@ -589,7 +589,31 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             });
             if (fosunDebtContractHistory11EntityList !=null&& fosunDebtContractHistory11EntityList.size()>0)
             {
-                return  result.ok(fosunDebtContractHistory11EntityList);
+                List<FosunDebtContractHistory1Entity> resetfosunDebtContractHistoryEntityList=new ArrayList<>();
+                for (FosunDebtContractHistory1Entity fosunDebtContractHistory1Entity:fosunDebtContractHistory11EntityList)
+                {
+                    JtgkFosunbondFosunCompanySortEntity jtgkFosunbondFosunCompanySortEntity=new JtgkFosunbondFosunCompanySortEntity();
+                    String issuershortened=fosunDebtContractHistory1Entity.getIssuershortened();//获取简称
+                    List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortRepository.findAllByShortname(issuershortened);
+                    if (jtgkFosunbondFosunCompanySortEntityList!=null&&jtgkFosunbondFosunCompanySortEntityList.size()>0)
+                    {
+                        fosunDebtContractHistory1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntityList.get(0).getSortnum());
+                    }
+                    else
+                    {
+                        jtgkFosunbondFosunCompanySortEntity.setId("9999");
+                        jtgkFosunbondFosunCompanySortEntity.setSortnum("9999");
+                        jtgkFosunbondFosunCompanySortEntity.setShortname("9999");
+                        fosunDebtContractHistory1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntity.getSortnum());
+                    }
+                    resetfosunDebtContractHistoryEntityList.add(fosunDebtContractHistory1Entity);
+                }
+                //将结果按照排序实体的排序字段排序重新组合
+                List<FosunDebtContractHistory1Entity>   resetresetfosunDebtContractHistoryEntityList =resetfosunDebtContractHistoryEntityList.stream().
+
+                        sorted(Comparator.comparing(FosunDebtContractHistory1Entity::getSortnum)).
+                        collect(Collectors.toList());
+                return  result.ok(resetresetfosunDebtContractHistoryEntityList);
             }
 
         }
@@ -714,7 +738,33 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         });
         if (fosunDebtContractHistory1EntityList !=null&& fosunDebtContractHistory1EntityList.size()>0)
         {
-            return fosunDebtContractHistory1EntityList;
+            List<FosunDebtContractHistory1Entity> resetfosunDebtContractHistoryEntityList=new ArrayList<>();
+            for (FosunDebtContractHistory1Entity fosunDebtContractHistory1Entity:fosunDebtContractHistory1EntityList)
+            {
+                JtgkFosunbondFosunCompanySortEntity jtgkFosunbondFosunCompanySortEntity=new JtgkFosunbondFosunCompanySortEntity();
+                String issuershortened=fosunDebtContractHistory1Entity.getIssuershortened();//获取简称
+                List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortRepository.findAllByShortname(issuershortened);
+                if (jtgkFosunbondFosunCompanySortEntityList!=null&&jtgkFosunbondFosunCompanySortEntityList.size()>0)
+                {
+                    fosunDebtContractHistory1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntityList.get(0).getSortnum());
+                }
+                else
+                {
+                    jtgkFosunbondFosunCompanySortEntity.setId("9999");
+                    jtgkFosunbondFosunCompanySortEntity.setSortnum("9999");
+                    jtgkFosunbondFosunCompanySortEntity.setShortname("9999");
+                    fosunDebtContractHistory1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntity.getSortnum());
+                }
+                resetfosunDebtContractHistoryEntityList.add(fosunDebtContractHistory1Entity);
+            }
+            //将结果按照排序实体的排序字段排序重新组合
+            List<FosunDebtContractHistory1Entity>   resetresetfosunDebtContractHistoryEntityList =resetfosunDebtContractHistoryEntityList.stream().
+
+                    sorted(Comparator.comparing(FosunDebtContractHistory1Entity::getSortnum)).
+                    collect(Collectors.toList());
+
+            //return fosunDebtContractHistory1EntityList;
+            return  resetresetfosunDebtContractHistoryEntityList;
         }
         else
         {
