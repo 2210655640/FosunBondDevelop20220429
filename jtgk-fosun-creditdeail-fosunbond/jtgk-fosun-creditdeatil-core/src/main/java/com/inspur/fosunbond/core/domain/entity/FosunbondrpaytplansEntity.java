@@ -158,4 +158,16 @@ public class FosunbondrpaytplansEntity
     @JsonProperty(value = "SOURCEID")
     private  String sourceid;
 
+    /*
+     *初始或执行汇率
+     */
+    @JsonProperty(value = "ORIGINALOREXERATE")
+    private  String originalorexerate;
+
+    /*
+     *币种
+     */
+    @JsonProperty(value = "CURR")
+    private  String curr;
+
 }

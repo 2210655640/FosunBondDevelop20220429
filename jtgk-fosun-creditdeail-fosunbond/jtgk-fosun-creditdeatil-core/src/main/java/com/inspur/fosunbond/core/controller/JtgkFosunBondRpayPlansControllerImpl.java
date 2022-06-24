@@ -128,6 +128,29 @@ public class JtgkFosunBondRpayPlansControllerImpl implements JtgkFosunBondRpayPl
         }
 
     }
+
+    @Override
+    public Result syncRateFromBond(JsonNode jsonNode) {
+        String windcode=jsonNode.get("windcode").asText();
+        String curr=jsonNode.get("curr").asText();
+        String originalrate=jsonNode.get("originalrate").asText();
+        List<FosunbondrpaytplansEntity>  fosunbondrpaytplansEntityList=fosunbondrpaytplansRepository.findAllByWindcodeOrderByZjcashflowsdateAsc(windcode);
+        if(fosunbondrpaytplansEntityList!=null&&fosunbondrpaytplansEntityList.size()>0)
+        {
+            for (FosunbondrpaytplansEntity planEntity:fosunbondrpaytplansEntityList)
+            {
+                if ("".equals(planEntity.getCurr())||planEntity.getCurr()==null)
+                {
+                    planEntity.setCurr(curr);
+                    planEntity.setOriginalorexerate(originalrate);
+                }
+
+            }
+        }
+        Result result=new Result();
+        return result.ok();
+    }
+
     private List<FosunbondrpaytplansEntity> getFosunbondrpaytplans(JsonNode jsonNode)
     {
         String windcode=jsonNode.get("windcode").asText();

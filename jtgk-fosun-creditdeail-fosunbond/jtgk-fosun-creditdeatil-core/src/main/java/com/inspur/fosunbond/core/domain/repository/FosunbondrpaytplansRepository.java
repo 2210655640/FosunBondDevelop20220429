@@ -10,4 +10,5 @@ public interface FosunbondrpaytplansRepository extends DataRepository<Fosunbondr
     List<FosunbondrpaytplansEntity> findAllBySourceid(String sourceid);
     List<FosunbondrpaytplansEntity> findAllByWindcodeAndDelflagNotOrderByCashflowsdateAsc(String windcode,String delflag);
     List<FosunbondrpaytplansEntity> findAllByWindcodeAndDelflagNotOrderByZjcashflowsdateAsc(String windcode,String delflag);
+    List<FosunbondrpaytplansEntity> findAllByWindcodeOrderByZjcashflowsdateAsc(String windcode);
 }

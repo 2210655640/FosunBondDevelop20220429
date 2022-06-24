@@ -291,5 +291,17 @@ public class JtgkFosunbondT_Debt_ContractEntity
      *统一社会信用代码
      */
     private  String registernumber;
+    /*
+     *发行注册日期
+     */
+    private Date issue_regdate;
+    /*
+     *发行注册额度
+     */
+    private BigDecimal issue_regamount;
+    /*
+     *额度有效期
+     */
+    private Date expirationdata;
 }
 

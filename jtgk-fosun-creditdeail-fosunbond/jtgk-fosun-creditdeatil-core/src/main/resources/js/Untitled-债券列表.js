@@ -2,7 +2,7 @@ function showrepaymentplan (ob){
     var windcode=$(ob).attr("windcode");
     var curr=$(ob).attr("curr");
     var originalrate=$(ob).attr("originalrate");
-    var url = "/apps/fastdweb/views/runtime/page/card/cardpreview.html?styleid=183cd2d1-6b13-b625-61fa-dfa045dd6ca3&status=add&windcode=" + windcode+"&curr="+curr+"originalrate="+originalrate;
+    var url = "/apps/fastdweb/views/runtime/page/card/cardpreview.html?styleid=183cd2d1-6b13-b625-61fa-dfa045dd6ca3&status=add&windcode=" + windcode+"&curr="+curr+"&originalrate="+originalrate;
 
     var options = {
       name: 'sonWindow',

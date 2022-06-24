@@ -3,6 +3,7 @@ package com.inspur.fosunbond.core.config;
 import com.inspur.fosunbond.core.controller.*;
 import com.inspur.fosunbond.core.domain.service.FosunSynchroWDMiddleTable;
 import com.inspur.fosunbond.core.domain.service.JtgkFosunbondFosunSynchroMiddleTableForBond;
+import com.inspur.fosunbond.core.domain.service.JtgkFosunbondTurnOverPlanSourceExcelImport;
 import io.iec.edp.caf.rest.RESTEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -31,6 +32,11 @@ public class JtgkZjglFosunbondConfig {
     @Bean
     public JtgkFosunbondFosunSynchroMiddleTableForBond jtgkFosunbondFosunSynchroMiddleTableForBond() {
         return new JtgkFosunbondFosunSynchroMiddleTableForBond();
+    }
+    @Bean
+    public JtgkFosunbondTurnOverPlanSourceExcelImport jtgkFosunbondTurnOverPlanSourceExcelImport()
+    {
+        return new JtgkFosunbondTurnOverPlanSourceExcelImport();
     }
     @Bean
     public RESTEndpoint jtgkCreditDetailfosunbondRESTEndpoint(){

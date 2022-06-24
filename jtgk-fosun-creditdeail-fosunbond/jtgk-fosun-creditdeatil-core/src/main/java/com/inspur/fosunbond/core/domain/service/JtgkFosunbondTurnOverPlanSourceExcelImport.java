@@ -12,7 +12,7 @@ import java.util.List;
 
 @Slf4j
 //@Service
-@Component
+//@Component
 public  class JtgkFosunbondTurnOverPlanSourceExcelImport implements IExcelImportEvent {
 
     private static final int CATEGORY_COL_IDX = 1;//来源索引

@@ -137,6 +137,9 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         fosunDebtContractEntity.setIssuershortened("复星".equals(contractEntity.getIssuershortened())?"复星高科":contractEntity.getIssuershortened());
                         fosunDebtContractEntity.setCurr(contractEntity.getCurr());//币种
                         fosunDebtContractEntity.setRegisternumber(contractEntity.getRegisternumber());//统一社会信用代码
+                        fosunDebtContractEntity.setIssue_regdate(contractEntity.getIssue_regdate());//发行注册日期
+                        fosunDebtContractEntity.setIssue_regamount(contractEntity.getIssue_regamount());//发行注册额度
+                        fosunDebtContractEntity.setExpirationdata(contractEntity.getExpirationdata());//额度有效期
                         fosunDebtContractEntityList.add(fosunDebtContractEntity);
                     }
 
@@ -411,6 +414,9 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         fosunDebtContractEntity.setIssuershortened(contractEntity.getIssuershortened()=="复星"?"复星高科":contractEntity.getIssuershortened());
                         fosunDebtContractEntity.setCurr(contractEntity.getCurr());//币种
                         fosunDebtContractEntity.setRegisternumber(contractEntity.getRegisternumber());//统一社会信用代码
+                        fosunDebtContractEntity.setIssue_regdate(contractEntity.getIssue_regdate());//发行注册日期
+                        fosunDebtContractEntity.setIssue_regamount(contractEntity.getIssue_regamount());//发行注册额度
+                        fosunDebtContractEntity.setExpirationdata(contractEntity.getExpirationdata());//额度有效期
                         fosunDebtContractEntityList.add(fosunDebtContractEntity);
                     }
 

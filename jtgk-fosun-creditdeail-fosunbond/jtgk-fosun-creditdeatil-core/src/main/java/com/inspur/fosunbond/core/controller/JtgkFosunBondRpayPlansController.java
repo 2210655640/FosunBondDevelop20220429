@@ -24,4 +24,7 @@ public interface JtgkFosunBondRpayPlansController {
     @POST
     @Path("/savefosunbondrpayplans")
     Result saveFosunBondrpayPlans(JsonNode jsonNode) throws JsonProcessingException;
+    @POST
+    @Path("/syncratefrombond")
+    Result syncRateFromBond(JsonNode jsonNode);
 }
