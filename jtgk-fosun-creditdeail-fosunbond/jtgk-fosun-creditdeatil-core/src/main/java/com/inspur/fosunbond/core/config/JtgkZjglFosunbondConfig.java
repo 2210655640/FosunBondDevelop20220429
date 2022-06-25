@@ -34,11 +34,6 @@ public class JtgkZjglFosunbondConfig {
         return new JtgkFosunbondFosunSynchroMiddleTableForBond();
     }
     @Bean
-    public JtgkFosunbondTurnOverPlanSourceExcelImport jtgkFosunbondTurnOverPlanSourceExcelImport()
-    {
-        return new JtgkFosunbondTurnOverPlanSourceExcelImport();
-    }
-    @Bean
     public RESTEndpoint jtgkCreditDetailfosunbondRESTEndpoint(){
         //return  new RESTEndpoint("/jtgk/fosun/v1.0/creditdetail",creaditDatilController);
         return  new RESTEndpoint("/jtgk/fosunbond/v1.0/getfsun", creaditDatil111Controller,jtgkFosunBondRpayPlansController,jtgkFosunBondBankBondInvestmentController);

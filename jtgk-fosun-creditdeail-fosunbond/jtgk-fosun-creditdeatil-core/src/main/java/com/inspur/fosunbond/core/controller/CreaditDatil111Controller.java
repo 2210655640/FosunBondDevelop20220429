@@ -1,8 +1,10 @@
 package com.inspur.fosunbond.core.controller;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.inspur.fosunbond.core.domain.result.Result;
+import io.netty.util.ResourceLeakTracker;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.ws.rs.Consumes;
@@ -44,4 +46,10 @@ public interface CreaditDatil111Controller {
     @POST
     @Path("syncbomdmsgfrommiddletable")
     String syncBondMsgFromMiddleTable(JsonNode jsonNode);
+    @POST
+    @Path("cancelrelationissueregnumber")
+    Result cancleRelationIssueRegnumber(JsonNode jsonNode);
+    @POST
+    @Path("relationissueregnumber")
+    Result relationIssueRegnumber(JsonNode jsonNode);
 }

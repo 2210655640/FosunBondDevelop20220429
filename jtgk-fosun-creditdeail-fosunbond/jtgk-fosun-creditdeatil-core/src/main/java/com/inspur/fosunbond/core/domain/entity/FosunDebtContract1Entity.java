@@ -329,7 +329,8 @@ public class FosunDebtContract1Entity
      *ISSUE_REGNUMBER
      */
     @JsonProperty(value = "ISSUE_REGNUMBER")
-    @Column(name = "issue_regnumber", insertable = false, updatable = false)
+    //@Column(name = "issue_regnumber", insertable = false, updatable = false)
+    @Column(name = "issue_regnumber", insertable = false)
     private  String issue_regnumber;
 
     /*
@@ -389,6 +390,12 @@ public class FosunDebtContract1Entity
      */
     @JsonProperty(value = "ORIGINALRATE")
     private  BigDecimal originalrate;
+
+    /*
+    是否原始设置注册文号
+     */
+    @JsonProperty(value = "ISORIGINALRELATIONRENUM")
+    private String isoriginalrelationrenum;
     /*
     排序信息
      */

@@ -12,6 +12,7 @@ import com.inspur.fosunbond.core.domain.service.Creditdeatil111Service;
 import com.inspur.fosunbond.core.domain.repository.JtgkFosunBondBaseRepository;
 import com.inspur.fosunbond.core.domain.service.JtgkFosunbondFosunSynchroMiddleTableForBond;
 import io.iec.edp.caf.commons.utils.SpringBeanUtils;
+import io.swagger.util.Json;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -623,6 +624,50 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         //JtgkFosunbondFosunSynchroMiddleTableForBond jtgkFosunbondFosunSynchroMiddleTableForBond=new JtgkFosunbondFosunSynchroMiddleTableForBond();
         return jtgkFosunbondFosunSynchroMiddleTableForBond.SyncBondMsgFromMiddleTable1(jsonNode);
         //return  null;
+    }
+
+    /*
+    取消注册文号关联关系
+     */
+    @Override
+    public Result cancleRelationIssueRegnumber(JsonNode jsonNode) {
+        String cancelId= jsonNode.get("cancelId").asText();//获取取消ID
+       Optional<FosunDebtContract1Entity> fosunDebtContract1EntityOptional=fosunDebtContractRepository.findById(cancelId);
+        if (fosunDebtContract1EntityOptional.isPresent())
+        {
+            FosunDebtContract1Entity fosunDebtContract1Entity=fosunDebtContract1EntityOptional.get();
+           if (!"1".equals(fosunDebtContract1Entity.getIsoriginalrelationrenum()))//非原始数据
+           {
+                 fosunDebtContract1Entity.setIssue_regnumber("");//设置注册文号为空
+           }
+        }
+        Result result=new Result();
+        return result.ok();
+    }
+
+    /*
+    设置注册文号关联关系
+     */
+    @Override
+    public Result relationIssueRegnumber(JsonNode jsonNode) {
+        String ids=jsonNode.get("ids").asText();
+        String issue_regnumber=jsonNode.get("issueregnumber").asText();//获取注册文号
+        if (!ids.isEmpty())
+        {
+          String[] idsStrs=ids.split(";");
+          for (String id:idsStrs)
+          {
+              Optional<FosunDebtContract1Entity> contract1EntityOptional=fosunDebtContractRepository.findById(id);
+              if (contract1EntityOptional.isPresent())
+              {
+                  FosunDebtContract1Entity contract1Entity=contract1EntityOptional.get();
+                  contract1Entity.setIssue_regnumber(issue_regnumber);
+                  contract1Entity.setIsoriginalrelationrenum("0");//设置为非原始
+              }
+          }
+        }
+        Result result=new Result();
+        return result.ok();
     }
 
     private  List<FosunDebtContractHistory1Entity> getFosunDebtContractHisList(String versionDate, String com_name,String sec_name, String bondtype, Date begincarrydate,Date endcarrydate, Date beginmaturitydate,Date endmaturitydate,Date nowmaturitydate,Integer rebackcount,String isexpired) throws ParseException {

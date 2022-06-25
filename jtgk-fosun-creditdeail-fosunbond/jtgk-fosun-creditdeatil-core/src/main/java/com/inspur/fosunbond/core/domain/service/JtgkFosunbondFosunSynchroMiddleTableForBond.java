@@ -417,6 +417,10 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         fosunDebtContractEntity.setIssue_regdate(contractEntity.getIssue_regdate());//发行注册日期
                         fosunDebtContractEntity.setIssue_regamount(contractEntity.getIssue_regamount());//发行注册额度
                         fosunDebtContractEntity.setExpirationdata(contractEntity.getExpirationdata());//额度有效期
+                        if(contractEntity.getIssue_regnumber()!=null||!"".equals(contractEntity.getIssue_regnumber()))
+                        {
+                            fosunDebtContractEntity.setIsoriginalrelationrenum("1");//设置初始设置文号标识
+                        }
                         fosunDebtContractEntityList.add(fosunDebtContractEntity);
                     }
 

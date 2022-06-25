@@ -1,5 +1,6 @@
 package com.inspur.fosunbond.core.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -297,6 +298,11 @@ public class JtgkFosunbondFosunDebtContractEntity
      *额度有效期
      */
     private Date expirationdata;
+
+    /*
+  是否原始设置注册文号
+   */
+    private String isoriginalrelationrenum;
 
 
 }
