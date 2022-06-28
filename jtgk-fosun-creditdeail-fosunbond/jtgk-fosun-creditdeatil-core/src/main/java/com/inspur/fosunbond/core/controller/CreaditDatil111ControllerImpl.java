@@ -466,9 +466,9 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 //初始数据保存原始利率
                 {
                   //更新源表原始利率
-                  fosunDebtContractRepository.updateDataByID(item.getOriginalrate(),item.getId());
+                  fosunDebtContractRepository.updateDataByID(item.getOriginalrate(),item.getWindcode());
                   //更新所有历史版本表原始利率
-                  fosunDebtContractHistoryRepository.updateDataByID(item.getOriginalrate(),item.getId());
+                  fosunDebtContractHistoryRepository.updateDataByID(item.getOriginalrate(),item.getWindcode());
                 }
 
                 boolean isexist=fosunDebtContractHistoryRepository.existsByIdAndHistoryversiondate(item.getId(),item.getHistoryversiondate());

@@ -229,7 +229,7 @@ function setTableOption(){
         }
 }
 idp.event.bind("viewReady", function (e, context) {
-    idp.loading();
+    //Fding();
     $("#grid_main").leeGrid({
         onDblClickRow: ondblclickrow
     });
@@ -249,7 +249,7 @@ idp.event.bind("viewReady", function (e, context) {
     $("#MATURITYDATE").leeTextBox({disabled:false});
     $("#SEC_NAME").leeTextBox({disabled:false});
     menu.cancel();
-    menu.query();
+    //menu.query();
 
 });
 let menu = {
@@ -395,7 +395,7 @@ let menu = {
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
                         setTimeout(function() {
                             setTableOption();
-                        }, 10);
+                        }, 100);
                         
 
                     } else {

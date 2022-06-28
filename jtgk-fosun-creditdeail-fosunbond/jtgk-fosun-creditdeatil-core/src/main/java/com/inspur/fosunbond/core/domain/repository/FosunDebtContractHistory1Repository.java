@@ -17,6 +17,6 @@ public interface FosunDebtContractHistory1Repository extends JpaRepository<Fosun
    void deleteByIdAndHistoryversiondate(String id,Date hisdate);
    List<FosunDebtContractHistory1Entity>  findAllBySourceidOrderByHistoryversiondateDesc(String sourceid);
    @Modifying
-   @Query(value="update fosundebtcontracthistory set originalrate=?1  where id=?2",nativeQuery=true)
-   int updateDataByID(BigDecimal originalrate, String id);
+   @Query(value="update fosundebtcontracthistory set originalrate=?1  where windcode=?2",nativeQuery=true)
+   int updateDataByID(BigDecimal originalrate, String windcode);
 }
