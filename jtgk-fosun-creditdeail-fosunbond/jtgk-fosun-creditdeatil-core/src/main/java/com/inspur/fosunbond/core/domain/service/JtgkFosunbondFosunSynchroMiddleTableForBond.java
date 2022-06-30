@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -75,8 +76,10 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         String sourceid=contractEntity.getId();
                         JtgkFosunbondFosunDebtContractEntity fosunDebtContractEntityOriginal=fosunDebtContractRepository.findBySourceid(sourceid);
                         String originalId=UUID.randomUUID().toString();
+                        BigDecimal ororiginalrate = null;
                         if(!ObjectUtils.isEmpty(fosunDebtContractEntityOriginal))
                         {
+                            ororiginalrate=fosunDebtContractEntityOriginal.getOriginalrate();
                             originalId=fosunDebtContractEntityOriginal.getId();
                             fosunDebtContractRepository.deleteById(originalId);
                         }
@@ -136,10 +139,27 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         fosunDebtContractEntity.setAgency_leadunderwritersn(contractEntity.getAgency_leadunderwritersn());
                         fosunDebtContractEntity.setIssuershortened("复星".equals(contractEntity.getIssuershortened())?"复星高科":contractEntity.getIssuershortened());
                         fosunDebtContractEntity.setCurr(contractEntity.getCurr());//币种
+                        //同一个windocode且汇率不等于1 并且是updatetime最新的一条
+                        if(ororiginalrate!=null)
+                        {
+                            fosunDebtContractEntity.setOriginalrate(ororiginalrate);
+                        }
+                        else
+                        {
+                        List<JtgkFosunbondFosunDebtContractEntity>  jtgkFosunbondFosunDebtContractEntities=fosunDebtContractRepository.findAllByWindcodeAndOriginalrateNotOrderByUpdatetimeDesc(contractEntity.getWindcode(),new BigDecimal(1));
+                        if(jtgkFosunbondFosunDebtContractEntities!=null&&jtgkFosunbondFosunDebtContractEntities.size()>0)
+                        {
+                            fosunDebtContractEntity.setOriginalrate(jtgkFosunbondFosunDebtContractEntities.get(0).getOriginalrate());
+                        }
+                        }
                         fosunDebtContractEntity.setRegisternumber(contractEntity.getRegisternumber());//统一社会信用代码
                         fosunDebtContractEntity.setIssue_regdate(contractEntity.getIssue_regdate());//发行注册日期
                         fosunDebtContractEntity.setIssue_regamount(contractEntity.getIssue_regamount());//发行注册额度
                         fosunDebtContractEntity.setExpirationdata(contractEntity.getExpirationdata());//额度有效期
+                        if(contractEntity.getIssue_regnumber()!=null||!"".equals(contractEntity.getIssue_regnumber()))
+                        {
+                            fosunDebtContractEntity.setIsoriginalrelationrenum("1");//设置初始设置文号标识
+                        }
                         fosunDebtContractEntityList.add(fosunDebtContractEntity);
                     }
 
@@ -351,8 +371,10 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         String sourceid=contractEntity.getId();
                         JtgkFosunbondFosunDebtContractEntity fosunDebtContractEntityOriginal=fosunDebtContractRepository.findBySourceid(sourceid);
                         String originalId=UUID.randomUUID().toString();
+                        BigDecimal ororiginalrate = null;
                         if(!ObjectUtils.isEmpty(fosunDebtContractEntityOriginal))
                         {
+                            ororiginalrate=fosunDebtContractEntityOriginal.getOriginalrate();
                             originalId=fosunDebtContractEntityOriginal.getId();
                             fosunDebtContractRepository.deleteById(originalId);
                         }
@@ -413,6 +435,19 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         //fosunDebtContractEntity.setIssuershortened(contractEntity.getIssuershortened());
                         fosunDebtContractEntity.setIssuershortened(contractEntity.getIssuershortened()=="复星"?"复星高科":contractEntity.getIssuershortened());
                         fosunDebtContractEntity.setCurr(contractEntity.getCurr());//币种
+                        //同一个windocode且汇率不等于1 并且是updatetime最新的一条
+                        if(ororiginalrate!=null)
+                        {
+                            fosunDebtContractEntity.setOriginalrate(ororiginalrate);
+                        }
+                        else
+                        {
+                            List<JtgkFosunbondFosunDebtContractEntity>  jtgkFosunbondFosunDebtContractEntities=fosunDebtContractRepository.findAllByWindcodeAndOriginalrateNotOrderByUpdatetimeDesc(contractEntity.getWindcode(),new BigDecimal(1));
+                            if(jtgkFosunbondFosunDebtContractEntities!=null&&jtgkFosunbondFosunDebtContractEntities.size()>0)
+                            {
+                                fosunDebtContractEntity.setOriginalrate(jtgkFosunbondFosunDebtContractEntities.get(0).getOriginalrate());
+                            }
+                        }
                         fosunDebtContractEntity.setRegisternumber(contractEntity.getRegisternumber());//统一社会信用代码
                         fosunDebtContractEntity.setIssue_regdate(contractEntity.getIssue_regdate());//发行注册日期
                         fosunDebtContractEntity.setIssue_regamount(contractEntity.getIssue_regamount());//发行注册额度

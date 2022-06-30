@@ -282,6 +282,10 @@ public class JtgkFosunbondFosunDebtContractEntity
      */
     private  String curr;
     /*
+     *基准利率
+     */
+    private  BigDecimal originalrate;
+    /*
     *统一社会信用代码
      */
     private  String registernumber;

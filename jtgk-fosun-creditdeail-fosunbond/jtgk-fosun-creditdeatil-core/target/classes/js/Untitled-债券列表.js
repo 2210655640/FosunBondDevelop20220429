@@ -481,6 +481,7 @@ let menu = {
                     delete  data[i].ISSUEAMOUNTEQUAL;//删除数据库不存在的属性
                     delete  data[i].OUTSTANDINGBALANCEEQUAL;
                     delete  data[i].sortnum;
+                    delete  data[i].ISORIGINALRELATIONRENUM;
 
 
                 }
