@@ -19,7 +19,7 @@ public class BankBondInvestDetailDto {
     private String id;
     private String code;
     private String remark;
-    private String comp_name;
-    private Date zydate;
+    //private String comp_name;
+    //private Date zydate;
 
 }

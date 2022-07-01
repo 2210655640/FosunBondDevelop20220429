@@ -52,7 +52,9 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
 //                "inner join fosunbondcredit on fosunbondcredit.contractid=sxht.id\n" +
 //                "where CONTRACT.comp_name=? and holder.versiondate=? ";
 //        log.error("sql:"+sql+",sdate:"+maxversiondate+",comp_name:"+comp_name+",versiondate"+maxversiondate);
-        String sql="select invest.accountname,\n" +
+        String sql="select zyjl.BONDSHORTNAME as  SECNAME," +
+                "zyjl.ACCOOUNTNUMBER as accountno," +
+                "invest.accountname,\n" +
                 "shortdic.name_chs as shortname,  \n" +
                 "clasicdic.name_chs as clasicname,\n" +
                 "BFBANKTYPE.name_chs as investname,\n" +
@@ -63,9 +65,8 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
                 "else 0 end  as UNDERWRITEOCCUPY,\n" +
                 "sxht.id,\n" +
                 "sxht.code,\n" +
-                "holder.remark,\n" +
-                "'' as comp_name, \n"+
-                " '' as zydate\n"+
+                //"sxpz.id,\n" +
+                "holder.remark\n" +
                 "from (select sum(sxzy.EXECAMOUNT) AS EXECAMOUNT,ACCOOUNTNUMBER,BONDSHORTNAME,CREDITVARID,CREDITID\n" +
                 "            from FOSUNCREDITEXECREC sxzy \n" +
                 "            where sxzy.EXECDATE<=? and sxzy.CATEGORY='1'\n" +
@@ -79,11 +80,11 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
                 "inner join CREDITTYPE sxpzdic on sxpzdic.id=sxpz.VARIETY\n" +
                 "left join (select t.SECNAME,t.accountno,t.amt \n" +
                 "  from (select row_number() over(partition by tor.SECNAME,tor.accountno  order by tor.versiondate desc) rn, tor.* \n" +
-                "            from FOSUNBONDHOLDER tor where tor.versiondate<=? ) t  \n" +
+                "            from FOSUNBONDHOLDER tor where tor.versiondate<=?) t  \n" +
                 "            where t.rn = 1) holderV on holderV.SECNAME=zyjl.BONDSHORTNAME and holderV.accountno=zyjl.ACCOOUNTNUMBER \n" +
                 "left join FOSUNBONDHOLDERDETAIL holder on holder.SECNAME=zyjl.BONDSHORTNAME \n" +
                 "and holder.ACCOUNTNO=zyjl.ACCOOUNTNUMBER\n" +
-                "WHERE sxpz.id=? ";
+                "WHERE sxpz.id=?";
         //List<BankBondInvestDetailDto> bankBondInvestDetailDtoList=baseRepository.queryList(sql,BankBondInvestDetailDto.class,maxversiondate,comp_name,maxversiondate);
         List<BankBondInvestDetailDto> bankBondInvestDetailDtoList= jtgkFosunBondBaseRepository.queryList(sql,BankBondInvestDetailDto.class,querydate,querydate,varietiesid);
         return result.ok(bankBondInvestDetailDtoList);

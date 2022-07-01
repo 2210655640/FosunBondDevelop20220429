@@ -36,6 +36,8 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
     private JtgkFosunbondT_Debt_ValuationRepository t_debt_valuationRepository;
     @Autowired
     private JtgkFosunbondT_IdenticalissUerRepository t_identicalissUerRepository;
+    @Autowired
+    private JtgkFosunBondFosunbondregisnoattachRepository jtgkFosunBondFosunbondregisnoattachRepository;
     //@Transactional(rollbackFor ={Exception.class})
     public String  SyncBondMsgFromMiddleTable()
     {
@@ -179,6 +181,19 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
             {
                 for (JtgkFosunbondFosunDebtContractEntity contractEntity:fosunDebtContractEntityList)
                 {
+                    //处理债券文号附件列
+                    String issue_regnumber=contractEntity.getIssue_regnumber();//获取注册文号
+                    if (!"".equals(issue_regnumber)&&issue_regnumber!=null)
+                    {
+                    Optional<JtgkFosunBondFosunbondregisnoattachEntity> jtgkFosunBondFosunbondregisnoattachEntity=jtgkFosunBondFosunbondregisnoattachRepository.findById(issue_regnumber);
+                    if (!jtgkFosunBondFosunbondregisnoattachEntity.isPresent())
+                    {
+                        JtgkFosunBondFosunbondregisnoattachEntity jtgkFosunBondFosunbondregisnoattachEntity1=new JtgkFosunBondFosunbondregisnoattachEntity();
+                        jtgkFosunBondFosunbondregisnoattachEntity1.setId(issue_regnumber);
+                        jtgkFosunBondFosunbondregisnoattachRepository.save(jtgkFosunBondFosunbondregisnoattachEntity1);
+                    }
+                    }
+
                     String wincode=contractEntity.getWindcode();
                     List<JtgkFosunbondT_Debt_SecondaryMarketEntity> t_debt_secondaryMarketEntityList=t_debt_secondaryMarketRepository.findAllByWindcode(wincode);
                     log.error("从中间表同步债券信息7");
@@ -475,6 +490,18 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
             {
                 for (JtgkFosunbondFosunDebtContractEntity contractEntity:fosunDebtContractEntityList)
                 {
+                    //处理债券文号附件列
+                    String issue_regnumber=contractEntity.getIssue_regnumber();//获取注册文号
+                    if (!"".equals(issue_regnumber)&&issue_regnumber!=null)
+                    {
+                        Optional<JtgkFosunBondFosunbondregisnoattachEntity> jtgkFosunBondFosunbondregisnoattachEntity=jtgkFosunBondFosunbondregisnoattachRepository.findById(issue_regnumber);
+                        if (!jtgkFosunBondFosunbondregisnoattachEntity.isPresent())
+                        {
+                            JtgkFosunBondFosunbondregisnoattachEntity jtgkFosunBondFosunbondregisnoattachEntity1=new JtgkFosunBondFosunbondregisnoattachEntity();
+                            jtgkFosunBondFosunbondregisnoattachEntity1.setId(issue_regnumber);
+                            jtgkFosunBondFosunbondregisnoattachRepository.save(jtgkFosunBondFosunbondregisnoattachEntity1);
+                        }
+                    }
                     String wincode=contractEntity.getWindcode();
                     List<JtgkFosunbondT_Debt_SecondaryMarketEntity> t_debt_secondaryMarketEntityList=t_debt_secondaryMarketRepository.findAllByWindcode(wincode);
                     //log.error("b从中间表同步债券信息7");
