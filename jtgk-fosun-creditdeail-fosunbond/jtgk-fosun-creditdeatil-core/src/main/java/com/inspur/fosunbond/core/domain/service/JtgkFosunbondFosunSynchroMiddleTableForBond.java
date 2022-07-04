@@ -116,7 +116,21 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         fosunDebtContractEntity.setIssue_issuemethod(contractEntity.getIssue_issuemethod());
                         fosunDebtContractEntity.setIssue_issueprice(contractEntity.getIssue_issueprice());
                         fosunDebtContractEntity.setIssue_lastissue(contractEntity.getIssue_lastissue());
-                        fosunDebtContractEntity.setIssue_regnumber(contractEntity.getIssue_regnumber());
+                        //处理注册文号(如果之前已经导入的数据已经设置了文号则把原来设置的带过来)
+                        if(contractEntity.getIssue_regnumber()==null||"".equals(contractEntity.getIssue_regnumber()))
+                        {
+                            List<JtgkFosunbondFosunDebtContractEntity>  jtgkFosunbondFosunDebtContractEntities=fosunDebtContractRepository.findAllByWindcodeOrderByUpdatetimeDesc(contractEntity.getWindcode());
+                            if(jtgkFosunbondFosunDebtContractEntities!=null&&jtgkFosunbondFosunDebtContractEntities.size()>0)
+                            {
+                                fosunDebtContractEntity.setIssue_regnumber(jtgkFosunbondFosunDebtContractEntities.get(0).getIssue_regnumber());//设置原来的注册文号
+                                fosunDebtContractEntity.setIsoriginalrelationrenum(jtgkFosunbondFosunDebtContractEntities.get(0).getIsoriginalrelationrenum());//设置是否初始设置
+                            }
+                        }
+                        else
+                        {
+                            fosunDebtContractEntity.setIssue_regnumber(contractEntity.getIssue_regnumber());
+                        }
+
                         fosunDebtContractEntity.setIssueamount(contractEntity.getIssueamount());
                         fosunDebtContractEntity.setIssuer_rating(contractEntity.getIssuer_rating());
                         //fosunDebtContractEntity.setLast_trade_day(contractEntity.getLast_trade_day());
@@ -158,7 +172,7 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         fosunDebtContractEntity.setIssue_regdate(contractEntity.getIssue_regdate());//发行注册日期
                         fosunDebtContractEntity.setIssue_regamount(contractEntity.getIssue_regamount());//发行注册额度
                         fosunDebtContractEntity.setExpirationdata(contractEntity.getExpirationdata());//额度有效期
-                        if(contractEntity.getIssue_regnumber()!=null||!"".equals(contractEntity.getIssue_regnumber()))
+                        if(contractEntity.getIssue_regnumber()!=null&&!"".equals(contractEntity.getIssue_regnumber()))
                         {
                             fosunDebtContractEntity.setIsoriginalrelationrenum("1");//设置初始设置文号标识
                         }

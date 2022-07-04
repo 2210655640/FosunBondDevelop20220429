@@ -13,4 +13,5 @@ public interface JtgkFosunbondFosunDebtContractRepository extends DataRepository
     JtgkFosunbondFosunDebtContractEntity findBySourceid(String sourceid);
     List<JtgkFosunbondFosunDebtContractEntity> findAllByWindcodeAndSdateBeforeOrderBySdateDesc(String windcode, Date sdate);
     List<JtgkFosunbondFosunDebtContractEntity> findAllByWindcodeAndOriginalrateNotOrderByUpdatetimeDesc(String windcode, BigDecimal originalrate);
+    List<JtgkFosunbondFosunDebtContractEntity> findAllByWindcodeOrderByUpdatetimeDesc(String windcode);
 }

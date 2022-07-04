@@ -115,37 +115,61 @@ public class JtgkFosunbondFosunSynchroBaseRateFromWD {
                 {
 
                     JtgkFosunbondT_baserateEntity rateentity=jtgkFosunbondT_baserateEntityListhis.get(i);
-                    //第一次循环时将开始时间存入原一年期历史记录结束时间
-                    if(i==jtgkFosunbondT_baserateEntityListone.size()-1)
+                    Date sdate=rateentity.getSdate();
+                    //获取数据中是否存在当前sdate的数据
+                    List<JtgkFosunBondBfblinterestrateverEntity> rateverbystartdate=jtgkFosunBondBfblinterestrateverRepository.findAllByParentidAndStartdate(mainid,sdate);
+                    if (rateverbystartdate!=null&&rateverbystartdate.size()>0)//存在相同开始时间的数据则更新
                     {
-                        rateverList.get(0).setEnddate(rateentity.getSdate());
+                        rateverbystartdate.get(0).setAnnualir(rateentity.getValue());
+                    }
+                    else
+                    {
+                        //第一次循环时将开始时间存入原一年期历史记录结束时间
+//                        if(i==jtgkFosunbondT_baserateEntityListone.size()-1)
+//                        {
+//                            rateverList.get(0).setEnddate(rateentity.getSdate());
+//                        }
+
+                        JtgkFosunBondBfblinterestrateverEntity jtgkFosunBondBfblinterestrateverEntity=new JtgkFosunBondBfblinterestrateverEntity();
+                        jtgkFosunBondBfblinterestrateverEntity.setId(UUID.randomUUID().toString());
+                        jtgkFosunBondBfblinterestrateverEntity.setAnnualir(rateentity.getValue());
+//                        if (i!=0)//如果不是最后一条数据则结束日期等于下一条的sdate即开始日期
+//                        {
+//                            jtgkFosunBondBfblinterestrateverEntity.setEnddate(jtgkFosunbondT_baserateEntityListhis.get(i-1).getSdate());
+//                        }
+                        jtgkFosunBondBfblinterestrateverEntity.setOperatedate(dateNow);
+                        jtgkFosunBondBfblinterestrateverEntity.setOperator("66ea3b0d-8117-3aa7-1e93-057ed3c627ce");
+                        jtgkFosunBondBfblinterestrateverEntity.setOperatorname("刁敬厚");
+                        jtgkFosunBondBfblinterestrateverEntity.setParentid(mainid);
+                        jtgkFosunBondBfblinterestrateverEntity.setRemark("");
+                        jtgkFosunBondBfblinterestrateverEntity.setStartdate(rateentity.getSdate());
+                        jtgkFosunBondBfblinterestrateverEntity.setTimestamp_createdby("刁敬厚");
+                        jtgkFosunBondBfblinterestrateverEntity.setTimestamp_createdon(dateFormat2.parse(dateFormat2.format(new
+                                Date())));
+                        jtgkFosunBondBfblinterestrateverEntity.setTimestamp_lastchangedby("刁敬厚");
+                        jtgkFosunBondBfblinterestrateverEntity.setTimestamp_lastchangedon(dateFormat2.parse(dateFormat2.format(new
+                                Date())));
+                        //jtgkFosunBondBfblinterestrateverEntity.setVersionno(jtgkFosunbondT_baserateEntityListhis.size()-i+maxVersionNo);
+                        jtgkFosunBondBfblinterestrateverEntityList.add(jtgkFosunBondBfblinterestrateverEntity);
                     }
 
-                    JtgkFosunBondBfblinterestrateverEntity jtgkFosunBondBfblinterestrateverEntity=new JtgkFosunBondBfblinterestrateverEntity();
-                    jtgkFosunBondBfblinterestrateverEntity.setId(UUID.randomUUID().toString());
-                    jtgkFosunBondBfblinterestrateverEntity.setAnnualir(rateentity.getValue());
-                    if (i!=0)//如果不是最后一条数据则结束日期等于下一条的sdate即开始日期
-                    {
-                        jtgkFosunBondBfblinterestrateverEntity.setEnddate(jtgkFosunbondT_baserateEntityListhis.get(i-1).getSdate());
-                    }
-                    jtgkFosunBondBfblinterestrateverEntity.setOperatedate(dateNow);
-                    jtgkFosunBondBfblinterestrateverEntity.setOperator("66ea3b0d-8117-3aa7-1e93-057ed3c627ce");
-                    jtgkFosunBondBfblinterestrateverEntity.setOperatorname("刁敬厚");
-                    jtgkFosunBondBfblinterestrateverEntity.setParentid(mainid);
-                    jtgkFosunBondBfblinterestrateverEntity.setRemark("");
-                    jtgkFosunBondBfblinterestrateverEntity.setStartdate(rateentity.getSdate());
-                    jtgkFosunBondBfblinterestrateverEntity.setTimestamp_createdby("刁敬厚");
-                    jtgkFosunBondBfblinterestrateverEntity.setTimestamp_createdon(dateFormat2.parse(dateFormat2.format(new
-                            Date())));
-                    jtgkFosunBondBfblinterestrateverEntity.setTimestamp_lastchangedby("刁敬厚");
-                    jtgkFosunBondBfblinterestrateverEntity.setTimestamp_lastchangedon(dateFormat2.parse(dateFormat2.format(new
-                            Date())));
-                    jtgkFosunBondBfblinterestrateverEntity.setVersionno(jtgkFosunbondT_baserateEntityListhis.size()-i+maxVersionNo);
-                    jtgkFosunBondBfblinterestrateverEntityList.add(jtgkFosunBondBfblinterestrateverEntity);
                 }
                 if (jtgkFosunBondBfblinterestrateverEntityList.size()>0)
                 {
                     jtgkFosunBondBfblinterestrateverRepository.saveAll(jtgkFosunBondBfblinterestrateverEntityList);
+                }
+                //重新设置versionno及enddate
+                List<JtgkFosunBondBfblinterestrateverEntity> rateverList1=jtgkFosunBondBfblinterestrateverRepository.findAllByParentidOrderByStartdateDesc(mainid);
+                if(rateverList1!=null&&rateverList1.size()>0)
+                {
+                    for(int i=rateverList1.size()-1;i>=0;i--)
+                    {
+                        if (i!=0)//如果不是最后一条数据则结束日期等于下一条的sdate即开始日期
+                        {
+                            rateverList1.get(i).setEnddate(rateverList1.get(i-1).getStartdate());//设置前一条数据的结束日期为前一条的开始日期
+                        }
+                        rateverList1.get(i).setVersionno(rateverList1.size()-i);
+                    }
                 }
 
             }
