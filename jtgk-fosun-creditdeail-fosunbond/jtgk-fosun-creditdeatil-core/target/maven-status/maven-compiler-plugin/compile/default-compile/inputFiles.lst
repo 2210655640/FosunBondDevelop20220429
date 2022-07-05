@@ -13,7 +13,9 @@ D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-f
 D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\entity\JtgkFosunbondFosunIdenticalissUerEntity.java
 D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\service\JtgkFosunbondTurnOverPlanPurposeExcelImport.java
 D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\entity\FosunIdenticalissUer1Entity.java
+D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\entity\JtgkFosunBondFosunbondregisnoattachEntity.java
 D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\entity\JtgkFosunBondBfblinterestrateverEntity.java
+D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\repository\JtgkFosunBondFosunbondregisnoattachRepository.java
 D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\entity\FosunRepaymentApp1Entity.java
 D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\repository\FosunbondrpaytplansRepository.java
 D:\上海复兴\FosunBondDevelop20220429\jtgk-fosun-creditdeail-fosunbond\jtgk-fosun-creditdeatil-core\src\main\java\com\inspur\fosunbond\core\domain\entity\FosunDebtContractHistory1Entity.java

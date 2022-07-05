@@ -291,6 +291,8 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 List<FosunDebtContract1Entity> fosunDebtContract1EntityListgroup = new ArrayList<>(collect.values());
 
                 List<FosunDebtContractHistory1Entity> fosunDebtContractHistory1EntityList=fosunDebtContractHistoryRepository.findAll();
+
+                List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList1=jtgkFosunbondFosunCompanySortRepository.findAll();
                 for (FosunDebtContract1Entity fosunDebtContract1Entity:fosunDebtContract1EntityListgroup)
                 {
                     String sourceid=fosunDebtContract1Entity.getSourceid();
@@ -327,7 +329,8 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                     //设置排序实体信息
                     JtgkFosunbondFosunCompanySortEntity jtgkFosunbondFosunCompanySortEntity=new JtgkFosunbondFosunCompanySortEntity();
                     String issuershortened=fosunDebtContract1Entity.getIssuershortened();//获取简称
-                    List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortRepository.findAllByShortname(issuershortened);
+
+                    List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortEntityList1.stream().filter(i-> (("null".equals(issuershortened)||issuershortened==null)?"":issuershortened).equals(i.getShortname())).collect(Collectors.toList());
                     if (jtgkFosunbondFosunCompanySortEntityList!=null&&jtgkFosunbondFosunCompanySortEntityList.size()>0)
                     {
                         fosunDebtContract1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntityList.get(0).getSortnum());
@@ -589,11 +592,14 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
             if (fosunDebtContractHistory11EntityList !=null&& fosunDebtContractHistory11EntityList.size()>0)
             {
                 List<FosunDebtContractHistory1Entity> resetfosunDebtContractHistoryEntityList=new ArrayList<>();
+                List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList1=jtgkFosunbondFosunCompanySortRepository.findAll();
                 for (FosunDebtContractHistory1Entity fosunDebtContractHistory1Entity:fosunDebtContractHistory11EntityList)
                 {
                     JtgkFosunbondFosunCompanySortEntity jtgkFosunbondFosunCompanySortEntity=new JtgkFosunbondFosunCompanySortEntity();
                     String issuershortened=fosunDebtContractHistory1Entity.getIssuershortened();//获取简称
-                    List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortRepository.findAllByShortname(issuershortened);
+
+                    //List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortRepository.findAllByShortname(issuershortened);
+                    List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortEntityList1.stream().filter(i->(("null".equals(issuershortened)||issuershortened==null)?"":issuershortened).equals(i.getShortname())).collect(Collectors.toList());
                     if (jtgkFosunbondFosunCompanySortEntityList!=null&&jtgkFosunbondFosunCompanySortEntityList.size()>0)
                     {
                         fosunDebtContractHistory1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntityList.get(0).getSortnum());
@@ -782,11 +788,14 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         if (fosunDebtContractHistory1EntityList !=null&& fosunDebtContractHistory1EntityList.size()>0)
         {
             List<FosunDebtContractHistory1Entity> resetfosunDebtContractHistoryEntityList=new ArrayList<>();
+            List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList1=jtgkFosunbondFosunCompanySortRepository.findAll();
             for (FosunDebtContractHistory1Entity fosunDebtContractHistory1Entity:fosunDebtContractHistory1EntityList)
             {
                 JtgkFosunbondFosunCompanySortEntity jtgkFosunbondFosunCompanySortEntity=new JtgkFosunbondFosunCompanySortEntity();
                 String issuershortened=fosunDebtContractHistory1Entity.getIssuershortened();//获取简称
-                List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortRepository.findAllByShortname(issuershortened);
+
+                //List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortRepository.findAllByShortname(issuershortened);
+                List<JtgkFosunbondFosunCompanySortEntity> jtgkFosunbondFosunCompanySortEntityList=jtgkFosunbondFosunCompanySortEntityList1.stream().filter(i->(("null".equals(issuershortened)||issuershortened==null)?"":issuershortened).equals(i.getShortname())).collect(Collectors.toList());
                 if (jtgkFosunbondFosunCompanySortEntityList!=null&&jtgkFosunbondFosunCompanySortEntityList.size()>0)
                 {
                     fosunDebtContractHistory1Entity.setSortnum(jtgkFosunbondFosunCompanySortEntityList.get(0).getSortnum());
