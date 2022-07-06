@@ -464,6 +464,7 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
         if (fosunDebtContractHistory1EntityList !=null&& fosunDebtContractHistory1EntityList.size()>0)
         {
             Date verisondate= fosunDebtContractHistory1EntityList.get(0).getHistoryversiondate();
+            List<FosunDebtContractHistory1Entity> savefosunDebtContractHistory1Entities=new ArrayList<>();
             for (FosunDebtContractHistory1Entity item: fosunDebtContractHistory1EntityList)
             {
                 //初始数据保存原始利率
@@ -479,9 +480,16 @@ public class CreaditDatil111ControllerImpl implements CreaditDatil111Controller 
                 {
                     fosunDebtContractHistoryRepository.deleteByIdAndHistoryversiondate(item.getId(),item.getHistoryversiondate());
                 }
+                savefosunDebtContractHistory1Entities.add(item);
+                //fosunDebtContractHistoryRepository.save(item);
 
-                fosunDebtContractHistoryRepository.save(item);
             }
+            //统一保存数据
+            if (savefosunDebtContractHistory1Entities!=null&&savefosunDebtContractHistory1Entities.size()>0)
+            {
+                fosunDebtContractHistoryRepository.saveAll(savefosunDebtContractHistory1Entities);
+            }
+
             List<FosunDebtContractHistory1Entity> fosunDebtContractHistory11EntityList =fosunDebtContractHistoryRepository.findAll((Specification<FosunDebtContractHistory1Entity>) (root, query, cb) -> {
                 Predicate where = cb.and();
                 if (!"".equals(versionDate)&&versionDate!=null)
