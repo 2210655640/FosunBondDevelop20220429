@@ -165,7 +165,20 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                         List<JtgkFosunbondFosunDebtContractEntity>  jtgkFosunbondFosunDebtContractEntities=fosunDebtContractRepository.findAllByWindcodeAndOriginalrateNotOrderByUpdatetimeDesc(contractEntity.getWindcode(),new BigDecimal(1));
                         if(jtgkFosunbondFosunDebtContractEntities!=null&&jtgkFosunbondFosunDebtContractEntities.size()>0)
                         {
-                            fosunDebtContractEntity.setOriginalrate(jtgkFosunbondFosunDebtContractEntities.get(0).getOriginalrate());
+                           BigDecimal getOriginalrate=jtgkFosunbondFosunDebtContractEntities.get(0).getOriginalrate();
+                           if (getOriginalrate!=null)
+                           {
+                               fosunDebtContractEntity.setOriginalrate(getOriginalrate);
+                           }
+                           else
+                           {
+                               fosunDebtContractEntity.setOriginalrate(new BigDecimal(1));
+                           }
+
+                        }
+                        else
+                        {
+                            fosunDebtContractEntity.setOriginalrate(new BigDecimal(1));
                         }
                         }
                         fosunDebtContractEntity.setRegisternumber(contractEntity.getRegisternumber());//统一社会信用代码

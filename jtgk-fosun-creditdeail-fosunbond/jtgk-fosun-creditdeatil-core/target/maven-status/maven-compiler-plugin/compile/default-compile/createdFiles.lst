@@ -33,11 +33,14 @@ com\inspur\fosunbond\core\domain\entity\FosunDebtContract1Entity.class
 com\inspur\fosunbond\core\domain\repository\T_debt_cashflowRepository.class
 com\inspur\fosunbond\core\dto\RequestBodyDto.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunBondBfblinterestrateEntity.class
+com\inspur\fosunbond\core\domain\dto\JtgkFosunBondBankListDetailDto.class
 com\inspur\fosunbond\core\domain\entity\FosunRepaymentApp1Entity.class
 com\inspur\fosunbond\core\domain\repository\FosunbondrpaytplansRepository.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunBondBfblinterestrateRepository.class
 com\inspur\fosunbond\core\controller\CreaditDatil111Controller.class
 com\inspur\fosunbond\core\controller\JtgkFosunBondBankBondInvestmentController.class
+com\inspur\fosunbond\core\controller\JtgkFosunBondBankControllerImpl.class
+com\inspur\fosunbond\core\controller\JtgkFosunBondBankController.class
 com\inspur\fosunbond\core\controller\JtgkFosunBondRpayPlansControllerImpl.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunBondBfblinterestrateverRepository.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondFosunDebtSecondaryMarketEntity.class
@@ -48,6 +51,7 @@ com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_Debt_ValuationEntity.clas
 com\inspur\fosunbond\core\domain\repository\FosunIdenticalissUer1Repository.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondFosunCompanySortEntity.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_Debt_SecondaryMarketEntity.class
+com\inspur\fosunbond\core\domain\dto\JtgkFosunBondBankListDetailJsonDto.class
 com\inspur\fosunbond\core\domain\repository\FosunDebtValuation1Repository.class
 com\inspur\fosunbond\core\domain\entity\PrimaryKey.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunBondBaseRepository.class
