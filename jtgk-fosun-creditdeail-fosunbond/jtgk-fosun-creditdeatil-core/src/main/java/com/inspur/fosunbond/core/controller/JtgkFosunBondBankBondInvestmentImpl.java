@@ -83,7 +83,7 @@ public class JtgkFosunBondBankBondInvestmentImpl implements JtgkFosunBondBankBon
                 "            from FOSUNBONDHOLDER tor where tor.versiondate<=?) t  \n" +
                 "            where t.rn = 1) holderV on holderV.SECNAME=zyjl.BONDSHORTNAME and holderV.accountno=zyjl.ACCOOUNTNUMBER \n" +
                 "left join FOSUNBONDHOLDERDETAIL holder on holder.SECNAME=zyjl.BONDSHORTNAME \n" +
-                "and holder.ACCOUNTNO=zyjl.ACCOOUNTNUMBER\n" +
+                "and holder.ACCOUNTNO=zyjl.ACCOOUNTNUMBER  and ifnull(zyjl.EXECAMOUNT,0)!=0 \n" +
                 "WHERE sxpz.id=?";
         //List<BankBondInvestDetailDto> bankBondInvestDetailDtoList=baseRepository.queryList(sql,BankBondInvestDetailDto.class,maxversiondate,comp_name,maxversiondate);
         List<BankBondInvestDetailDto> bankBondInvestDetailDtoList= jtgkFosunBondBaseRepository.queryList(sql,BankBondInvestDetailDto.class,querydate,querydate,varietiesid);
