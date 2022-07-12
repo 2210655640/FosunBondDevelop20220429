@@ -74,6 +74,15 @@ public  class JtgkFosunbondTurnOverPlanSourceExcelImport implements IExcelImport
                     errMsgStrBd.append(errMsg);
                     log.error(errMsg);
                 }
+                if("银团".equals(category))
+                {
+                    if ("".equals(remarks)||remarks==null)
+                    {
+                        String errMsg = String.format("第%d行类别为银团第%d列备注不能为空\n", i + 1, REMARKS_COL_IDX + 1);
+                        errMsgStrBd.append(errMsg);
+                        log.error(errMsg);
+                    }
+                }
             }
 
         }

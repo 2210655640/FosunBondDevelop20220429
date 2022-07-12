@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 @Data
 @Entity
-@Table(name="T_BASERATE")
+@Table(name="V_BASERATE")
 public class JtgkFosunbondT_baserateEntity
 {
     /*

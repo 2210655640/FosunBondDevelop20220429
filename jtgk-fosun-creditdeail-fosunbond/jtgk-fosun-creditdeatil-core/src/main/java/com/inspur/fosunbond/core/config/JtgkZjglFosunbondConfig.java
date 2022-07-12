@@ -27,6 +27,8 @@ public class JtgkZjglFosunbondConfig {
     private JtgkFosunBondBankBondInvestmentController jtgkFosunBondBankBondInvestmentController;
     @Autowired
     private JtgkFosunBondBankController jtgkFosunBondBankController;
+    @Autowired
+    private JtgkFosunBondContractController jtgkFosunBondContractController;
     @Bean
     public FosunSynchroWDMiddleTable fosunSynchroWDMiddleTable() {
         return new FosunSynchroWDMiddleTable();
@@ -38,6 +40,8 @@ public class JtgkZjglFosunbondConfig {
     @Bean
     public RESTEndpoint jtgkCreditDetailfosunbondRESTEndpoint(){
         //return  new RESTEndpoint("/jtgk/fosun/v1.0/creditdetail",creaditDatilController);
-        return  new RESTEndpoint("/jtgk/fosunbond/v1.0/getfsun", creaditDatil111Controller,jtgkFosunBondRpayPlansController,jtgkFosunBondBankBondInvestmentController,jtgkFosunBondBankController);
+        return  new RESTEndpoint("/jtgk/fosunbond/v1.0/getfsun", creaditDatil111Controller,jtgkFosunBondRpayPlansController,
+                jtgkFosunBondBankBondInvestmentController,
+                jtgkFosunBondBankController,jtgkFosunBondContractController);
     }
 }
