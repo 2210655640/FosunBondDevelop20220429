@@ -2,14 +2,24 @@ package com.inspur.fosunbond.core.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.inspur.fosunbond.core.domain.dto.JtgkFosunBondBankListDetailDto;
 import com.inspur.fosunbond.core.domain.dto.JtgkFosunBondBankListDetailJsonDto;
 import com.inspur.fosunbond.core.domain.repository.JtgkFosunBondBaseRepository;
+import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.transaction.Transactional;
+import java.io.*;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Transactional
@@ -104,5 +114,45 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
 
 
         return returnMsg;
+    }
+
+    @Override
+    public String uploadBankIcon(MultipartBody file) throws IOException {
+
+        //String fileOriginalName=URLDecoder.decode(jsonNode.get("filename").asText());
+        String fileholderid="";
+        List<Attachment> fileList=file.getAllAttachments();
+        for (Attachment att:fileList)
+        {
+           String filename=att.getDataHandler().getName();
+            if ("filename".equals(filename))
+            {
+                @Cleanup InputStream is = att.getDataHandler().getInputStream();
+                StringBuilder str = new StringBuilder();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                String line=null;
+                while ((line=reader.readLine())!=null) {
+                    str.append(line);
+                }
+                fileholderid=URLDecoder.decode(str.toString(),"utf-8");
+            }
+            else
+            {
+            String suffixName=filename.substring(filename.lastIndexOf("."));
+            filename= UUID.randomUUID()+suffixName;
+            //String filePath="/files";
+            String path= ResourceUtils.getURL("classpath:").getPath()+"static/upload";
+            File filefondler=new File(path);
+            if(!filefondler.exists())
+            {
+                filefondler.mkdirs();//创建文件夹
+            }
+            att.transferTo(new File(filefondler,filename));
+            }
+        }
+
+
+        return "1";
+
     }
 }
