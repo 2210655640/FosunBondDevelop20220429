@@ -62,7 +62,7 @@ public class JtgkFosunbondFosunSynchroBaseRateFromWD {
         Date dateNow=dateFormat.parse(dateFormat.format(new Date()));
         //获取前一天的数据
         //获取一年期数据
-        List<JtgkFosunbondT_baserateEntity> jtgkFosunbondT_baserateEntityListone=jtgkFosunbondT_baserateRepository.getdatabyupdatetime(predate,baseRateTypeNo);
+        List<JtgkFosunbondT_baserateEntity> jtgkFosunbondT_baserateEntityListone=jtgkFosunbondT_baserateRepository.getdatabyupdatetime(nowdate,baseRateTypeNo);
         List<JtgkFosunbondT_baserateEntity> jtgkFosunbondT_baserateEntityListhis=jtgkFosunbondT_baserateRepository.gethistorydatabyupdatetime(baseRateTypeNo);
         if(jtgkFosunbondT_baserateEntityListone!=null&&jtgkFosunbondT_baserateEntityListone.size()>0)
         {

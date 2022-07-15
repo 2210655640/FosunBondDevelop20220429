@@ -2,16 +2,25 @@ package com.inspur.fosunbond.core.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inspur.fosunbond.core.domain.dto.JtgkFosunBondBankListDetailDto;
 import com.inspur.fosunbond.core.domain.dto.JtgkFosunBondBankListDetailJsonDto;
+import com.inspur.fosunbond.core.domain.dto.JtgkFosunBondIncomeBankAccountJHXDto;
+import com.inspur.fosunbond.core.domain.entity.FosunDebtContractHistory1Entity;
 import com.inspur.fosunbond.core.domain.repository.JtgkFosunBondBaseRepository;
+import io.iec.edp.caf.rpc.api.service.RpcClient;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
+import org.omg.CORBA.Object;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,15 +28,16 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 @Transactional
 @Controller
 @Slf4j
 public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankController {
+    @Autowired
+    private RpcClient rpcClient;
     @Override
     public String getBankList(String paramStr) {
         String returnMsg="";
@@ -150,6 +160,7 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
                 Resource resource = new ClassPathResource("");
                 String filepath=resource.getFile().getAbsolutePath();
                 //String path="/IDP开发/igix_2110_x86_64_build20211126/web/apps/bf/df/web/bankaccounts/banktypes";
+                //saveFile = saveFile.replace("src\\main\\resources\\esfile", "web\\apps\\igo\\" + RfqCode + "\\"  + SaveFileName);
                 String path=filepath.split("server")[0]+"web\\apps\\bf\\df\\web\\bankaccounts\\banktypes";
                 File filefondler=new File(path);
                 if(!filefondler.exists())
@@ -169,5 +180,25 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
 
         return "1";
 
+    }
+
+    @Override
+    public String syncBankAccount(String bankaccount) throws JsonProcessingException {
+        ObjectMapper objectMapper=new ObjectMapper();
+        SimpleDateFormat smt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        objectMapper.setDateFormat(smt);
+        TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>> ref=new TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>>(){};
+        List<JtgkFosunBondIncomeBankAccountJHXDto> jtgkFosunBondIncomeBankAccountJHXDtoList =objectMapper.readValue(bankaccount,ref);
+        if (jtgkFosunBondIncomeBankAccountJHXDtoList!=null&&jtgkFosunBondIncomeBankAccountJHXDtoList.size()>0)
+        {
+            LinkedHashMap sourceMap = new LinkedHashMap();
+            //Map<String, Object> sourceMap=new HashMap<>();
+            sourceMap.put("CLTNO", "Fosun006");//单位编号
+            sourceMap.put("ACCOUNT_NO", "Fosun006");//账号
+            ResponseEntity entity = rpcClient.invoke(ResponseEntity.class,
+                    "com.inspur.gs.tm.am.accountinterface.api.service.ITmAccountRpcService.accountInfoQry",
+                    "TM", sourceMap, null);
+        }
+        return null;
     }
 }

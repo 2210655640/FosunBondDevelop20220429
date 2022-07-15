@@ -1,6 +1,7 @@
 package com.inspur.fosunbond.core.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
@@ -24,4 +25,7 @@ public interface JtgkFosunBondBankController {
     @POST
     @Path("/uploadbankicon")
     String uploadBankIcon(MultipartBody multipartBody) throws IOException;
+    @POST
+    @Path("/syncbankaccount")
+    String syncBankAccount(String bankaccount) throws JsonProcessingException;
 }
