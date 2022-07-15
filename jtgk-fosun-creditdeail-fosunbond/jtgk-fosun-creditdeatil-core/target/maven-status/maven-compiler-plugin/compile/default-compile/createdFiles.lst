@@ -73,5 +73,6 @@ com\inspur\fosunbond\core\domain\dto\BankBondInvestDetailDto.class
 com\inspur\fosunbond\core\domain\dto\JtgkFosunBondGuaranteeContractDto.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunBondBfblinterestrateverEntity.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondFosunDebtValuationRepository.class
+com\inspur\fosunbond\core\domain\utils\UploadUtil.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunBondNativeQueryRepo.class
 com\inspur\fosunbond\core\domain\utils\JSONHelper.class

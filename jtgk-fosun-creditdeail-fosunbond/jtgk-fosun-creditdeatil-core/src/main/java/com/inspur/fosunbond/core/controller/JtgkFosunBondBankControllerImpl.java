@@ -10,6 +10,8 @@ import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -139,15 +141,28 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
             else
             {
             String suffixName=filename.substring(filename.lastIndexOf("."));
-            filename= UUID.randomUUID()+suffixName;
-            //String filePath="/files";
-            String path= ResourceUtils.getURL("classpath:").getPath()+"static/upload";
-            File filefondler=new File(path);
-            if(!filefondler.exists())
+            if (suffixName.contains("PNG")||suffixName.contains("png"))//只允许上传png格式图片
             {
-                filefondler.mkdirs();//创建文件夹
+                //filename= UUID.randomUUID()+suffixName;
+                 filename=fileholderid+suffixName;
+                //String filePath="/files";
+                //String path= ResourceUtils.getURL("classpath:").getPath()+"static/upload";
+                Resource resource = new ClassPathResource("");
+                String filepath=resource.getFile().getAbsolutePath();
+                //String path="/IDP开发/igix_2110_x86_64_build20211126/web/apps/bf/df/web/bankaccounts/banktypes";
+                String path=filepath.split("server")[0]+"web\\apps\\bf\\df\\web\\bankaccounts\\banktypes";
+                File filefondler=new File(path);
+                if(!filefondler.exists())
+                {
+                    filefondler.mkdirs();//创建文件夹
+                }
+                att.transferTo(new File(filefondler,filename));
             }
-            att.transferTo(new File(filefondler,filename));
+            else
+            {
+                return "请上传指定格式文件";
+            }
+
             }
         }
 
