@@ -6,7 +6,6 @@ com\inspur\fosunbond\core\domain\repository\JtgkFosunbondFosunDebtSecondaryMarke
 com\inspur\fosunbond\core\domain\service\Creditdeatil111Service.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_baserateEntity.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondFosunDebtValuationEntity.class
-com\inspur\fosunbond\core\controller\JtgkFosunBondBankControllerImpl$1.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondT_IdenticalissUerRepository.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondT_Debt_ContractRepository.class
 com\inspur\fosunbond\core\domain\repository\FosunDebtContract1Repository.class

@@ -16,7 +16,6 @@ import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
-import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -184,21 +183,46 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
 
     @Override
     public String syncBankAccount(String bankaccount) throws JsonProcessingException {
-        ObjectMapper objectMapper=new ObjectMapper();
-        SimpleDateFormat smt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        objectMapper.setDateFormat(smt);
-        TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>> ref=new TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>>(){};
-        List<JtgkFosunBondIncomeBankAccountJHXDto> jtgkFosunBondIncomeBankAccountJHXDtoList =objectMapper.readValue(bankaccount,ref);
-        if (jtgkFosunBondIncomeBankAccountJHXDtoList!=null&&jtgkFosunBondIncomeBankAccountJHXDtoList.size()>0)
+
+        log.error("同步账户信息1");
+        LinkedHashMap sourceMap = new LinkedHashMap();
+        //Map<String, Object> sourceMap=new HashMap<>();
+//        sourceMap.put("CLTNO", "Fosun006");//单位编号
+//        sourceMap.put("ACCOUNT_NO", "Fosun006");//账号
+
+        Map<String, Object> params=new HashMap<>();
+        params.put("CLTNO", "Fosun006");//单位编号
+        params.put("ACCOUNT_NO", "Fosun006");//账号
+        sourceMap.put("params",params);
+        log.error("同步账户信息2");
+        ResponseEntity entity = rpcClient.invoke(ResponseEntity.class,
+                "com.inspur.gs.tm.am.accountinterface.api.service.ITmAccountRpcService.accountInfoQry",
+                "AM", sourceMap, null);
+        log.error("同步账户信息3");
+//        ObjectMapper objectMapper=new ObjectMapper();
+//        SimpleDateFormat smt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        objectMapper.setDateFormat(smt);
+//        TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>> ref=new TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>>(){};
+//        List<JtgkFosunBondIncomeBankAccountJHXDto> jtgkFosunBondIncomeBankAccountJHXDtoList =objectMapper.readValue(bankaccount,ref);
+//        if (jtgkFosunBondIncomeBankAccountJHXDtoList!=null&&jtgkFosunBondIncomeBankAccountJHXDtoList.size()>0)
+//        {
+//            LinkedHashMap sourceMap = new LinkedHashMap();
+//            //Map<String, Object> sourceMap=new HashMap<>();
+//            sourceMap.put("CLTNO", "Fosun006");//单位编号
+//            sourceMap.put("ACCOUNT_NO", "Fosun006");//账号
+//            ResponseEntity entity = rpcClient.invoke(ResponseEntity.class,
+//                    "com.inspur.gs.tm.am.accountinterface.api.service.ITmAccountRpcService.accountInfoQry",
+//                    "TM", sourceMap, null);
+//        }
+        if(entity!=null)
         {
-            LinkedHashMap sourceMap = new LinkedHashMap();
-            //Map<String, Object> sourceMap=new HashMap<>();
-            sourceMap.put("CLTNO", "Fosun006");//单位编号
-            sourceMap.put("ACCOUNT_NO", "Fosun006");//账号
-            ResponseEntity entity = rpcClient.invoke(ResponseEntity.class,
-                    "com.inspur.gs.tm.am.accountinterface.api.service.ITmAccountRpcService.accountInfoQry",
-                    "TM", sourceMap, null);
+            log.error("同步账户信息4");
+            return entity.toString();
         }
-        return null;
+        {
+            log.error("同步账户信息5");
+            return "111";
+        }
+
     }
 }

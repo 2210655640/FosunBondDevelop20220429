@@ -170,4 +170,20 @@ public class FosunbondrpaytplansEntity
     @JsonProperty(value = "CURR")
     private  String curr;
 
+    /*
+    还息方式
+     */
+    @JsonProperty(value = "INTEREST_HXFS")
+    private String interest_hxfs;
+    /*
+    还本备注
+     */
+    @JsonProperty(value = "PRINCIPAL_REMARKS")
+    private String  principal_remarks;
+    /*
+    还息备注
+     */
+    @JsonProperty(value = "INTEREST_REMARKS")
+    private String  interest_remarks;
+
 }
