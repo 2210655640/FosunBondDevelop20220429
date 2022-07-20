@@ -6,6 +6,7 @@ com\inspur\fosunbond\core\domain\repository\JtgkFosunbondFosunDebtSecondaryMarke
 com\inspur\fosunbond\core\domain\service\Creditdeatil111Service.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_baserateEntity.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondFosunDebtValuationEntity.class
+com\inspur\fosunbond\core\controller\JtgkFosunBondBankControllerImpl$1.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondT_IdenticalissUerRepository.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondT_Debt_ContractRepository.class
 com\inspur\fosunbond\core\domain\repository\FosunDebtContract1Repository.class
@@ -24,6 +25,8 @@ com\inspur\fosunbond\core\domain\repository\JtgkFosunbondT_Debt_ValuationReposit
 com\inspur\fosunbond\core\domain\repository\JtgkFosunBondFosunbondregisnoattachRepository.class
 com\inspur\fosunbond\core\config\JtgkZjglFosunbondConfig.class
 com\inspur\fosunbond\core\controller\JtgkFosunBondContractControllerImpl.class
+com\inspur\fosunbond\core\domain\dto\BFBankAccountAuthorized.class
+com\inspur\fosunbond\core\domain\dto\BFBankAccountItems.class
 com\inspur\fosunbond\core\domain\service\JtgkFosunbondTurnOverPlanPurposeExcelImport.class
 com\inspur\fosunbond\core\domain\entity\FosunDebtSecondaryMarket1Entity.class
 com\inspur\fosunbond\core\domain\service\JtgkFosunbondFosunSynchroBaseRateFromWD.class
@@ -35,6 +38,7 @@ com\inspur\fosunbond\core\domain\entity\FosunDebtContract1Entity.class
 com\inspur\fosunbond\core\domain\repository\T_debt_cashflowRepository.class
 com\inspur\fosunbond\core\dto\RequestBodyDto.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunBondBfblinterestrateEntity.class
+com\inspur\fosunbond\core\domain\dto\BFBankAccounts.class
 com\inspur\fosunbond\core\domain\dto\JtgkFosunBondBankListDetailDto.class
 com\inspur\fosunbond\core\domain\entity\FosunRepaymentApp1Entity.class
 com\inspur\fosunbond\core\domain\repository\FosunbondrpaytplansRepository.class
@@ -59,6 +63,7 @@ com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_Debt_SecondaryMarketEntit
 com\inspur\fosunbond\core\domain\dto\JtgkFosunBondBankListDetailJsonDto.class
 com\inspur\fosunbond\core\domain\repository\FosunDebtValuation1Repository.class
 com\inspur\fosunbond\core\domain\entity\PrimaryKey.class
+com\inspur\fosunbond\core\domain\dto\ResponseEntity.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunBondBaseRepository.class
 com\inspur\fosunbond\core\domain\repository\JtgkFosunbondFosunDebtContractRepository.class
 com\inspur\fosunbond\core\domain\entity\JtgkFosunbondT_IdenticalissUerEntity.class

@@ -41,7 +41,7 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
     //@Transactional(rollbackFor ={Exception.class})
     public String  SyncBondMsgFromMiddleTable()
     {
-        log.error("从中间表同步债券信息0");
+
         try
         {
 //            String sql="select * from fosunidenticalissuer";
@@ -58,12 +58,12 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
             Date querydate=new SimpleDateFormat("yyyy-MM-dd").parse(predate);
             //List<T_Debt_ContractEntity> t_debt_contractEntityList=t_debt_contractRepository.findAll();
             List<JtgkFosunbondT_Debt_ContractEntity> t_debt_contractEntityList=t_debt_contractRepository.getdatabyupdatetime(nowdate);
-            log.error("从中间表同步债券信息1");
+
             List<JtgkFosunbondFosunDebtContractEntity> fosunDebtContractEntityList=new ArrayList<>();
             if (t_debt_contractEntityList!=null&&t_debt_contractEntityList.size()>0)
             {
 
-                log.error("从中间表同步债券信息2");
+
 
                 for (JtgkFosunbondT_Debt_ContractEntity contractEntity:t_debt_contractEntityList)
                 {
@@ -194,16 +194,16 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
 
 
                 }
-                log.error("从中间表同步债券信息3");
+
                 if (fosunDebtContractEntityList!=null&&fosunDebtContractEntityList.size()>0)
                 {
-                    log.error("从中间表同步债券信息4");
+
                     fosunDebtContractRepository.saveAll(fosunDebtContractEntityList);
-                    log.error("从中间表同步债券信息5");
+
                 }
 
             }
-            log.error("从中间表同步债券信息6");
+
             if (fosunDebtContractEntityList!=null&&fosunDebtContractEntityList.size()>0)
             {
                 for (JtgkFosunbondFosunDebtContractEntity contractEntity:fosunDebtContractEntityList)
@@ -223,10 +223,10 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
 
                     String wincode=contractEntity.getWindcode();
                     List<JtgkFosunbondT_Debt_SecondaryMarketEntity> t_debt_secondaryMarketEntityList=t_debt_secondaryMarketRepository.findAllByWindcode(wincode);
-                    log.error("从中间表同步债券信息7");
+
                     if(t_debt_secondaryMarketEntityList!=null&&t_debt_secondaryMarketEntityList.size()>0)
                     {
-                        log.error("从中间表同步债券信息8");
+
                         List<JtgkFosunbondFosunDebtSecondaryMarketEntity> fosunDebtSecondaryMarketEntityList=new ArrayList<>();
                         for (JtgkFosunbondT_Debt_SecondaryMarketEntity marketEntity:t_debt_secondaryMarketEntityList)
                         {
@@ -260,20 +260,20 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                             }
 
                         }
-                        log.error("从中间表同步债券信息9");
+
                         if (fosunDebtSecondaryMarketEntityList!=null&&fosunDebtSecondaryMarketEntityList.size()>0)
                         {
-                            log.error("从中间表同步债券信息10");
+
                             fosunDebtSecondaryMarketRepository.saveAll(fosunDebtSecondaryMarketEntityList);
-                            log.error("从中间表同步债券信息11");
+
                         }
                     }
-                    log.error("从中间表同步债券信息12");
+
                     List<JtgkFosunbondT_Debt_ValuationEntity> t_debt_valuationEntityList=t_debt_valuationRepository.findAllByWindcode(wincode);
-                    log.error("从中间表同步债券信息13");
+
                     if (t_debt_valuationEntityList!=null&&t_debt_valuationEntityList.size()>0)
                     {
-                        log.error("从中间表同步债券信息14");
+
                         List<JtgkFosunbondFosunDebtValuationEntity> fosunDebtValuationEntityList=new ArrayList<>();
                         for (JtgkFosunbondT_Debt_ValuationEntity valuationEntity:t_debt_valuationEntityList)
                         {
@@ -304,20 +304,20 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                             }
 
                         }
-                        log.error("从中间表同步债券信息15");
+
                         if (fosunDebtValuationEntityList!=null&&fosunDebtValuationEntityList.size()>0)
                         {
-                            log.error("从中间表同步债券信息16");
+
                             fosunDebtValuationRepository.saveAll(fosunDebtValuationEntityList);
-                            log.error("从中间表同步债券信息17");
+
                         }
                     }
-                    log.error("从中间表同步债券信息18");
+
                     List<JtgkFosunbondT_IdenticalissUerEntity> t_identicalissUerEntityList=t_identicalissUerRepository.findAllByWindcode(wincode);
-                    log.error("从中间表同步债券信息19");
+
                     if (t_identicalissUerEntityList!=null&&t_identicalissUerEntityList.size()>0)
                     {
-                        log.error("从中间表同步债券信息20");
+
                         List<JtgkFosunbondFosunIdenticalissUerEntity> fosunIdenticalissUerEntityList=new ArrayList<>();
                         for (JtgkFosunbondT_IdenticalissUerEntity userEntity:t_identicalissUerEntityList)
                         {
@@ -353,12 +353,12 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                             }
 
                         }
-                        log.error("从中间表同步债券信息21");
+
                         if (fosunIdenticalissUerEntityList!=null&&fosunIdenticalissUerEntityList.size()>0)
                         {
-                            log.error("从中间表同步债券信息22");
+
                             fosunIdenticalissUerRepository.saveAll(fosunIdenticalissUerEntityList);
-                            log.error("从中间表同步债券信息23");
+
                         }
                     }
                 }
@@ -368,7 +368,7 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
         }
         catch (Exception ex)
         {
-            log.error("从中间表同步债券信息24");
+
             ex.printStackTrace();
             log.error("从中间表同步债券信息:"+ex.getMessage());
         }
@@ -376,7 +376,7 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
     }
     public String  SyncBondMsgFromMiddleTable1(JsonNode jsonNode)
     {
-        log.error("b从中间表同步债券信息0");
+
         try
         {
             String beginDate=jsonNode.get("begindate").asText();
@@ -386,19 +386,19 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
 
             String predate=dateFormat.format(getPreDay(new Date()));
             String nowdate=dateFormat.format(new Date());
-            log.error(nowdate);
+
             //log.error(predate);
             //Date nowdate=new Date();
             //String nowDateStr=new SimpleDateFormat("yyyy-MM-dd").format(nowdate);
             Date querydate=new SimpleDateFormat("yyyy-MM-dd").parse(predate);
             //List<T_Debt_ContractEntity> t_debt_contractEntityList=t_debt_contractRepository.findAll();
             List<JtgkFosunbondT_Debt_ContractEntity> t_debt_contractEntityList=t_debt_contractRepository.getdatabetwwenupdatetime(beginDate,endDate);
-            log.error("b从中间表同步债券信息1");
+
             List<JtgkFosunbondFosunDebtContractEntity> fosunDebtContractEntityList=new ArrayList<>();
             if (t_debt_contractEntityList!=null&&t_debt_contractEntityList.size()>0)
             {
 
-                log.error("b从中间表同步债券信息2");
+
 
                 for (JtgkFosunbondT_Debt_ContractEntity contractEntity:t_debt_contractEntityList)
                 {
@@ -503,16 +503,16 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
 
 
                 }
-                log.error("b从中间表同步债券信息3");
+
                 if (fosunDebtContractEntityList!=null&&fosunDebtContractEntityList.size()>0)
                 {
-                    log.error("b从中间表同步债券信息4");
+
                     fosunDebtContractRepository.saveAll(fosunDebtContractEntityList);
-                    log.error("b从中间表同步债券信息5");
+
                 }
 
             }
-            log.error("b从中间表同步债券信息6");
+
             if (fosunDebtContractEntityList!=null&&fosunDebtContractEntityList.size()>0)
             {
                 for (JtgkFosunbondFosunDebtContractEntity contractEntity:fosunDebtContractEntityList)
@@ -669,7 +669,7 @@ public class JtgkFosunbondFosunSynchroMiddleTableForBond
                             //log.error("b从中间表同步债券信息23");
                         }
                     }
-                    log.error("b从中间表同步债券信息23.5");
+
                 }
             }
 

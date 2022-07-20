@@ -2,24 +2,24 @@ package com.inspur.fosunbond.core.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inspur.fosunbond.core.domain.dto.JtgkFosunBondBankListDetailDto;
-import com.inspur.fosunbond.core.domain.dto.JtgkFosunBondBankListDetailJsonDto;
-import com.inspur.fosunbond.core.domain.dto.JtgkFosunBondIncomeBankAccountJHXDto;
+import com.inspur.fosunbond.core.domain.dto.*;
 import com.inspur.fosunbond.core.domain.entity.FosunDebtContractHistory1Entity;
 import com.inspur.fosunbond.core.domain.repository.JtgkFosunBondBaseRepository;
 import io.iec.edp.caf.rpc.api.service.RpcClient;
+import io.swagger.models.auth.In;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
+import org.hibernate.hql.internal.ast.tree.IsNotNullLogicOperatorNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -185,27 +185,16 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
     public String syncBankAccount(String bankaccount) throws JsonProcessingException {
 
         log.error("同步账户信息1");
-        LinkedHashMap sourceMap = new LinkedHashMap();
-        //Map<String, Object> sourceMap=new HashMap<>();
-//        sourceMap.put("CLTNO", "Fosun006");//单位编号
-//        sourceMap.put("ACCOUNT_NO", "Fosun006");//账号
 
-        Map<String, Object> params=new HashMap<>();
-        params.put("CLTNO", "Fosun006");//单位编号
-        params.put("ACCOUNT_NO", "Fosun006");//账号
-        sourceMap.put("params",params);
-        log.error("同步账户信息2");
-        ResponseEntity entity = rpcClient.invoke(ResponseEntity.class,
-                "com.inspur.gs.tm.am.accountinterface.api.service.ITmAccountRpcService.accountInfoQry",
-                "AM", sourceMap, null);
-        log.error("同步账户信息3");
-//        ObjectMapper objectMapper=new ObjectMapper();
-//        SimpleDateFormat smt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        objectMapper.setDateFormat(smt);
-//        TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>> ref=new TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>>(){};
-//        List<JtgkFosunBondIncomeBankAccountJHXDto> jtgkFosunBondIncomeBankAccountJHXDtoList =objectMapper.readValue(bankaccount,ref);
-//        if (jtgkFosunBondIncomeBankAccountJHXDtoList!=null&&jtgkFosunBondIncomeBankAccountJHXDtoList.size()>0)
-//        {
+        ObjectMapper objectMapper=new ObjectMapper();
+        SimpleDateFormat smt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        objectMapper.setDateFormat(smt);
+        TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>> ref=new TypeReference<List<JtgkFosunBondIncomeBankAccountJHXDto>>(){};
+        List<JtgkFosunBondIncomeBankAccountJHXDto> jtgkFosunBondIncomeBankAccountJHXDtoList =objectMapper.readValue(bankaccount,ref);
+       if (jtgkFosunBondIncomeBankAccountJHXDtoList!=null&&jtgkFosunBondIncomeBankAccountJHXDtoList.size()>0)
+       {
+
+
 //            LinkedHashMap sourceMap = new LinkedHashMap();
 //            //Map<String, Object> sourceMap=new HashMap<>();
 //            sourceMap.put("CLTNO", "Fosun006");//单位编号
@@ -213,16 +202,109 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
 //            ResponseEntity entity = rpcClient.invoke(ResponseEntity.class,
 //                    "com.inspur.gs.tm.am.accountinterface.api.service.ITmAccountRpcService.accountInfoQry",
 //                    "TM", sourceMap, null);
-//        }
-        if(entity!=null)
-        {
-            log.error("同步账户信息4");
-            return entity.toString();
-        }
-        {
-            log.error("同步账户信息5");
-            return "111";
+           JtgkFosunBondIncomeBankAccountJHXDto IncomeBankAccountJHXDto=jtgkFosunBondIncomeBankAccountJHXDtoList.get(0);
+           //查询账户是否存在
+           LinkedHashMap sourceMap = new LinkedHashMap();
+           //Map<String, Object> sourceMap=new HashMap<>();
+//        sourceMap.put("CLTNO", "Fosun006");//单位编号
+//        sourceMap.put("ACCOUNT_NO", "Fosun006");//账号
+
+           Map<String, Object> params=new HashMap<>();
+//           params.put("CLTNO", "Fosun006");//单位编号
+//           params.put("ACCOUNT_NO", "Fosun006");//账号
+
+           params.put("CLTNO", IncomeBankAccountJHXDto.getCLTNO());//单位编号
+           params.put("ACCOUNT_NO",IncomeBankAccountJHXDto.getACCOUNTNO());//账号
+           sourceMap.put("params",params);
+           log.error("同步账户信息2");
+           ResponseEntity entity = rpcClient.invoke(ResponseEntity.class,
+                   "com.inspur.gs.tm.am.accountinterface.api.service.ITmAccountRpcService.accountInfoQry",
+                   "AM", sourceMap, null);
+           log.error("同步账户信息3");
+           log.error(entity.toString());
+            List<BFBankAccounts> bfBankAccountsList=new ArrayList<>();
+           //List<Map<String, String>>  mapList=(List<Map<String, String>>) entity.getRET_BODY();
+           //List<Map<String, String>> l = (List<Map<String, String>>) json.getObj("DetailMsg");
+//           if(mapList!=null&&mapList.size()>0)//存在数据
+//           {
+//               log.error("同步账户信息4");
+//               return entity.toString();
+//           }
+//           else//未查询到账户信息则为新增账户信息
+           {
+               BFBankAccounts bfBankAccounts=new BFBankAccounts();//组织数据
+               bfBankAccounts.setACCOUNT_ID(IncomeBankAccountJHXDto.getACCOUNTID());
+               bfBankAccounts.setACCOUNT_DATE(IncomeBankAccountJHXDto.getOPENACCOUNTDATE());
+               bfBankAccounts.setACCOUNT_NAME(IncomeBankAccountJHXDto.getACCOUNTNAME());
+               bfBankAccounts.setACCOUNT_NAME_CHT("");
+               bfBankAccounts.setACCOUNT_NAME_EN("");
+               bfBankAccounts.setACCOUNT_NO(IncomeBankAccountJHXDto.getACCOUNTNO());
+               bfBankAccounts.setACCOUNT_SHORTNAME("");
+               bfBankAccounts.setACCOUNTING_UNIT_NO("");
+               bfBankAccounts.setACCOUNTPROPERTY_CODE(IncomeBankAccountJHXDto.getCTID());
+               bfBankAccounts.setACCOUNTPROPERTY_NAME("");
+               if (!"".equals(IncomeBankAccountJHXDto.getACNTSTATE()))
+               {
+                   bfBankAccounts.setACCOUNTSTATUS(Integer.parseInt(IncomeBankAccountJHXDto.getACNTSTATE()));
+               }
+               if (!"".equals(IncomeBankAccountJHXDto.getUSAGEID()))
+               {
+                   bfBankAccounts.setACCOUNTUSE_CODE("0"+IncomeBankAccountJHXDto.getUSAGEID());
+               }
+               bfBankAccounts.setACCOUNTUSE_NAME("");
+               bfBankAccounts.setBALCHECK_UNIT_NO("");
+               bfBankAccounts.setBANK_CNAPS_CODE(IncomeBankAccountJHXDto.getBANKNO());//必填
+               bfBankAccounts.setBANK_CNAPS_NAME("");
+               bfBankAccounts.setBANKCANCELLATION_DATE(IncomeBankAccountJHXDto.getCANCELDATE());
+               bfBankAccounts.setBANKCANCELLER("");
+               bfBankAccounts.setBfBankAccountAuthorizedList(null);
+               bfBankAccounts.setBfBankAccountItemsList(null);
+               List<BFBankAccountItems> bfBankAccountItems=new ArrayList<>();
+               BFBankAccountItems bankAccountItem=new BFBankAccountItems();
+               bankAccountItem.setCRNCY_CODE_SUB("6a4b352a-f5c7-56c6-dfa8-ed501a87d98e");//设置为人民币
+               bankAccountItem.setACCOUNT_TYPE_CODE("1");//账户类型编码
+               bankAccountItem.setFREEZED_STATUS(1);//冻结状态
+
+               bfBankAccounts.setCITY_CODE(IncomeBankAccountJHXDto.getAREAID());
+               bfBankAccounts.setCITY_NAME(IncomeBankAccountJHXDto.getAREANAME());
+               bfBankAccounts.setCLOSED_DATE(IncomeBankAccountJHXDto.getCANCELDATE());
+               bfBankAccounts.setCLOSED_USERNAME("");
+               bfBankAccounts.setCLT_NAME(IncomeBankAccountJHXDto.getCLTNAME());
+               bfBankAccounts.setCLTID("");
+               bfBankAccounts.setCLTNO(IncomeBankAccountJHXDto.getCLTNO());
+               bfBankAccounts.setCORP_UNIT_NO("");
+               bfBankAccounts.setCOUNTRY_NAME("");
+               bfBankAccounts.setCOUNTRY_TWOCHARCODE("");
+               bfBankAccounts.setCRNCY_CODE(IncomeBankAccountJHXDto.getCURRENCYNO());
+               bfBankAccounts.setCRNCY_NAME("");
+               //bfBankAccounts.setDEADLINEBYMONTH();//使用期限
+               bfBankAccounts.setDirect_TYPE(1);//必传
+               bfBankAccounts.setDUEDATE(IncomeBankAccountJHXDto.getOPENACCOUNTDATE());//必填
+               bfBankAccounts.setSTART_DATE(IncomeBankAccountJHXDto.getOPENACCOUNTDATE());//必填
+               bfBankAccounts.setSTART_USERNAME(IncomeBankAccountJHXDto.getCREATEUSER());//必填
+               bfBankAccounts.setINOROUT(2);//必传
+               String returnDtoList=JSON.toJSONString(bfBankAccounts, SerializerFeature.WriteNullStringAsEmpty,SerializerFeature.WriteNullListAsEmpty,SerializerFeature.WriteNullNumberAsZero);
+               //组织实体类
+               //BFBankAccounts bfBankAccounts=new BFBankAccounts();
+               LinkedHashMap sourceMap1 = new LinkedHashMap();
+               Map<String, Object> params1=new HashMap<>();
+               params1.put("MAINTAIN_FLAG", 1);//处理类型
+               params1.put("ACCOUNT_INFO", returnDtoList);//账号
+               sourceMap1.put("params",params1);
+
+               //sourceMap.put("MAINTAIN_FLAG", 1);//处理类型
+               //sourceMap.put("ACCOUNT_INFO", returnDtoList);//账号
+               log.error("同步账户信息2");
+               ResponseEntity entity1 = rpcClient.invoke(ResponseEntity.class,
+                       "com.inspur.gs.tm.am.accountinterface.api.service.ITmAccountRpcService.accountInfoMaintain",
+                       "AM", sourceMap1, null);
+
+               log.error("同步账户信息5");
+               log.error(entity1.toString());
+               return entity1.toString();
+           }
         }
 
+       return "";
     }
 }
