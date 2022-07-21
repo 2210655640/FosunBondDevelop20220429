@@ -24,7 +24,7 @@ function showrepaymentplan (ob){
 
 function showholder(ob)
 {
-    debugger;
+    
     var sec_name=$(ob).attr("sec_name");
     var url="/apps/fastdweb/views/runtime/page/card/cardpreview.html?styleid=69ba65e2-9176-499d-b732-d68b147570aa&dataid=&status=add&j=true&secname="+escape(sec_name);
     idp.utils.openurl('','持有人',url);
@@ -50,7 +50,7 @@ function closeCallBack() {
 // 确定回调函数
 function onConfirm(item, dialog) {
 
-  debugger;
+  
   //var selectData=dialog.frame.idp.control.get("grid_main").allSelected;
   var selectData = dialog.frame.idp.control.get("grid_main").selected;
   let gridDataRows = idp.control.get("grid_FOSUNREPAYMENTAPPSON").getData();
@@ -141,13 +141,30 @@ idp.event.bind("domReady", function () {
     })
     idp.event.register("grid_main", "beforeGridRefresh", function (e, filter) {
          // idp.utils.jsd("qUHZ92wAMVVYYBuSFZhPXA==")解密filter value值
-      debugger;
+      
       menu.query();
       return false;
  
     });
 
+    //页面加载后跟查询条件赋上默认值
+    idp.event.register("grid_main", "beforeLightSolution", function(e,model) {
 
+        for(var i=0;i<model.length;i++){
+            
+            if(model[i].id=="light_BONDTYPE")
+            {
+                var bondtype=idp.utils.getQuery("bondtype");
+                if(bondtype)
+                {
+                    model[i].defValue=unescape(bondtype);//"一般公司债";
+                    model[i].text=model[i].label + ":" + model[i].defValue;
+                }
+           
+            }
+        }
+        return model;
+      });
     idp.event.register("grid_main", "afterLoadData", function (e, p) {
         console.log(456)
         // p.columns[1].lazy = true;
@@ -186,7 +203,7 @@ idp.event.bind("domReady", function () {
 });
 
 function setTableOption(){
-    debugger;
+    
     const n = $('.lee-grid-grouprow-cell').length;
         let replaceStr = "发行主体";
         for (let i = 0; i < n; i++) {
@@ -229,12 +246,12 @@ function setTableOption(){
         }
 }
 idp.event.bind("viewReady", function (e, context) {
-    //Fding();
+    idp.loading();
     $("#grid_main").leeGrid({
         onDblClickRow: ondblclickrow
     });
     function ondblclickrow(row) {
-        debugger;
+        
         idp.utils.openurl(row["ID"], "债券信息详情",
             ("/apps/fastdweb/views/runtime/page/card/cardpreview.html?dataid=" + row["ID"] + "&status=view" + "&styleid=a92acb15-453f-4db7-a1fd-fb8681357143")
             , true
@@ -249,7 +266,7 @@ idp.event.bind("viewReady", function (e, context) {
     $("#MATURITYDATE").leeTextBox({disabled:false});
     $("#SEC_NAME").leeTextBox({disabled:false});
     menu.cancel();
-    //menu.query();
+    menu.query();
 
 });
 let menu = {
@@ -274,7 +291,7 @@ let menu = {
         $('#grid_main').leeGrid({enabledEdit:true});
     },
     query: function () {
-        debugger;
+        
         //idp.loading("加载中");
         //var versionDate = idp.control.get("input_5057").getValue();
         //var versionDate =$("#input_5057").val();
@@ -322,6 +339,16 @@ let menu = {
             {
              bondtype = idp.control.get("lee-lightsolution--light_BONDTYPE").helpVueIns.getValue();
             }
+            else
+            {
+                if($("#lee-lightsolution--light_BONDTYPE .lee-grid-condition-item").text().split(":").length>1)
+                {
+                    bondtype =$("#lee-lightsolution--light_BONDTYPE .lee-grid-condition-item").text().split(":")[1];
+                }
+               
+            }
+            $("#lee-lightsolution--light_BONDTYPE .lee-grid-condition-item").text()
+
             var carrydate =  $("#lee-lightsolution--light_CARRYDATE").leeUI().getValue();
             var maturitydate =  $("#lee-lightsolution--light_MATURITYDATE ").leeUI().getValue();
             var isexpired=$("#lee-lightsolution--light_dropdown_isexpired").leeUI().getValue();
@@ -344,7 +371,7 @@ let menu = {
            
             idp.service.fetch("/api/jtgk/fosunbond/v1.0/getfsun/getfosundebtcon",
                 { versiondate: versionDate, com_name: com_name,sec_name:sec_name, bondtype: bondtype, carrydate: carrydate, maturitydate: maturitydate,isexpired:isexpired }, false).done(function (data) {
-                    debugger;
+                    
                     if (data.success) {
                         var fosunDebtContractHistoryEntityList = data.result;
                         // let g = idp.control.get("grid_main");
@@ -395,7 +422,7 @@ let menu = {
                         idp.control.get("grid_main").loadData({ Rows: fosunDebtContractHistoryEntityList });
                         setTimeout(function() {
                             setTableOption();
-                        }, 100);
+                        }, 10);
                         
 
                     } else {
@@ -406,7 +433,7 @@ let menu = {
         }
     },
     saveandquery: function () {
-        debugger;
+       
         idp.loading("保存中");
        
         // var versionDate = idp.control.get("input_5057").getValue();
@@ -472,7 +499,7 @@ let menu = {
             {
                
                 for (var i = 0; i < data.length; i++) {
-                    debugger;
+                    
                     data[i].SOURCECONTRACTID = data[i].ID;
                     if(data[i].HISTORYVERSIONDATE==""||data[i].HISTORYVERSIONDATE==null)
                     {
@@ -488,7 +515,7 @@ let menu = {
      
                 idp.service.fetch("/api/jtgk/fosunbond/v1.0/getfsun/savefosundebtcontracthistorybyversiondate",
                     { historyentity: JSON.stringify(data),versiondate: versionDate, com_name: com_name,sec_name:sec_name, bondtype: bondtype, carrydate: carrydate, maturitydate: maturitydate,isexpired:isexpired }, false).done(function (data1) {
-                        debugger;
+                        
                         if (data1.success) {
                             var fosunDebtContractHistoryEntityList = data1.result;
                             if(fosunDebtContractHistoryEntityList)

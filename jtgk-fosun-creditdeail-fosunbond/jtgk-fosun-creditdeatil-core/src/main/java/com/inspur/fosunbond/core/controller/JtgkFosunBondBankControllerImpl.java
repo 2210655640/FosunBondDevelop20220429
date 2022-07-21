@@ -222,15 +222,86 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
                    "AM", sourceMap, null);
            log.error("同步账户信息3");
            log.error(entity.toString());
-            List<BFBankAccounts> bfBankAccountsList=new ArrayList<>();
+
+           List<BFBankAccounts> bfBankAccountsList=new ArrayList<>();
+           JSONObject jsonObject=JSON.parseObject(JSON.toJSONString(entity, SerializerFeature.WriteNullStringAsEmpty,SerializerFeature.WriteNullListAsEmpty,SerializerFeature.WriteNullNumberAsZero));
+           List<BFBankAccounts>  mapList=(List<BFBankAccounts>) JSONArray.parseArray(jsonObject.getString("rET_BODY"),BFBankAccounts.class);
+
            //List<Map<String, String>>  mapList=(List<Map<String, String>>) entity.getRET_BODY();
            //List<Map<String, String>> l = (List<Map<String, String>>) json.getObj("DetailMsg");
-//           if(mapList!=null&&mapList.size()>0)//存在数据
-//           {
-//               log.error("同步账户信息4");
-//               return entity.toString();
-//           }
-//           else//未查询到账户信息则为新增账户信息
+           if(mapList!=null&&mapList.size()>0)//存在数据
+           {
+               log.error("同步账户信息4");
+               //将数据重新组合返回
+               List<JtgkFosunBondIncomeBankAccountJHXDto> resetIncomeBankAccountJHXDtoList=new ArrayList<>();//重新组合数据
+               for (BFBankAccounts bfaccount:mapList)
+               {
+                   JtgkFosunBondIncomeBankAccountJHXDto resetIncomebankDto=new JtgkFosunBondIncomeBankAccountJHXDto();
+                   resetIncomebankDto.setCURRENCYNO(bfaccount.getCRNCY_CODE());
+                   resetIncomebankDto.setACCOUNTNO(bfaccount.getACCOUNT_NO());
+                   resetIncomebankDto.setAREANAME(bfaccount.getCOUNTRY_NAME());
+                   resetIncomebankDto.setAREAID(bfaccount.getCOUNTRY_TWOCHARCODE());
+                   resetIncomebankDto.setCLTNAME(bfaccount.getCLT_NAME());
+                   resetIncomebankDto.setCANCELDATE(bfaccount.getCLOSED_DATE());
+                   resetIncomebankDto.setCREATE_TIME(bfaccount.getACCOUNT_DATE());
+                   resetIncomebankDto.setAPPLYID("");
+                   resetIncomebankDto.setACCOUNTCODE(bfaccount.getACCOUNT_NO());
+                   resetIncomebankDto.setASSOCIATEFLAG("");
+                   resetIncomebankDto.setBANKNO(bfaccount.getONLINEBANK_NO());
+                   resetIncomebankDto.setCREATEUSER("");
+                   resetIncomebankDto.setCTID(bfaccount.getCLTID());
+                   resetIncomebankDto.setOPENACCOUNTDATE(bfaccount.getACCOUNT_DATE());
+                   resetIncomebankDto.setREGNO(bfaccount.getCITY_NAME());
+                   resetIncomebankDto.setCLTNO(bfaccount.getCLTNO());
+                   resetIncomebankDto.setCANCELREMARK("");
+                   resetIncomebankDto.setNATUREID(bfaccount.getINOROUT().toString());//账户种类
+                   resetIncomebankDto.setREGNAME(bfaccount.getCITY_NAME());
+                   //是否多币种
+                  List<BFBankAccountItems> bankAccountItems=bfaccount.getBfBankAccountItemsList();
+                   Boolean iscurrency=false;
+                  if (bankAccountItems!=null&&bankAccountItems.size()>0)
+                   {
+                       String currencytype="";
+
+                       for (BFBankAccountItems accountItems:bankAccountItems)
+                       {   String tempCurrencyType=accountItems.getCRNCY_CODE_SUB();
+                           if(!"".equals(tempCurrencyType))
+                           {
+                               if("".equals(currencytype))
+                               {
+                                   currencytype=tempCurrencyType;
+                               }
+                               else
+                               {
+                                   if (currencytype!=tempCurrencyType)
+                                   {
+                                       iscurrency=true;
+                                       break;
+                                   }
+                               }
+                           }
+                       }
+                   }
+                   resetIncomebankDto.setISCURRENCY(iscurrency?"1":"0");//是否多币种
+                   resetIncomebankDto.setAREAID("");
+                   resetIncomebankDto.setACNTSTATE(bfaccount.getACCOUNTSTATUS().toString());
+                   resetIncomebankDto.setCANCELREASON("");
+                   resetIncomebankDto.setCNREMARK(bfaccount.getOPENINGEXPLAIN());
+                   resetIncomebankDto.setUPDATE_TIME(bfaccount.getACCOUNT_DATE());
+                   resetIncomebankDto.setACCOUNTNAME(bfaccount.getACCOUNT_NAME());
+                   resetIncomebankDto.setACCOUNTID(bfaccount.getACCOUNT_ID());
+                   resetIncomebankDto.setCHANNEL("");
+                   resetIncomebankDto.setASSID("");
+                   resetIncomebankDto.setRelationID("");
+                   resetIncomebankDto.setISABROAD("");
+
+
+                   resetIncomeBankAccountJHXDtoList.add(resetIncomebankDto);
+               }
+               //return  JSON.toJSONString(resetIncomeBankAccountJHXDtoList);
+               return entity.toString();
+           }
+           else//未查询到账户信息则为新增账户信息
            {
                BFBankAccounts bfBankAccounts=new BFBankAccounts();//组织数据
                bfBankAccounts.setACCOUNT_ID(IncomeBankAccountJHXDto.getACCOUNTID());
@@ -258,12 +329,19 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
                bfBankAccounts.setBANKCANCELLATION_DATE(IncomeBankAccountJHXDto.getCANCELDATE());
                bfBankAccounts.setBANKCANCELLER("");
                bfBankAccounts.setBfBankAccountAuthorizedList(null);
-               bfBankAccounts.setBfBankAccountItemsList(null);
+
+               //设立子账户信息
                List<BFBankAccountItems> bfBankAccountItems=new ArrayList<>();
                BFBankAccountItems bankAccountItem=new BFBankAccountItems();
                bankAccountItem.setCRNCY_CODE_SUB("6a4b352a-f5c7-56c6-dfa8-ed501a87d98e");//设置为人民币
                bankAccountItem.setACCOUNT_TYPE_CODE("1");//账户类型编码
                bankAccountItem.setFREEZED_STATUS(1);//冻结状态
+               bfBankAccountItems.add(bankAccountItem);
+               bfBankAccounts.setBfBankAccountItemsList(bfBankAccountItems);
+               //设立账户权限信息
+               BFBankAccountAuthorized bfBankAccountAuthorized=new BFBankAccountAuthorized();
+               bfBankAccountAuthorized.setAUTH_UNIT_NO(IncomeBankAccountJHXDto.getCLTNO());
+               bfBankAccountAuthorized.setAUTH_STATUS(2);
 
                bfBankAccounts.setCITY_CODE(IncomeBankAccountJHXDto.getAREAID());
                bfBankAccounts.setCITY_NAME(IncomeBankAccountJHXDto.getAREANAME());
