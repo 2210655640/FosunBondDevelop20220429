@@ -21,7 +21,7 @@ public class JtgkFosunBondContractDetailDto {
     /*
      *ANNUALINTERESTRATE
      */
-    private  BigDecimal annualinterestrate;
+    private  String annualinterestrate;
 
     /*
      *FLOATINGMETHOD

@@ -2,6 +2,10 @@ package com.inspur.fosunbond.core.domain.dto;
 
 import lombok.Data;
 
+
+import java.sql.Timestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,7 +14,8 @@ public class JtgkFosunBondGuaranteeContractDto {
     /*
      *GUARANTEESTARTDATE
      */
-    private  Date guaranteestartdate;
+
+    private String  guaranteestartdate;
 
     /*
      *COLLATERALAMOUNT
@@ -45,5 +50,6 @@ public class JtgkFosunBondGuaranteeContractDto {
     /*
      *GUARANTEEEXPIREDATE
      */
-    private Date guaranteeexpiredate;
+
+    private String  guaranteeexpiredate;
 }

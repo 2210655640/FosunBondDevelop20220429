@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 @Transactional
 @Controller
@@ -49,7 +51,25 @@ public class JtgkFosunBondContractControllerImpl implements JtgkFosunBondContrac
 //                cnDetailJsonDto.setTotalamount(cnDetailDto.getTotalamount()==null?new BigDecimal(0):cnDetailDto.getTotalamount());
 //                cnDetailJsonDto.setStatus(cnDetailDto.getStatus()==null?"":cnDetailDto.getStatus());
 //                cnDetailJsonDto.setExpiredate(cnDetailDto.getExpiredate()==null?"":cnDetailDto.getExpiredate());
-
+//                SimpleDateFormat sdf =new  SimpleDateFormat ("yyyy-MM-dd");
+//                //修改实体时间格式
+//                for (JtgkFosunBondGuaranteeContractDto contractDto:jtgkFosunBondGuaranteeContractDtoList)
+//                {
+//                    if(!"".equals(contractDto.getGuaranteeexpiredate()))
+//                    {
+//                        long  date_temp =new Long (contractDto.getGuaranteeexpiredate());
+//                        String date_string = sdf .format (new Date(date_temp));
+//                        contractDto.setGuaranteeexpiredate(date_string);
+//                    }
+//                    if (!"".equals(contractDto.getGuaranteestartdate()))
+//                    {
+//                        long  date_temp =new Long (contractDto.getGuaranteestartdate());
+//                        String date_string = sdf .format (new Date(date_temp));
+//                        contractDto.setGuaranteestartdate(date_string);
+//                    }
+//
+//
+//                }
                 cnDetailDto.setWntyconList(jtgkFosunBondGuaranteeContractDtoList);
                 cnDetailDto.setAmountatList(jtgkFosunBondAmountAllocationDtoList);
                 String returnDtoList=JSON.toJSONString(cnDetailDto, SerializerFeature.WriteNullStringAsEmpty,SerializerFeature.WriteNullListAsEmpty,SerializerFeature.WriteNullNumberAsZero);

@@ -19,7 +19,7 @@ public class JtgkFosunBondAmountAllocationDto {
     /*
      *COMMITRATIO
      */
-    private BigDecimal commitratio;
+    private String commitratio;
 
     /*
      *COMMITAMOUNT

@@ -64,7 +64,7 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
             }
             List<JtgkFosunBondBankListDetailDto> bondBankListDetailDtoList=new ArrayList<>();
             List<JtgkFosunBondBankListDetailJsonDto> bondBankListDetailJsonDtoList=new ArrayList<>();
-            if("0".equals(dataType))//总行查询
+            if("".equals(dataType))//总行查询及所有所属执行查询
             {
                 bondBankListDetailDtoList=jtgkFosunBondBaseRepository.queryList(sql1,JtgkFosunBondBankListDetailDto.class);
                 if (bondBankListDetailDtoList!=null&&bondBankListDetailDtoList.size()>0)
@@ -84,10 +84,14 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
                     }
                 }
             }
-            else if ("1".equals(dataType)||"".equals(dataType))//支行查询或者行别为空
+            else if ("1".equals(dataType))//支行查询
             {
                 bondBankListDetailDtoList=jtgkFosunBondBaseRepository.queryList(sql1,JtgkFosunBondBankListDetailDto.class);
 
+            }
+            else if("0".equals(dataType))//只查总行信息
+            {
+                bondBankListDetailDtoList=jtgkFosunBondBaseRepository.queryList(sql1,JtgkFosunBondBankListDetailDto.class);
             }
             if (bondBankListDetailDtoList!=null&&bondBankListDetailDtoList.size()>0)
             {
@@ -185,7 +189,7 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
     public String syncBankAccount(String bankaccount) throws JsonProcessingException {
 
         log.error("同步账户信息1");
-
+        String returnMsg="";
         ObjectMapper objectMapper=new ObjectMapper();
         SimpleDateFormat smt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         objectMapper.setDateFormat(smt);
@@ -299,6 +303,7 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
                    resetIncomeBankAccountJHXDtoList.add(resetIncomebankDto);
                }
                //return  JSON.toJSONString(resetIncomeBankAccountJHXDtoList);
+               returnMsg="{\"msg\":\"成功\",\"code\":\"200\",\"data\":"+ JSON.toJSONString(resetIncomeBankAccountJHXDtoList)+"}";
                return entity.toString();
            }
            else//未查询到账户信息则为新增账户信息
@@ -379,6 +384,7 @@ public class JtgkFosunBondBankControllerImpl implements JtgkFosunBondBankControl
 
                log.error("同步账户信息5");
                log.error(entity1.toString());
+               //return JSON.toJSONString(entity1, SerializerFeature.WriteNullStringAsEmpty,SerializerFeature.WriteNullListAsEmpty,SerializerFeature.WriteNullNumberAsZero);
                return entity1.toString();
            }
         }
